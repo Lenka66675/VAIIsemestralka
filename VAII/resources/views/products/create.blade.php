@@ -36,5 +36,7 @@
 
     </div>
 </form>
+<script src="{{ asset('js/task-form.js') }}"></script>
+
 </body>
 </html>

@@ -4,7 +4,7 @@ use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/task', [TaskController::class, 'index'])->name('task.index');
@@ -18,5 +18,16 @@ Route::put('/task/{task}/update', [TaskController::class, 'update'])->name('task
 Route::delete('/task/{task}/delete', [TaskController::class, 'delete'])->name('task.delete');
 
 
+Route::get('/', function () {
+    return view('pages.home');
+});
+
+Route::get('/contact', function () {
+    return view('pages.contact');
+});
+
+Route::get('/login', function () {
+    return view('pages.login');
+})->name('login');
 
 
