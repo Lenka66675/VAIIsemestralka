@@ -1,67 +1,76 @@
-<!doctype html>
+@extends('layouts.app')
+
+@section('title', 'Contact')
+
+@section('content')
+    <link rel="stylesheet" href="{{ asset('css/tasks.css') }}">
+
+    <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Task Management</title>
+
 </head>
 <body>
 <h1>Task</h1>
-<div>
-    <a href="{{route('task.index')}}"> HlavnaStranka</a>
-</div>
-<div>
-    <a href="{{route('task.create')}}"> create a task</a>
+
+
+
+
+<div class="text-center mt-4">
+    <a href="{{route('task.create')}}" class="btn btn-success custom-button">Create a new Task</a>
 </div>
 
 <div>
     <table border="1">
+        <thead>
         <tr>
-            ID
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
-        <tr>
-            name
-        </tr>
-        <tr>
-            email
-        </tr>
-        <tr>
-            date
-        </tr>
-        <tr>
-            description
-        </tr>
-        <tr>
-            edit
-        </tr>
-        <tr>
-            delete
-        </tr>
+        </thead>
+        <tbody>
         @foreach($products as $task)
-            <tr>
-                <td>
-                    {{$task->id}} </td>
-                <td>  {{$task->name}}</td>
-
-                <td>  {{$task->email}}</td>
-
-                <td> {{$task->date}}</td>
-                <td>    {{$task->description}}
+            <tr id="taskRow-{{$task->id}}">
+                <td>{{$task->id}}</td>
+                <td class="taskName" data-name="name" data-id="{{$task->id}}" data-url="{{route('task.update', ['task' => $task])}}">
+                    {{$task->name}}
+                </td>
+                <td class="taskEmail" data-name="email" data-id="{{$task->id}}" data-url="{{route('task.update', ['task' => $task])}}">
+                    {{$task->email}}
+                </td>
+                <td class="taskDate" data-name="date" data-id="{{$task->id}}" data-url="{{route('task.update', ['task' => $task])}}">
+                    {{$task->date}}
+                </td>
+                <td class="taskDescription" data-name="description" data-id="{{$task->id}}" data-url="{{route('task.update', ['task' => $task])}}">
+                    {{$task->description}}
                 </td>
                 <td>
-                    <a href="{{route('task.edit', ['task' => $task])}}">Edit</a>
+                    <button class="editTaskButton" data-id="{{$task->id}}">
+                        Edit
+                    </button>
                 </td>
                 <td>
-                    <form method="post" action="{{route('task.delete', ['task' => $task])}}">
-                        @csrf
-                        @method('delete')
-
-                        <input type="submit" value="delete"/>
-                    </form>
+                    <button class="deleteTaskButton" data-url="{{route('task.delete', ['task' => $task])}}">
+                        Delete
+                    </button>
                 </td>
             </tr>
         @endforeach
+        </tbody>
     </table>
 </div>
+
+<script src="{{ asset('js/edit-task.js') }}"></script>
+<script src="{{ asset('js/delete-task.js') }}"></script>
 </body>
 </html>
+@endsection

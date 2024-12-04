@@ -1,0 +1,175 @@
+
+
+/* Nadpis */
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #ffffff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
+
+    padding: 15px;
+    border-radius: 10px;
+
+    margin-top: 10px;
+}
+
+/* Navigačné odkazy */
+
+
+
+
+
+
+/* Tabuľka */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    color: #ffffff;
+    table-layout: fixed;
+}
+
+thead {
+    background-color: #DA1818;
+    color: #ffffff;
+}
+
+thead th {
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.2)
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.2)
+}
+
+tbody td {
+    padding: 10px;
+}
+
+tbody tr:hover {
+    background-color: rgba(290, 290, 290, 0.05)
+}
+
+thead th, tbody td {
+
+    padding: 10px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Skratka pre príliš dlhý text, ak nezlomí */
+    word-wrap: break-word; /* Zalomí text na viac riadkov */
+    white-space: normal; /* Povolenie zalomenia riadkov */
+}
+
+.custom-button {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 12px 25px; /* Väčšie vnútorné odsadenie */
+    font-size: 1rem; /* Veľkosť textu */
+    font-weight: bold; /* Zvýraznený text */
+    text-decoration: none; /* Odstrániť podčiarknutie */
+    color: #fff; /* Farba textu */
+    background-color: #DA1818; /* Zelené pozadie */
+    border-radius: 8px; /* Zaoblené rohy */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Animácia na hover */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Jemný tieň */
+}
+
+.custom-button:hover {
+    background-color: #b01515; /* Tmavšia zelená pri hover */
+    transform: translateY(-2px); /* Tlačidlo sa "zdvihne" pri hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Zvýšený tieň pri hover */
+}
+
+.custom-button:active {
+    background-color: #b01515; /* Ešte tmavšia zelená pri kliknutí */
+    transform: translateY(0); /* Návrat tlačidla do pôvodnej pozície */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Pôvodný tieň */
+}
+
+
+/* Tlačidlá */
+button {
+    padding: 8px 15px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.17);
+}
+
+button:active {
+    background-color: rgba(255, 255, 255, 0.17);
+}
+
+button.deleteTaskButton {
+    background-color: #DA1818;
+}
+
+button.deleteTaskButton:hover {
+    background-color: #b01515;
+}
+
+button.deleteTaskButton:active {
+    background-color: #b01515;
+}
+
+/* Responzívny dizajn */
+@media (max-width: 768px) {
+    table {
+        font-size: 0.9rem;
+    }
+
+    button {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+    }
+}
+thead th:nth-child(1), tbody td:nth-child(1) { /* Druhý stĺpec (Name) */
+    width: 5%;
+}
+
+thead th:nth-child(2), tbody td:nth-child(2) { /* Druhý stĺpec (Name) */
+    width: 15%;
+}
+
+thead th:nth-child(3), tbody td:nth-child(3) { /* Tretí stĺpec (Email) */
+    width: 20%;
+}
+
+thead th:nth-child(4), tbody td:nth-child(4) { /* Štvrtý stĺpec (Date) */
+    width: 7%;
+}
+
+thead th:nth-child(5), tbody td:nth-child(5) { /* Piaty stĺpec (Description) */
+    width: 30%;
+}
+
+thead th:nth-child(6), tbody td:nth-child(6) { /* Piaty stĺpec (Description) */
+    width: 7%;
+}
+
+thead th:nth-child(7), tbody td:nth-child(7) { /* Piaty stĺpec (Description) */
+    width: 7%;
+}
+

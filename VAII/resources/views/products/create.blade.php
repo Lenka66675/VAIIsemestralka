@@ -1,3 +1,10 @@
+@extends('layouts.app')
+
+@section('title', 'Contact')
+
+@section('content')
+    <link rel="stylesheet" href="{{ asset('css/createForm.css') }}">
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -32,11 +39,14 @@
     </div>
 
     <div>
-        <input type ="submit" value ="Save a new Task"/>
 
+        <div class="form-submit-container">
+            <input type="submit" value="Save a new Task" />
+        </div>
     </div>
 </form>
 <script src="{{ asset('js/task-form.js') }}"></script>
 
 </body>
 </html>
+@endsection

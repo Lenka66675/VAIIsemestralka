@@ -1,0 +1,105 @@
+
+
+
+
+h1 {
+    margin-top: 73px;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    font-size: 2rem;
+    color: white;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+form div {
+    margin-bottom: 15px;
+
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #fff;
+}
+
+input[type="text"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.2s ease-in-out;
+
+}
+.form-submit-container {
+    text-align: center; /* Centrovanie obsahu v kontajneri */
+}
+
+input[type="submit"] {
+    text-align: center;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #DA1818;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #b01515;
+}
+
+input[type="submit"]:active {
+    background-color: #b01515;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus {
+    border-color: #DA1818;
+    outline: none;
+    background-color: #f0f8ff;
+}
+
+
+
+input[type="submit"]:hover {
+    background-color: #DA1818;
+}
+
+input[type="submit"]:active {
+    background-color: #b01515;
+}
+
+input::placeholder {
+    color: #888;
+    font-style: italic;
+}
+
+
+
+/* Pre chyby */
+input.error {
+    border-color: red;
+    background-color: #ffe6e6;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}

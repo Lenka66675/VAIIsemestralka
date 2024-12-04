@@ -38,22 +38,33 @@ class TaskController extends Controller
     public function edit(Task $task) {
         return view('products.edit', ['task' => $task]);
     }
-     public function update(Task $task, Request $request) {
-         $data = $request->validate([
-             'name' => 'required|string|max:255',
-             'email' => 'required|email|unique:users,email',
-             'date' => 'required|date',
-             'description' => 'nullable|string|max:500',
+    public function update(Task $task, Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|unique:users,email,' . $task->id,
+            'date' => 'sometimes|required|date',
+            'description' => 'nullable|string|max:500',
+        ]);
 
-         ]);
+        $task->update($data);
 
-         $task->update($data);
-        return redirect(route('task.tasks'))->with('success', 'Task updated successfully');
-     }
+        return response()->json([
+            'success' => true,
+            'message' => 'Task updated successfully',
+            'task' => $task,
+        ]);
+    }
 
-     public function delete(Task $task) {
+
+    public function delete(Task $task)
+    {
         $task->delete();
-        return redirect(route('task.tasks'))->with('success', 'Task deleted successfully');
 
-     }
+        return response()->json([
+            'success' => true,
+            'message' => 'Task deleted successfully',
+            'id' => $task->id,
+        ]);
+    }
 }

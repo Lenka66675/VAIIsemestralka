@@ -1,3 +1,8 @@
+@extends('layouts.app')
+
+@section('title', 'Contact')
+
+@section('content')
 <!doctype html>
 <html lang="en">
 <head>
@@ -38,3 +43,4 @@
 </form>
 </body>
 </html>
+@endsection
