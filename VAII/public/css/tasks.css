@@ -31,6 +31,7 @@ table {
     overflow: hidden;
     color: #ffffff;
     table-layout: fixed;
+    margin-bottom: 300px;
 }
 
 thead {
@@ -50,11 +51,11 @@ tbody tr {
 }
 
 tbody tr:nth-child(odd) {
-    background-color: rgba(255, 255, 255, 0.2)
+    background-color: rgba(255, 255, 255, 0.05)
 }
 
 tbody tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.2)
+    background-color: rgba(255, 255, 255, 0.05)
 }
 
 tbody td {
@@ -84,6 +85,7 @@ thead th, tbody td {
     text-decoration: none; /* Odstrániť podčiarknutie */
     color: #fff; /* Farba textu */
     background-color: #DA1818; /* Zelené pozadie */
+    outline-color: black;
     border-radius: 8px; /* Zaoblené rohy */
     transition: background-color 0.3s ease, transform 0.2s ease; /* Animácia na hover */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Jemný tieň */
@@ -173,3 +175,23 @@ thead th:nth-child(7), tbody td:nth-child(7) { /* Piaty stĺpec (Description) */
     width: 7%;
 }
 
+
+
+@media (max-width: 576px) {
+    thead th:nth-child(3), /* Skryť tretí stĺpec (Email) */
+    tbody td:nth-child(3) {
+        display: none;
+    }
+
+    thead th:nth-child(5), /* Skryť piaty stĺpec (Description) */
+    tbody td:nth-child(5) {
+        display: none;
+    }
+
+    thead th:nth-child(2), /* Skryť piaty stĺpec (Description) */
+    tbody td:nth-child(2) {
+        display: none;
+    }
+
+
+}
