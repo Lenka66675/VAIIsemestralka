@@ -44,7 +44,7 @@ input[type="date"] {
 
 }
 .form-submit-container {
-    text-align: center; /* Centrovanie obsahu v kontajneri */
+    text-align: center;
 }
 
 input[type="submit"] {
@@ -91,8 +91,11 @@ input::placeholder {
 }
 
 
+.error {
+    border: 2px solid red;
+    background-color: #ffe6e6;
+}
 
-/* Pre chyby */
 input.error {
     border-color: red;
     background-color: #ffe6e6;

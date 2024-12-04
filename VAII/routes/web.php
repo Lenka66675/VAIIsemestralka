@@ -7,12 +7,12 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/task', [TaskController::class, 'index'])->name('task.index');
+//::get('/task', [TaskController::class, 'index'])->name('task.index');
 Route::get('/tasks', [TaskController::class, 'tasks'])->name('task.tasks');
 
 
 Route::get('task/create', [TaskController::class, 'create'])->name('task.create');
-Route::post('/task', [TaskController::class, 'store'])->name('task.store');
+Route::post('/task', [TaskController::class, 'post'])->name('task.store');
 Route::get('/task/{task}/edit', [TaskController::class, 'edit'])->name('task.edit');
 Route::put('/task/{task}', [TaskController::class, 'update'])->name('task.update');
 Route::delete('/task/{task}', [TaskController::class, 'delete'])->name('task.delete');

@@ -5,37 +5,50 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = document.querySelector(`#taskRow-${id}`);
             const cells = row.querySelectorAll('.taskName, .taskEmail, .taskDate, .taskDescription');
 
-            // Aktivovať úpravy pre všetky bunky v riadku
+
+            row.classList.add('editing-row');
+
             cells.forEach(cell => {
                 cell.setAttribute('contenteditable', 'true');
                 cell.classList.add('editing');
 
-                // Uloženie zmeny pri strate fokusu
-                cell.addEventListener('blur', async function () {
-                    await updateCell(this);
-                });
-
-                // Uloženie zmeny pri stlačení Enter
-                cell.addEventListener('keypress', async function (e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        await updateCell(this);
-                        this.blur(); // Odstráni fokus
-                    }
-                });
+                if (!cell.dataset.listener) {
+                    cell.addEventListener('blur', handleBlur);
+                    cell.addEventListener('keypress', handleKeyPress);
+                    cell.dataset.listener = 'true';
+                }
             });
 
-            // Zmeniť text tlačidla na "Editing..." počas úpravy
-            this.textContent = 'Editing...';
-            this.disabled = true; // Zabraňuje opätovnému kliknutiu na tlačidlo
+            this.textContent = 'Editing';
+            this.disabled = true;
         });
     });
+
+    let isUpdating = false;
+
+    async function handleBlur(event) {
+        if (!isUpdating) {
+            await updateCell(event.target);
+        }
+    }
+
+    async function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            if (!isUpdating) {
+                await updateCell(event.target);
+            }
+            event.target.blur();
+        }
+    }
 
     async function updateCell(cell) {
         const id = cell.dataset.id;
         const name = cell.dataset.name;
         const value = cell.textContent.trim();
         const url = cell.dataset.url;
+
+        isUpdating = true;
 
         try {
             const response = await fetch(url, {
@@ -46,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify({
                     [name]: value,
-                    _method: 'PUT' // Laravel vyžaduje PUT metódu
+                    _method: 'PUT'
                 })
             });
 
@@ -55,12 +68,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (result.success) {
                 alert('Task updated successfully!');
 
-                // Deaktivovať úpravy po úspešnom odoslaní
-                cell.removeAttribute('contenteditable');
-                cell.classList.remove('editing');
-
-                // Vrátiť tlačidlo do pôvodného stavu
+                const row = cell.closest('tr');
                 const editButton = document.querySelector(`.editTaskButton[data-id="${id}"]`);
+
+                row.querySelectorAll('.editing').forEach(editCell => {
+                    editCell.removeAttribute('contenteditable');
+                    editCell.classList.remove('editing');
+                });
+                row.classList.remove('editing-row');
+
                 editButton.textContent = 'Edit';
                 editButton.disabled = false;
             } else {
@@ -70,6 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error:', error);
             alert('An unexpected error occurred.');
+        } finally {
+            isUpdating = false;
         }
     }
 });

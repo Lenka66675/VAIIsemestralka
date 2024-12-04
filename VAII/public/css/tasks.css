@@ -1,6 +1,6 @@
 
 
-/* Nadpis */
+
 h1 {
     text-align: center;
     font-size: 2.5rem;
@@ -10,17 +10,10 @@ h1 {
     padding: 15px;
     border-radius: 10px;
 
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
-/* Navigačné odkazy */
 
-
-
-
-
-
-/* Tabuľka */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -31,7 +24,7 @@ table {
     overflow: hidden;
     color: #ffffff;
     table-layout: fixed;
-    margin-bottom: 300px;
+    margin-bottom: 380px;
 }
 
 thead {
@@ -71,40 +64,48 @@ thead th, tbody td {
     padding: 10px;
     text-align: left;
     overflow: hidden;
-    text-overflow: ellipsis; /* Skratka pre príliš dlhý text, ak nezlomí */
-    word-wrap: break-word; /* Zalomí text na viac riadkov */
-    white-space: normal; /* Povolenie zalomenia riadkov */
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 .custom-button {
     display: inline-block;
     margin-bottom: 10px;
-    padding: 12px 25px; /* Väčšie vnútorné odsadenie */
-    font-size: 1rem; /* Veľkosť textu */
-    font-weight: bold; /* Zvýraznený text */
-    text-decoration: none; /* Odstrániť podčiarknutie */
-    color: #fff; /* Farba textu */
-    background-color: #DA1818; /* Zelené pozadie */
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    background-color: #DA1818;
     outline-color: black;
-    border-radius: 8px; /* Zaoblené rohy */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Animácia na hover */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Jemný tieň */
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.custom-button {
+    background-color: #DA1818;
+    color: #ffffff;
+    padding: 5px 20px;
+    border: none;
 }
 
 .custom-button:hover {
-    background-color: #b01515; /* Tmavšia zelená pri hover */
-    transform: translateY(-2px); /* Tlačidlo sa "zdvihne" pri hover */
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Zvýšený tieň pri hover */
+    background-color: #b01515 !important;
+    color: #ffffff;
+    padding: 5px 20px;
+    border: none;
 }
 
 .custom-button:active {
-    background-color: #b01515; /* Ešte tmavšia zelená pri kliknutí */
-    transform: translateY(0); /* Návrat tlačidla do pôvodnej pozície */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Pôvodný tieň */
+    background-color: #b015;
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 
-/* Tlačidlá */
+
+
 button {
     padding: 8px 15px;
     font-size: 1rem;
@@ -136,7 +137,7 @@ button.deleteTaskButton:active {
     background-color: #b01515;
 }
 
-/* Responzívny dizajn */
+
 @media (max-width: 768px) {
     table {
         font-size: 0.9rem;
@@ -147,51 +148,57 @@ button.deleteTaskButton:active {
         font-size: 0.9rem;
     }
 }
-thead th:nth-child(1), tbody td:nth-child(1) { /* Druhý stĺpec (Name) */
+thead th:nth-child(1), tbody td:nth-child(1) {
     width: 5%;
 }
 
-thead th:nth-child(2), tbody td:nth-child(2) { /* Druhý stĺpec (Name) */
+thead th:nth-child(2), tbody td:nth-child(2) {
     width: 15%;
 }
 
-thead th:nth-child(3), tbody td:nth-child(3) { /* Tretí stĺpec (Email) */
+thead th:nth-child(3), tbody td:nth-child(3) {
     width: 20%;
 }
 
-thead th:nth-child(4), tbody td:nth-child(4) { /* Štvrtý stĺpec (Date) */
+thead th:nth-child(4), tbody td:nth-child(4) {
     width: 7%;
 }
 
-thead th:nth-child(5), tbody td:nth-child(5) { /* Piaty stĺpec (Description) */
+thead th:nth-child(5), tbody td:nth-child(5) {
     width: 30%;
 }
 
-thead th:nth-child(6), tbody td:nth-child(6) { /* Piaty stĺpec (Description) */
+thead th:nth-child(6), tbody td:nth-child(6) {
     width: 7%;
 }
 
-thead th:nth-child(7), tbody td:nth-child(7) { /* Piaty stĺpec (Description) */
+thead th:nth-child(7), tbody td:nth-child(7) {
     width: 7%;
 }
 
 
 
 @media (max-width: 576px) {
-    thead th:nth-child(3), /* Skryť tretí stĺpec (Email) */
+    thead th:nth-child(3),
     tbody td:nth-child(3) {
         display: none;
     }
 
-    thead th:nth-child(5), /* Skryť piaty stĺpec (Description) */
+    thead th:nth-child(5),
     tbody td:nth-child(5) {
         display: none;
     }
 
-    thead th:nth-child(2), /* Skryť piaty stĺpec (Description) */
+    thead th:nth-child(2),
     tbody td:nth-child(2) {
         display: none;
     }
 
 
 }
+
+.editing {
+    border: 1px dashed black;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+

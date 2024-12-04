@@ -11,12 +11,11 @@ document.querySelectorAll('.deleteTaskButton').forEach(button => {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'Accept': 'application/json' // Dôležité pre JSON odpoveď
+                    'Accept': 'application/json'
                 }
             });
 
             if (!response.ok) {
-                // Spracovanie HTTP chyby
                 const error = await response.json();
                 console.error('Error:', error);
                 alert(`Failed to delete task: ${error.message || 'Unknown error'}`);

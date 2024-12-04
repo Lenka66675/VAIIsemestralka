@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    //
     public function index(){
         $products = Task::all();
         return view('products.index', ['products' => $products]);
@@ -22,7 +21,7 @@ class TaskController extends Controller
         return view('products.create');
     }
 
-    public function store(Request $request) {
+    public function post(Request $request) {
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',

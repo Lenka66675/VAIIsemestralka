@@ -132,20 +132,14 @@ main {
     color: #333333;
 }
 
-.custom-button {
-    background-color: #DA1818; /* Nastavte požadovanú farbu pozadia */
-    color: #ffffff; /* Nastavte farbu textu */
-    padding: 5px 20px; /* Upravenie veľkosti tlačidla */
-    border: none; /* Odstránenie orámovania, ak je to potrebné */
 
-}
 
 .text-center {
-    text-align: left; /* Umiestnite tlačidlo úplne naľavo */
+    text-align: left;
 }
 
 .mt-4 {
-    margin-top:0; /* Zachovanie vertikálneho odsadenia */
+    margin-top: 0;
 }
 
 
