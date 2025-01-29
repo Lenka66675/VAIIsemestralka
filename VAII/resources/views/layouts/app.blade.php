@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>@yield('title', 'VendorMasterData')</title>
-
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('/css/general.css') }}">
-
-
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
+        <!-- Logo -->
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('images/danfoss-logo.png') }}" alt="Logo" class="logo-img">
         </a>
@@ -32,15 +28,29 @@
                 <a class="nav-link" href="#">Employee Performance</a>
             </div>
         </div>
+
+        <!-- Authentication Links -->
         <div class="login-container">
-            <a href="{{ route('login') }}" id="loginButton" class="btn btn-primary">Log In</a>
+            @auth
+                <!-- Ak je používateľ prihlásený -->
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-primary">Log Out</button>
+                </form>
+            @else
+                <!-- Ak používateľ nie je prihlásený -->
+                <a href="{{ route('login') }}" class="btn btn-primary">Log In</a>
+                <a href="{{ route('register') }}" class="btn btn-primary ms-2">Register</a>
+            @endauth
         </div>
+
     </div>
 </nav>
-<main class="flex-grow-1">
-    @yield('content')
 
+<main class="flex-grow-1">
+    @yield('content') <!-- Dynamický obsah -->
 </main>
+
 <footer class="bg-light text-center text-lg-start">
     <div class="container p-4">
         <div class="row">
@@ -66,9 +76,10 @@
         </div>
     </div>
     <div class="text-center p-3 bg-dark text-white">
-        &copy; 2024 My Website. All rights reserved.
+        &copy; {{ date('Y') }} My Website. All rights reserved.
     </div>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

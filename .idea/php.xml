@@ -125,6 +125,22 @@
       <path value="$PROJECT_DIR$/VAII/vendor/sebastian/object-enumerator" />
       <path value="$PROJECT_DIR$/VAII/vendor/symfony/css-selector" />
       <path value="$PROJECT_DIR$/VAII/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/VAII/vendor/laravel/breeze" />
+      <path value="$PROJECT_DIR$/VAII/vendor/brianium/paratest" />
+      <path value="$PROJECT_DIR$/VAII/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/VAII/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/VAII/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/VAII/vendor/ta-tikoma/phpunit-architecture-test" />
+      <path value="$PROJECT_DIR$/VAII/vendor/jean85/pretty-package-versions" />
+      <path value="$PROJECT_DIR$/VAII/vendor/pestphp/pest" />
+      <path value="$PROJECT_DIR$/VAII/vendor/pestphp/pest-plugin" />
+      <path value="$PROJECT_DIR$/VAII/vendor/pestphp/pest-plugin-arch" />
+      <path value="$PROJECT_DIR$/VAII/vendor/pestphp/pest-plugin-laravel" />
+      <path value="$PROJECT_DIR$/VAII/vendor/pestphp/pest-plugin-mutate" />
+      <path value="$PROJECT_DIR$/VAII/vendor/doctrine/deprecations" />
+      <path value="$PROJECT_DIR$/VAII/vendor/phpstan/phpdoc-parser" />
+      <path value="$PROJECT_DIR$/VAII/vendor/staabm/side-effects-detector" />
+      <path value="$PROJECT_DIR$/VAII/vendor/fidry/cpu-core-counter" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

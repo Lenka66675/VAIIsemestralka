@@ -11,7 +11,7 @@ h1 {
     color: white;
 }
 
-form {
+.create-task-form {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
@@ -28,7 +28,7 @@ form div {
 
 label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     font-weight: bold;
     color: #fff;
 }
@@ -105,4 +105,58 @@ input.error {
     color: red;
     font-size: 0.9rem;
     margin-top: 5px;
+}
+/* Checkbox list styling */
+.checkbox-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    max-height: 150px; /* Maximálna výška zoznamu */
+    overflow-y: auto; /* Posuvník, ak je zoznam príliš dlhý */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+}
+
+.checkbox-item label {
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.checkbox-item label:hover {
+    text-decoration: underline;
+}
+
+/* Expanded description textarea */
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical; /* Povolenie zmeny veľkosti len vertikálne */
+}
+
+/* Checkbox list styling */
+
+
+.btn-primary {
+    border: 1px solid white;
+    background-color: red;
+    outline: none;
+        box-shadow: none; /* Odstráni vonkajší tieň */
+
+
 }

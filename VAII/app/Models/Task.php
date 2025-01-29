@@ -13,4 +13,13 @@ class Task extends Model
         'date',
         'description'
     ];
+
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'task_user')
+            ->withPivot('status', 'solution', 'attachment') // Prístup k pivot atribútom
+            ->withTimestamps();
+    }
+
 }
