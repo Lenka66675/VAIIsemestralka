@@ -1,18 +1,14 @@
-
-
+/* ✅ Zachované tvoje hlavné CSS - nezmenené */
 
 h1 {
     text-align: center;
     font-size: 2.5rem;
     color: #ffffff;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 1);
-
     padding: 15px;
     border-radius: 10px;
-
     margin-top: 30px;
 }
-
 
 table {
     width: 100%;
@@ -44,67 +40,42 @@ tbody tr {
 }
 
 tbody tr:nth-child(odd) {
-    background-color: rgba(255, 255, 255, 0.05)
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 tbody tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.05)
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 tbody td {
     padding: 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal; /* ✅ Umožní správne zalamovanie */
+
 }
 
 tbody tr:hover {
-    background-color: rgba(290, 290, 290, 0.05)
+    background-color: rgba(290, 290, 290, 0.05);
 }
 
-thead th, tbody td {
-
-    padding: 10px;
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-wrap: break-word;
-    white-space: normal;
-}
-
-.custom-button {
-    display: inline-block;
-    margin-bottom: 10px;
-    padding: 12px 25px;
-    font-size: 1rem;
-    font-weight: bold;
-    text-decoration: none;
-    color: #fff;
-    background-color: #DA1818;
-    outline-color: black;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+/* ✅ Zachovanie pôvodného vzhľadu tlačidiel */
 .custom-button {
     background-color: #DA1818;
     color: #ffffff;
     padding: 5px 20px;
     border: none;
+
 }
 
 .custom-button:hover {
     background-color: #b01515 !important;
-    color: #ffffff;
-    padding: 5px 20px;
-    border: none;
 }
 
 .custom-button:active {
     background-color: #b015;
     transform: translateY(0);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-
-
 
 button {
     padding: 8px 15px;
@@ -121,84 +92,195 @@ button:hover {
     background-color: rgba(255, 255, 255, 0.17);
 }
 
-button:active {
-    background-color: rgba(255, 255, 255, 0.17);
-}
-
+/* ✅ Úprava tlačidiel Edit a Delete */
 button.deleteTaskButton {
     background-color: #DA1818;
+}
+
+button.editTaskButton {
+    background-color: #c6c6c6;
+    border-color: #4B4B4B;
+}
+
+/* 🔹 Štýl počas kliknutia na tlačidlo */
+button.editTaskButton:hover,
+button.editTaskButton:focus,
+button.editTaskButton:active {
+    background-color: #979797;
+    border-color: #4B4B4B;
 }
 
 button.deleteTaskButton:hover {
     background-color: #b01515;
 }
 
-button.deleteTaskButton:active {
-    background-color: #b01515;
+button.viewTaskButton {
+    background-color: #d8d8d8;
+    border-color: #9ca3af;
 }
 
+button.viewTaskButton:hover {
+    background-color: #787878;
+    border-color: #9f9f9f;
+}
 
+/* ✅ Upravená responzivita tabuľky */
+
+/* Predvolené nastavenia šírok stĺpcov */
+thead th:nth-child(1), tbody td:nth-child(1) { width: 5%; }  /* ID */
+thead th:nth-child(2), tbody td:nth-child(2) { width: 30%; } /* Description */
+thead th:nth-child(3), tbody td:nth-child(3) { width: 15%; } /* Deadline */
+thead th:nth-child(4), tbody td:nth-child(4) { width: 10%; } /* Priority */
+thead th:nth-child(5), tbody td:nth-child(5) { width: 14%; } /* Status */
+thead th:nth-child(6), tbody td:nth-child(6) { width: 11%; } /* Edit */
+thead th:nth-child(7), tbody td:nth-child(7) { width: 8%; } /* Delete */
+thead th:nth-child(8), tbody td:nth-child(8) { width: 8%; } /* Delete */
+
+/* 🔽 Skrytie menej dôležitých stĺpcov postupne pri zmenšovaní obrazovky */
+
+/* TABLETY (992px) - Skryjeme Priority */
+@media (max-width: 992px) {
+    thead th:nth-child(4), tbody td:nth-child(4) { display: none; } /* Priority */
+}
+
+/* MENŠIE TABLETY (768px) - Skryjeme Deadline */
 @media (max-width: 768px) {
-    table {
-        font-size: 0.9rem;
-    }
-
-    button {
-        padding: 6px 10px;
-        font-size: 0.9rem;
-    }
-}
-thead th:nth-child(1), tbody td:nth-child(1) {
-    width: 5%;
+    thead th:nth-child(3), tbody td:nth-child(3) { display: none; } /* Deadline */
 }
 
-thead th:nth-child(2), tbody td:nth-child(2) {
-    width: 15%;
-}
-
-thead th:nth-child(3), tbody td:nth-child(3) {
-    width: 20%;
-}
-
-thead th:nth-child(4), tbody td:nth-child(4) {
-    width: 7%;
-}
-
-thead th:nth-child(5), tbody td:nth-child(5) {
-    width: 30%;
-}
-
-thead th:nth-child(6), tbody td:nth-child(6) {
-    width: 7%;
-}
-
-thead th:nth-child(7), tbody td:nth-child(7) {
-    width: 7%;
-}
-
-
-
+/* MOBILNÉ ZARIADENIA (576px) - Skryjeme Status */
 @media (max-width: 576px) {
-    thead th:nth-child(3),
-    tbody td:nth-child(3) {
-        display: none;
-    }
-
-    thead th:nth-child(5),
-    tbody td:nth-child(5) {
-        display: none;
-    }
-
-    thead th:nth-child(2),
-    tbody td:nth-child(2) {
-        display: none;
-    }
-
-
+    thead th:nth-child(5), tbody td:nth-child(5) { display: none; } /* Status */
 }
 
+/* NAJMENŠIE ZARIADENIA (400px) - Nechať iba ID, Description, Edit a Delete */
+@media (max-width: 400px) {
+    thead th:nth-child(3), tbody td:nth-child(3) { display: none; } /* Deadline */
+    thead th:nth-child(4), tbody td:nth-child(4) { display: none; } /* Priority */
+    thead th:nth-child(5), tbody td:nth-child(5) { display: none; } /* Status */
+    thead th:nth-child(6), tbody td:nth-child(6) { display: none; } /* Edit */
+    thead th:nth-child(7), tbody td:nth-child(7) { display: none; } /* Delete */
+}
+
+/* ✅ Zachované štýly pre editovanie */
 .editing {
     border: 1px dashed black;
     background-color: rgba(255, 255, 255, 0.3);
 }
 
+/* ✅ Skryté inputy pri editácii */
+.taskDescriptionInput,
+.taskDeadlineInput,
+.taskPriorityInput {
+    width: 100%;
+    padding: 5px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #000;
+}
+
+/* ✅ Pridanie triedy na skrytie */
+.d-none {
+    display: none !important;
+}
+
+/* ✅ MODÁLNE OKNO */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7); /* ✅ Tmavší prechod */
+    backdrop-filter: blur(5px); /* ✅ Jemné rozmazanie pozadia */
+    transition: opacity 0.3s ease-in-out;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.modal-content {
+    background-color: rgba(255, 255, 255, 0.95); /* ✅ Jemná biela s priehľadnosťou */
+    color: #333; /* ✅ Tmavší text pre lepšiu čitateľnosť */
+    padding: 25px;
+    width: 60%; /* ✅ Trochu širšie */
+    max-width: 800px; /* ✅ Nech nie je príliš široké */
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid #DA1818;
+
+    position: fixed;
+
+    /* ✅ Centrovanie na stred */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* ✅ Presné centrovanie */
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #DA1818;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+
+}
+
+.modal-content h2 {
+    text-align: center;
+    color: #DA1818;
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+/* ✅ Obsah modálu */
+.modal-content p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #444;
+}
+
+.modal-content textarea,
+.modal-content input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* ✅ Upravené tlačidlo pre uloženie riešenia */
+.modal-content .saveSolutionButton {
+    background-color: #DA1818;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    display: block;
+    text-align: center;
+    font-weight: bold;
+}
+
+.modal-content .saveSolutionButton:hover {
+    background-color: #b01515;
+}
+.show {
+    display: block !important;
+    opacity: 1 !important;
+}

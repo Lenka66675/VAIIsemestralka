@@ -24,8 +24,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('task/create', [TaskController::class, 'create'])->name('task.create');
     Route::post('/task', [TaskController::class, 'post'])->name('task.store');
     Route::get('/task/{task}/edit', [TaskController::class, 'edit'])->name('task.edit');
-    Route::put('/task/{task}', [TaskController::class, 'update'])->name('task.update');
-    Route::delete('/task/{task}', [TaskController::class, 'delete'])->name('task.delete');
+  //  Route::put('/task/{task}', [TaskController::class, 'update'])->name('task.update');
+   // Route::delete('/task/{task}', [TaskController::class, 'delete'])->name('task.delete');
 });
 
 Route::get('/', function () {
@@ -58,3 +58,22 @@ require __DIR__.'/auth.php';
 
 
 
+
+
+Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('task.updateStatus');
+Route::patch('/task/{task}/updateStatus', [TaskController::class, 'updateStatus'])->name('task.updateStatus');
+//Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('task.update');
+Route::put('/task/{task}/update', [TaskController::class, 'update'])->name('task.update');
+
+Route::delete('/task/{task}/delete', [TaskController::class, 'delete'])->name('task.delete');
+
+
+Route::get('/task/{task}', [TaskController::class, 'show']);
+
+Route::patch('/task/{task}/saveSolution', [TaskController::class, 'saveSolution'])->name('task.saveSolution');
+Route::get('/task/{task}/getSolution', [TaskController::class, 'getSolution'])->name('task.getSolution');
+Route::get('/task/{task}/getAllSolutions', [TaskController::class, 'getAllSolutions'])->name('task.getAllSolutions');
+
+Route::get('/task/{taskId}/download/{fileName}', [TaskController::class, 'downloadFile'])
+    ->where('fileName', '.*')
+    ->name('task.download');

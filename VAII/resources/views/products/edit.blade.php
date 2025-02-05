@@ -1,46 +1,46 @@
 @extends('layouts.app')
 
-@section('title', 'Contact')
+@section('title', 'Edit Task')
 
 @section('content')
-<!doctype html>
+    <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>Edit Task</title>
 </head>
 <body>
-<h1>Edit a task</h1>
-<form method= "post" action="{{route('task.update', ['task' => $task])}}">
+<h1>Edit Task</h1>
+
+<form method="post" action="{{ route('task.update', ['task' => $task]) }}">
     @csrf
     @method('put')
 
     <div>
-        <label>Name</label>
-        <input type="text" name="name" placeholder="name" value="{{$task->name}}"/>
+        <label>Deadline</label>
+        <input type="date" name="deadline" placeholder="Deadline" value="{{ $task->deadline }}" required />
     </div>
 
     <div>
-        <label>Email</label>
-        <input type="text" name="email" placeholder="email" value="{{$task->email}}"/>
-    </div>
-
-    <div>
-        <label>Date</label>
-        <input type="date" name="date" placeholder="date" value="{{$task->date}}"/>
+        <label>Priority</label>
+        <select name="priority">
+            <option value="low" {{ $task->priority == 'low' ? 'selected' : '' }}>Low</option>
+            <option value="medium" {{ $task->priority == 'medium' ? 'selected' : '' }}>Medium</option>
+            <option value="high" {{ $task->priority == 'high' ? 'selected' : '' }}>High</option>
+        </select>
     </div>
 
     <div>
         <label>Description</label>
-        <input type="text" name="description" placeholder="description" value="{{$task->description}}"/>
+        <textarea name="description" placeholder="Task description" rows="5">{{ $task->description }}</textarea>
     </div>
 
     <div>
-        <input type ="submit" value ="Update Task"/>
-
+        <input type="submit" value="Update Task" />
     </div>
 </form>
+
 </body>
 </html>
 @endsection

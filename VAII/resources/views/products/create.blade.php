@@ -5,33 +5,25 @@
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/createForm.css') }}">
 
-    <!doctype html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Create a Task</title>
-    </head>
-    <body>
-    <h1>Create a task</h1>
+    <h1>Create a Task</h1>
     <form class="create-task-form" method="post" action="{{route('task.store')}}">
         @csrf
         @method('post')
 
+        <!-- Deadline -->
         <div>
-            <label>Name</label>
-            <input type="text" name="name" placeholder="name" />
+            <label>Deadline</label>
+            <input type="date" name="deadline" required />
         </div>
 
+        <!-- Priority Selection -->
         <div>
-            <label>Email</label>
-            <input type="text" name="email" placeholder="email" />
-        </div>
-
-        <div>
-            <label>Date</label>
-            <input type="date" name="date" placeholder="date" />
+            <label>Priority</label>
+            <select name="priority" required>
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+            </select>
         </div>
 
         <!-- Expanded Textarea for Description -->
@@ -53,14 +45,10 @@
             </ul>
         </div>
 
-        <div>
-            <div class="form-submit-container">
-                <input type="submit" value="Save a new Task" />
-            </div>
+        <div class="form-submit-container">
+            <input type="submit" value="Save a new Task" />
         </div>
     </form>
-    <script src="{{ asset('js/task-form.js') }}"></script>
 
-    </body>
-    </html>
+    <script src="{{ asset('js/task-form.js') }}"></script>
 @endsection

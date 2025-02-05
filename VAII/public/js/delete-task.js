@@ -1,40 +1,55 @@
-document.querySelectorAll('.deleteTaskButton').forEach(button => {
-    button.addEventListener('click', async function (e) {
+document.addEventListener("DOMContentLoaded", () => {
+    document.body.addEventListener("click", async function (e) {
+        if (!e.target.classList.contains("deleteTaskButton")) return; // 🎯 DELETE button only
+
         e.preventDefault();
 
-        if (!confirm('Are you sure you want to delete this task?')) return;
+        const taskId = e.target.dataset.id;
+        const url = e.target.dataset.url;
+        const deleteButton = e.target;
 
-        const url = this.dataset.url;
+        if (!taskId || !url) {
+            console.error("Task ID or URL is missing.");
+            return;
+        }
+
+        console.log("Deleting Task ID:", taskId, "URL:", url);
+
 
         try {
             const response = await fetch(url, {
-                method: 'DELETE',
+                method: "DELETE",
                 headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'Accept': 'application/json'
+                    "X-CSRF-TOKEN": document.querySelector("meta[name='csrf-token']").getAttribute("content"),
+                    "Accept": "application/json"
                 }
             });
 
-            if (!response.ok) {
-                const error = await response.json();
-                console.error('Error:', error);
-                alert(`Failed to delete task: ${error.message || 'Unknown error'}`);
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                console.error("Failed to delete task:", result.message);
                 return;
             }
 
-            const result = await response.json();
+            console.log("Task deleted successfully!");
 
-            if (result.success) {
-                alert(result.message);
-                const taskRow = document.getElementById(`taskRow-${result.id}`);
-                if (taskRow) taskRow.remove();
-            } else {
-                alert('Failed to delete the task.');
-            }
+            // 🆕 Nahradenie tlačidla Delete správou "✔ Deleted"
+            deleteButton.textContent = "✔ Deleted";
+            deleteButton.style.backgroundColor = "transparent";
+            deleteButton.style.color = "black";
+            deleteButton.style.fontWeight = "bold";
+            deleteButton.style.cursor = "default";
+            deleteButton.style.border = "none";
+
+            // Po 2 sekundách odstránime celý riadok
+            setTimeout(() => {
+                const row = document.getElementById(`taskRow-${taskId}`);
+                if (row) row.remove();
+            }, 2000);
+
         } catch (error) {
-            console.error('Unexpected Error:', error);
-            alert('An unexpected error occurred.');
+            console.error("Unexpected Error:", error);
         }
     });
 });
-

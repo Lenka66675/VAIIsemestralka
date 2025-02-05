@@ -1,93 +1,101 @@
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.editTaskButton').forEach(button => {
-        button.addEventListener('click', function () {
-            const id = this.dataset.id;
-            const row = document.querySelector(`#taskRow-${id}`);
-            const cells = row.querySelectorAll('.taskName, .taskEmail, .taskDate, .taskDescription');
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".editTaskButton").forEach(editButton => {
+        editButton.addEventListener("click", function () {
+            const taskId = this.dataset.id;
+            const row = document.querySelector(`#taskRow-${taskId}`);
 
+            const descriptionCell = row.querySelector('.editable[data-name="description"]');
+            const deadlineText = row.querySelector(`.taskDeadlineText[data-id="${taskId}"]`);
+            const deadlineInput = row.querySelector(`.taskDeadlineInput[data-id="${taskId}"]`);
+            const priorityText = row.querySelector(`.taskPriorityText[data-id="${taskId}"]`);
+            const priorityInput = row.querySelector(`.taskPriorityInput[data-id="${taskId}"]`);
+            const saveButton = row.querySelector(".saveTaskButton");
 
-            row.classList.add('editing-row');
+            // Zobrazenie vstupov na editáciu
+            descriptionCell.setAttribute("contenteditable", "true");
+            descriptionCell.focus();
+            deadlineText.classList.add("d-none");
+            deadlineInput.classList.remove("d-none");
+            priorityText.classList.add("d-none");
+            priorityInput.classList.remove("d-none");
 
-            cells.forEach(cell => {
-                cell.setAttribute('contenteditable', 'true');
-                cell.classList.add('editing');
+            // Skryť tlačidlo Edit a zobraziť Save
+            editButton.classList.add("d-none");
+            saveButton.classList.remove("d-none");
 
-                if (!cell.dataset.listener) {
-                    cell.addEventListener('blur', handleBlur);
-                    cell.addEventListener('keypress', handleKeyPress);
-                    cell.dataset.listener = 'true';
-                }
-            });
-
-            this.textContent = 'Editing';
-            this.disabled = true;
+            // Po kliknutí na SAVE
+            saveButton.addEventListener("click", async function () {
+                await saveTask(taskId, descriptionCell, deadlineInput, priorityInput, editButton, saveButton, deadlineText, priorityText);
+            }, { once: true });
         });
     });
 
-    let isUpdating = false;
-
-    async function handleBlur(event) {
-        if (!isUpdating) {
-            await updateCell(event.target);
-        }
-    }
-
-    async function handleKeyPress(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            if (!isUpdating) {
-                await updateCell(event.target);
-            }
-            event.target.blur();
-        }
-    }
-
-    async function updateCell(cell) {
-        const id = cell.dataset.id;
-        const name = cell.dataset.name;
-        const value = cell.textContent.trim();
-        const url = cell.dataset.url;
-
-        isUpdating = true;
+    async function saveTask(taskId, descriptionCell, deadlineInput, priorityInput, editButton, saveButton, deadlineText, priorityText) {
+        const url = `/task/${taskId}/update`;
+        const description = descriptionCell.textContent.trim();
+        const deadline = deadlineInput.value;
+        const priority = priorityInput.value;
 
         try {
             const response = await fetch(url, {
-                method: 'POST',
+                method: "PUT",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
                 },
                 body: JSON.stringify({
-                    [name]: value,
-                    _method: 'PUT'
+                    description: description,
+                    deadline: deadline,
+                    priority: priority
                 })
             });
 
             const result = await response.json();
 
             if (result.success) {
-                alert('Task updated successfully!');
+                console.log("Task updated successfully!");
 
-                const row = cell.closest('tr');
-                const editButton = document.querySelector(`.editTaskButton[data-id="${id}"]`);
+                // Aktualizácia textu
+                descriptionCell.textContent = description;
+                deadlineText.textContent = deadline;
+                priorityText.textContent = priority.charAt(0).toUpperCase() + priority.slice(1);
 
-                row.querySelectorAll('.editing').forEach(editCell => {
-                    editCell.removeAttribute('contenteditable');
-                    editCell.classList.remove('editing');
-                });
-                row.classList.remove('editing-row');
+                // Skryť inputy a zobraziť text
+                deadlineInput.classList.add("d-none");
+                deadlineText.classList.remove("d-none");
+                priorityInput.classList.add("d-none");
+                priorityText.classList.remove("d-none");
 
-                editButton.textContent = 'Edit';
-                editButton.disabled = false;
+                // **Zobrazenie "Updated" namiesto tlačidla Edit**
+                editButton.innerHTML = "<span class='updated-message'>✔ Updated</span>";
+                editButton.style.backgroundColor = "transparent";
+                editButton.style.fontWeight = "bold";
+                editButton.style.cursor = "default";
+                editButton.style.border = "none";
+                editButton.style.padding = "5px 10px";
+                editButton.classList.remove("d-none");
+
+                // Skryť tlačidlo Save
+                saveButton.classList.add("d-none");
+
+                // **Po 2 sekundách resetovať tlačidlo Edit do pôvodného stavu**
+                setTimeout(() => {
+                    editButton.innerHTML = "Edit";
+                    editButton.style.backgroundColor = "";
+                    editButton.style.fontWeight = ""; // **Toto zabezpečí, že sa nevráti BOLD**
+                    editButton.style.cursor = "pointer";
+                    editButton.style.border = "";
+                    editButton.style.padding = "";
+                }, 2000);
+
+                // Deaktivovať editáciu
+                descriptionCell.removeAttribute("contenteditable");
             } else {
-                alert('Failed to update the task: ' + (result.message || 'Unknown error.'));
-                console.error(result);
+                alert("Failed to update the task: " + (result.message || "Unknown error."));
             }
         } catch (error) {
-            console.error('Error:', error);
-            alert('An unexpected error occurred.');
-        } finally {
-            isUpdating = false;
+            console.error("Error:", error);
+            alert("An unexpected error occurred.");
         }
     }
 });
