@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const priorityInput = row.querySelector(`.taskPriorityInput[data-id="${taskId}"]`);
             const saveButton = row.querySelector(".saveTaskButton");
 
+            // ✅ Vyčistenie predchádzajúcich chýb
+            clearErrors();
+
             // Zobrazenie vstupov na editáciu
             descriptionCell.setAttribute("contenteditable", "true");
             descriptionCell.focus();
@@ -23,10 +26,14 @@ document.addEventListener("DOMContentLoaded", function () {
             editButton.classList.add("d-none");
             saveButton.classList.remove("d-none");
 
+            // ✅ Odstránime staré event listenery, aby sa nepridávali viackrát
+            saveButton.replaceWith(saveButton.cloneNode(true));
+            const newSaveButton = row.querySelector(".saveTaskButton");
+
             // Po kliknutí na SAVE
-            saveButton.addEventListener("click", async function () {
-                await saveTask(taskId, descriptionCell, deadlineInput, priorityInput, editButton, saveButton, deadlineText, priorityText);
-            }, { once: true });
+            newSaveButton.addEventListener("click", async function () {
+                await saveTask(taskId, descriptionCell, deadlineInput, priorityInput, editButton, newSaveButton, deadlineText, priorityText);
+            });
         });
     });
 
@@ -35,6 +42,32 @@ document.addEventListener("DOMContentLoaded", function () {
         const description = descriptionCell.textContent.trim();
         const deadline = deadlineInput.value;
         const priority = priorityInput.value;
+
+        // ✅ Vymazanie predchádzajúcich chýb
+        clearErrors();
+        descriptionCell.classList.remove("error");
+        deadlineInput.classList.remove("error");
+
+        let errors = [];
+
+        // ✅ Validácia description
+        if (!description) {
+            errors.push("Description is required.");
+            descriptionCell.classList.add("error");
+        }
+
+        // ✅ Validácia deadline (musí byť v budúcnosti)
+        const today = new Date().toISOString().split("T")[0]; // Aktuálny dátum vo formáte YYYY-MM-DD
+        if (!deadline || deadline <= today) {
+            errors.push("Deadline must be in the future.");
+            deadlineInput.classList.add("error");
+        }
+
+        // ✅ Ak sú chyby, zobraz ich vo vyskakovacom okne a zastav ukladanie
+        if (errors.length > 0) {
+            showPopup(errors.join("<br>"));
+            return;
+        }
 
         try {
             const response = await fetch(url, {
@@ -55,47 +88,52 @@ document.addEventListener("DOMContentLoaded", function () {
             if (result.success) {
                 console.log("Task updated successfully!");
 
-                // Aktualizácia textu
+                // ✅ Aktualizácia textu
                 descriptionCell.textContent = description;
                 deadlineText.textContent = deadline;
                 priorityText.textContent = priority.charAt(0).toUpperCase() + priority.slice(1);
 
-                // Skryť inputy a zobraziť text
+                // ✅ Skryť inputy a zobraziť text
                 deadlineInput.classList.add("d-none");
                 deadlineText.classList.remove("d-none");
                 priorityInput.classList.add("d-none");
                 priorityText.classList.remove("d-none");
 
-                // **Zobrazenie "Updated" namiesto tlačidla Edit**
+                // ✅ Zobrazenie "✔ Updated"
                 editButton.innerHTML = "<span class='updated-message'>✔ Updated</span>";
-                editButton.style.backgroundColor = "transparent";
-                editButton.style.fontWeight = "bold";
-                editButton.style.cursor = "default";
-                editButton.style.border = "none";
-                editButton.style.padding = "5px 10px";
                 editButton.classList.remove("d-none");
-
-                // Skryť tlačidlo Save
                 saveButton.classList.add("d-none");
 
-                // **Po 2 sekundách resetovať tlačidlo Edit do pôvodného stavu**
+                // ✅ Po 2 sekundách resetovať tlačidlo Edit do pôvodného stavu
                 setTimeout(() => {
                     editButton.innerHTML = "Edit";
-                    editButton.style.backgroundColor = "";
-                    editButton.style.fontWeight = ""; // **Toto zabezpečí, že sa nevráti BOLD**
-                    editButton.style.cursor = "pointer";
-                    editButton.style.border = "";
-                    editButton.style.padding = "";
                 }, 2000);
 
-                // Deaktivovať editáciu
+                // ✅ Deaktivovať editáciu
                 descriptionCell.removeAttribute("contenteditable");
             } else {
-                alert("Failed to update the task: " + (result.message || "Unknown error."));
+                showPopup("Failed to update the task: " + (result.message || "Unknown error."));
             }
         } catch (error) {
             console.error("Error:", error);
-            alert("An unexpected error occurred.");
+            showPopup("An unexpected error occurred.");
         }
+    }
+
+    // ✅ Funkcia na vymazanie chýb
+    function clearErrors() {
+        document.querySelectorAll(".error").forEach(el => el.classList.remove("error"));
+    }
+
+    // ✅ Funkcia na zobrazenie popupu
+    function showPopup(message) {
+        // Ak už popup existuje, odstránime ho pred zobrazením nového
+        const existingPopup = document.querySelector(".custom-popup");
+        if (existingPopup) existingPopup.remove();
+
+        const popup = document.createElement("div");
+        popup.classList.add("custom-popup");
+        popup.innerHTML = `<p>${message}</p> <button onclick="this.parentElement.remove()">OK</button>`;
+        document.body.appendChild(popup);
     }
 });

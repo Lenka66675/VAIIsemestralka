@@ -42,10 +42,10 @@ class TaskController extends Controller
     public function post(Request $request)
     {
         $data = $request->validate([
-            'deadline' => 'required|date',
-            'description' => 'nullable|string|max:500',
+            'deadline' => 'required|date|after:today',
+            'description' => 'required|string|max:500',
             'priority' => 'required|in:low,medium,high',
-            'users' => 'required|array', // Používateľ musí byť vybraný
+            'users' => 'required|array|min:1', // Používateľ musí byť vybraný
             'users.*' => 'exists:users,id', // Každý užívateľ musí existovať
         ]);
 
@@ -76,7 +76,8 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         $data = $request->validate([
-            'deadline' => 'sometimes|required|date',
+            'deadline' => 'sometimes|required|date|after:today',
+            'description' => 'sometimes|required|string|max:500',
             'priority' => 'sometimes|required|in:low,medium,high'
         ]);
 
@@ -155,7 +156,7 @@ class TaskController extends Controller
     {
         $request->validate([
             'solution' => 'nullable|string|max:2000',
-            'attachments.*' => 'nullable|file|max:5120'
+            'attachments.*' => 'nullable|file|max:5120|mimes:jpg,png,pdf,doc,docx,xlsx,csv'
         ]);
 
         $user = auth()->user();

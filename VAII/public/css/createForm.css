@@ -154,9 +154,27 @@ textarea {
 
 .btn-primary {
     border: 1px solid white;
-    background-color: red;
+    background-color: #da1818;
     outline: none;
         box-shadow: none; /* Odstráni vonkajší tieň */
 
 
+}
+
+.input-error {
+    border: 2px solid #da1818;
+    background-color: #fdcdcd;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.exclamation {
+    font-weight: bold;
+    color: red;
+    margin-right: 5px;
 }

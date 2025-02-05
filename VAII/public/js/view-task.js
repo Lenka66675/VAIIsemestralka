@@ -111,10 +111,38 @@ document.addEventListener('DOMContentLoaded', function () {
             const solution = solutionText.value.trim();
             const files = solutionFile.files; // Môže byť viacero súborov
 
-            if (!solution && files.length === 0) {
-                alert("❌ Please enter a solution or upload a file.");
-                return;
+            // ✅ Resetujeme predchádzajúce chyby
+            solutionText.classList.remove('input-error');
+            document.getElementById('solutionFile').classList.remove('input-error');
+            document.querySelectorAll('.error-message').forEach(el => el.remove());
+
+            const allowedExtensions = ['pdf', 'docx', 'xlsx', 'csv', 'jpg', 'png'];
+            const maxFileSize = 5 * 1024 * 1024; // 5MB
+            let hasError = false;
+
+            // ✅ Kontrola formátu a veľkosti každého súboru
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const fileExtension = file.name.split('.').pop().toLowerCase();
+
+                if (!allowedExtensions.includes(fileExtension)) {
+                    showError('solutionFile', `Invalid file format: ${file.name}. Allowed: ${allowedExtensions.join(', ')}`);
+                    hasError = true;
+                }
+
+                if (file.size > maxFileSize) {
+                    showError('solutionFile', `File too large: ${file.name}. Max: 5MB.`);
+                    hasError = true;
+                }
             }
+
+            // ✅ Ak nie je riešenie ani súbor, zobrazíme chybu
+            if (!solution && files.length === 0) {
+                showError('solutionText', "Please enter a solution or upload a file.");
+                hasError = true;
+            }
+
+            if (hasError) return; // ✅ Ak je chyba, neodošleme formulár
 
             const formData = new FormData();
             formData.append('solution', solution);
@@ -137,13 +165,26 @@ document.addEventListener('DOMContentLoaded', function () {
                     modal.classList.remove('show');
                     modal.style.display = "none";
                 } else {
-                    alert('❌ Failed to save solution: ' + result.message);
+                    showError('solutionText', '❌ Failed to save solution: ' + result.message);
                 }
             } catch (error) {
                 console.error('Error saving solution:', error);
-                alert('❌ An unexpected error occurred.');
+                showError('solutionText', '❌ An unexpected error occurred.');
             }
         });
+        function showError(inputId, message) {
+            const input = document.getElementById(inputId);
+            input.classList.add('input-error');
+
+            const errorMessage = document.createElement('p');
+            errorMessage.classList.add('error-message');
+            errorMessage.textContent = message;
+
+            input.parentNode.appendChild(errorMessage);
+        }
+
+
+
     }
 
     // 🔹 Skryť úlohy po označení ako "Completed"
