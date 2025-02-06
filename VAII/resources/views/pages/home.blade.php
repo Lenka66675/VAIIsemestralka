@@ -29,16 +29,20 @@
 
 
         </div>
-        @auth
+
             @auth
                 <div class="text-center mt-4">
                     <a href="/tasks" class="btn btn-primary custom-button">Tasks</a>
                     <a href="/projects" class="btn btn-primary custom-button">Projects</a>
+
                 </div>
             @endauth
+        @guest
+            <div class="text-center mt-4">
+                <a href="/projects" class="btn btn-secondary custom-button">Projects</a>
+            </div>
+        @endguest
 
 
-
-        @endauth
     </div>
 @endsection

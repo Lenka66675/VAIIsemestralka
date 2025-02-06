@@ -1,7 +1,7 @@
 
 
 .project-card {
-    background-color: rgba(34, 34, 34, 0.85); /* Priehľadné čierne */
+    background-color: rgba(255, 255, 255, 0.1); /* Priehľadné čierne */
     color: white;
     padding: 20px;
     border-radius: 8px;
@@ -18,10 +18,14 @@
     background-position: center; /* Zarovná na stred */
     background-repeat: no-repeat; /* Zabráni opakovaniu */
 
+
 }
+
+
 
 /* Nadpisy sa budú zalamovať */
 .project-card h2 {
+    margin-top: 20px;
     font-size: 1.5rem;
     margin-bottom: 1px;
     word-wrap: break-word;
@@ -29,6 +33,11 @@
     text-align: center;
     max-width: 100%;
     text-overflow: ellipsis;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.7) 30%, rgba(0, 0, 0, 0) 100%);
+    font-weight: bold;
+    color: #b6b6b6;
+    text-decoration: black;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
 }
 
 
@@ -46,7 +55,7 @@
     font-weight: bold;
     display: inline-block;
     transition: background 0.3s ease-in-out;
-    margin-top: auto; /* Udrží tlačidlo na spodku */
+    margin-bottom: 10px; /* Udrží tlačidlo na spodku */
 }
 
 .project-card .btn:hover {
@@ -60,9 +69,10 @@
 h1 {
     text-align: center;
     font-size: 2.5rem;
-    color: white;
+    color: #B6B6B6FF;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     margin-top: 20px;
+
 }
 
 /* Tlačidlo "Create a new Project" */
@@ -71,7 +81,7 @@ h1 {
     padding: 12px 20px;
     border-radius: 6px;
 
-    border: 1px solid white;
+    border: #B6B6B6FF;
     background-color: #da1818;
     color: white;
     outline: none;
@@ -86,8 +96,6 @@ h1 {
     transform: scale(1.05);
 }
 
-/* Odstráni zoznamový štýl */
-/* Kontejner stránkovania - zarovnanie do stredu */
 .pagination-container {
     display: flex;
     justify-content: center; /* Zarovnanie na stred */
@@ -100,7 +108,7 @@ h1 {
 .pagination-container a {
     padding: 10px 15px;
     background-color: rgba(255, 255, 255, 0.2) !important; /* Priehľadné čierne */
-    color: rgba(158, 38, 38, 0.9); /* Biele písmo */
+    color: #DA1818FF; /* Biele písmo */
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
@@ -110,14 +118,14 @@ h1 {
 
 /* Hover efekt */
 .pagination-container a:hover {
-    background-color: #b01515;
+    background-color: #DA1818FF;
 }
 
 /* Aktuálna stránka (ak je Tailwind štýl pridaný) */
 .pagination-container span {
     padding: 10px 15px;
     background-color: rgba(255, 255, 255, 0.2) !important; /* Priehľadné čierne */
-    color: rgba(158, 38, 38, 0.9);
+    color: #DA1818FF;
     font-weight: normal;
     border-radius: 5px;
 }

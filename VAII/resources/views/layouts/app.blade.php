@@ -68,6 +68,9 @@
                     <li><a href="#" class="text-dark">Privacy Policy</a></li>
                     <li><a href="#" class="text-dark">Terms of Use</a></li>
                     <li><a href="{{ url('contact') }}" class="text-dark">Contact</a></li>
+                    @auth
+                        <li><a href="{{ url('messages') }}" class="text-dark">Messages</a></li>
+                    @endauth
                 </ul>
             </div>
             <div class="col-lg-3 col-md-6 mb-4">

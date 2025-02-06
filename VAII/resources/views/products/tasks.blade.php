@@ -13,6 +13,17 @@
         </div>
     @endif
 
+    <div class="filter-container">
+        <label for="priorityFilter">Filter by Priority:</label>
+        <select id="priorityFilter" class="filter-dropdown">
+            <option value="all">All</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select>
+
+        <div>
+
     <div>
         <table border="1">
             <thead>
@@ -62,18 +73,20 @@
                         @if(auth()->user()->isAdmin())
                             @foreach($task->users as $user)
                                 <div>
-                                    <strong>{{ $user->name }}:</strong> {{ ucfirst($user->pivot->status) }}
+                                    <strong>{{ $user->name }}:</strong>
+                                    {{ $user->pivot ? ucfirst($user->pivot->status) : 'No status' }}
                                 </div>
                             @endforeach
                         @else
                             <select class="status-dropdown" data-task-id="{{ $task->id }}">
-                                <option value="pending" {{ $task->pivot->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="in_progress" {{ $task->pivot->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                                <option value="completed" {{ $task->pivot->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                <option value="pending" {{ $task->pivot && $task->pivot->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="in_progress" {{ $task->pivot && $task->pivot->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                <option value="completed" {{ $task->pivot && $task->pivot->status == 'completed' ? 'selected' : '' }}>Completed</option>
                             </select>
                             <span class="status-updated-message" style="color: green; display: none;">✔ Updated</span>
                         @endif
                     </td>
+
 
                     <!-- 🔹 New View Details Button -->
                     <td>
@@ -135,4 +148,6 @@
     <script src="{{ asset('js/edit-task.js') }}"></script>
     <script src="{{ asset('js/delete-task.js') }}"></script>
     <script src="{{ asset('js/view-task.js') }}"></script>
+            <script src="{{ asset('js/task-filter.js') }}"></script>
+
 @endsection

@@ -18,4 +18,8 @@ class Project extends Model
     protected $casts = [
         'attachments' => 'array' // Umožní Laravelu automaticky konvertovať JSON na pole
     ];
+
+
+
+
 }

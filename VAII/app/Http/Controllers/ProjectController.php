@@ -115,9 +115,6 @@ class ProjectController extends Controller
     }
 
 
-
-
-
     public function getProject(Project $project)
     {
 
@@ -128,6 +125,7 @@ class ProjectController extends Controller
             'image' => asset('storage/' . $project->image), // Vracia URL obrázka
         ]);
     }
+
 
 
 

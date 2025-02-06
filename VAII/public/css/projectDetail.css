@@ -123,6 +123,7 @@
     color: black;
 }
 
+
 .btn-danger {
     background-color: #dc3545;
     color: white;
@@ -396,4 +397,66 @@
 
 .custom-popup button:hover {
     background-color: #b01515;
+}
+
+
+/* ✅ Štýly pre sekciu taskov */
+.tasks-section {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(34, 34, 34, 0.85); /* Mierne priehľadné pozadie */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+}
+
+/* ✅ Nadpis sekcie */
+.tasks-section h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #da1818; /* Červená farba ako ostatné prvky */
+}
+
+/* ✅ Štýlový zoznam pre tasky */
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* ✅ Každý task bude vo forme karty */
+.task-item {
+    background: rgba(255, 255, 255, 0.1); /* Jemné priehľadné biele pozadie */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ✅ Animácia pri hoveri */
+.task-item:hover {
+    transform: scale(1.01);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* ✅ Text úlohy */
+.task-item strong {
+    font-size: 18px;
+    color: #ffffff;
+}
+
+/* ✅ Štýl pre status */
+.task-item span {
+    background: #da1818;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
 }

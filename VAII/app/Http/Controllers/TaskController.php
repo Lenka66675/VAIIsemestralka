@@ -16,16 +16,14 @@ class TaskController extends Controller
     public function tasks()
     {
         if (auth()->user()->isAdmin()) {
-            // ✅ Admin vidí všetky úlohy
-            $tasks = Task::all();
+            $tasks = Task::simplePaginate(10); // Admin vidí všetko
         } else {
-            // ✅ Používateľ vidí len úlohy, ktoré nie sú "completed"
-            $tasks = auth()->user()->tasks()->wherePivot('status', '!=', 'completed')->get();
+            $tasks = auth()->user()->tasks()->wherePivot('status', '!=', 'completed')->paginate(10);
         }
-        $tasks = Task::simplePaginate(10);
+
         return view('products.tasks', compact('tasks'));
-        //return view('products.tasks', ['tasks' => $tasks]);
     }
+
 
 
     /**
@@ -126,22 +124,24 @@ class TaskController extends Controller
             'status' => 'required|in:pending,in_progress,completed',
         ]);
 
-        if ($task->users->contains($user->id)) {
-            // ✅ IBA AKTUALIZUJEME STAV, NEODSTRAŇUJEME ÚLOHU Z DB
-            $task->users()->updateExistingPivot($user->id, ['status' => $request->status]);
-
+        // Skontroluj, či používateľ naozaj patrí tasku
+        if (!$task->users()->where('user_id', $user->id)->exists()) {
             return response()->json([
-                'success' => true,
-                'message' => 'Task status updated successfully!',
-                'status' => $request->status
-            ]);
+                'success' => false,
+                'message' => 'You are not authorized to update this task!'
+            ], 403);
         }
 
+        // Aktualizácia statusu v pivot tabuľke
+        $task->users()->updateExistingPivot($user->id, ['status' => $request->status]);
+
         return response()->json([
-            'success' => false,
-            'message' => 'You are not authorized to update this task!'
-        ], 403);
+            'success' => true,
+            'message' => 'Task status updated successfully!',
+            'status' => $request->status
+        ]);
     }
+
 
 
 

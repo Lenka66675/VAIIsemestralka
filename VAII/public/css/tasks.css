@@ -339,8 +339,7 @@ thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
 
 
 
-/* Odstráni zoznamový štýl */
-/* Kontejner stránkovania - zarovnanie do stredu */
+
 .pagination-container {
     display: flex;
     justify-content: center; /* Zarovnanie na stred */
@@ -353,7 +352,7 @@ thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
 .pagination-container a {
     padding: 10px 15px;
     background-color: rgba(255, 255, 255, 0.2) !important; /* Priehľadné čierne */
-    color: rgba(158, 38, 38, 0.9); /* Biele písmo */
+    color: #DA1818FF; /* Biele písmo */
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
@@ -363,14 +362,31 @@ thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
 
 /* Hover efekt */
 .pagination-container a:hover {
-    background-color: #b01515;
+    background-color: #DA1818FF;
 }
 
 /* Aktuálna stránka (ak je Tailwind štýl pridaný) */
 .pagination-container span {
     padding: 10px 15px;
     background-color: rgba(255, 255, 255, 0.2) !important; /* Priehľadné čierne */
-    color: rgba(158, 38, 38, 0.9);
+    color: #DA1818FF;
     font-weight: normal;
     border-radius: 5px;
+}
+
+.filter-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    color: #9f9f9f;
+}
+
+.filter-dropdown {
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
 }

@@ -24,67 +24,72 @@
                 <div class="project-attachments">
                     <h3>Attachments</h3>
                     <ul id="projectAttachmentsList">
-                        @if($project->attachments)
-                            @foreach(json_decode($project->attachments, true) as $attachment)
-                                <li>
-                                    📁 <a href="{{ asset('storage/' . $attachment) }}" download>
-                                        {{ preg_replace('/^\d+_/', '', basename($attachment)) }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        @endif
+                        @foreach(json_decode($project->attachments, true) as $attachment)
+                            <li>
+                                📁 <a href="{{ asset('storage/' . $attachment) }}" download>
+                                    {{ preg_replace('/^\d+_/', '', basename($attachment)) }}
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
-
-
-
                 </div>
             @endif
 
-
-            <!-- 🎛 Tlačidlá -->
+            <!-- 🎛 Tlačidlá podľa role -->
             <div class="project-buttons">
                 <a href="{{ route('project') }}" class="btn btn-danger">🔙 Back to Projects</a>
-                <button class="editProjectButton btn btn-danger" data-id="{{ $project->id }}">✏ Edit</button>
-                <button class="btn btn-danger deleteProjectButton"
-                        data-id="{{ $project->id }}"
-                        data-url="{{ route('project.destroy', $project->id) }}">
-                    🗑 Delete
-                </button>
+
+                @if(auth()->user() && auth()->user()->isAdmin())
+                    <button class="editProjectButton btn btn-danger" data-id="{{ $project->id }}">✏ Edit</button>
+                    <button class="btn btn-danger deleteProjectButton"
+                            data-id="{{ $project->id }}"
+                            data-url="{{ route('project.destroy', $project->id) }}">
+                        🗑 Delete
+                    </button>
+                @endif
             </div>
         </div>
     </div>
 
     <!-- 🆕 MODÁLNE OKNO PRE EDITÁCIU -->
-    <div id="editProjectModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Edit Project</h2>
+    @if(auth()->user() && auth()->user()->isAdmin())
+        <div id="editProjectModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Edit Project</h2>
 
-            <form id="editProjectForm" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
+                <form id="editProjectForm" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
 
-                <input type="hidden" id="editProjectId" name="id">
+                    <input type="hidden" id="editProjectId" name="id">
 
-                <label>Project Name:</label>
-                <input type="text" id="editProjectName" name="name" required>
+                    <label>Project Name:</label>
+                    <input type="text" id="editProjectName" name="name" required>
 
-                <label>Description:</label>
-                <textarea id="editProjectDescription" name="description"></textarea>
+                    <label>Description:</label>
+                    <textarea id="editProjectDescription" name="description"></textarea>
 
-                <label>Current Image:</label>
-                <img id="editProjectImagePreview" src="" alt="Project Image" style="display:none; width: 100%; max-height: 200px; object-fit: cover;">
+                    <label>Current Image:</label>
+                    <img id="editProjectImagePreview" src="" alt="Project Image" style="display:none; width: 100%; max-height: 200px; object-fit: cover;">
 
-                <label>Change Image:</label>
-                <input type="file" id="editProjectImage" name="image" accept="image/*">
+                    <label>Change Image:</label>
+                    <input type="file" id="editProjectImage" name="image" accept="image/*">
 
-                <label>Change Attachments:</label>
-                <input type="file" id="editProjectAttachments" name="attachments[]" multiple>
+                    <label>Change Attachments:</label>
+                    <input type="file" id="editProjectAttachments" name="attachments[]" multiple>
 
-                <button type="submit" class="btn btn-success">Save Changes</button>
-            </form>
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                </form>
+            </div>
         </div>
-    </div>
+
+
+
+
+
+
+        @endif
 
     <script src="{{ asset('js/delete-project.js') }}"></script>
     <script src="{{ asset('js/edit-project.js') }}"></script>
