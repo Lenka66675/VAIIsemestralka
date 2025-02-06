@@ -47,7 +47,7 @@ textarea:focus {
 
 .image-gallery {
 
-    margin-top: 40px;
+    margin-top: 34px;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 60px;
@@ -121,24 +121,21 @@ textarea:focus {
     }
 }
 
+
 .custom-button {
     background-color: #DA1818;
     color: #ffffff;
-    padding: 5px 20px;
+    padding: 10px 20px;
     border: none;
-    margin-left: 1350px;
+    margin: 1px;
+
+    display: inline-block;
 }
 
 .custom-button:hover {
     background-color: #b01515 !important;
-    color: #ffffff;
-    padding: 5px 20px;
-    border: none;
-    margin-left: 1350px;
 }
 
 .custom-button:active {
-    background-color: #b015;
-    transform: translateY(0);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #b01515;
 }

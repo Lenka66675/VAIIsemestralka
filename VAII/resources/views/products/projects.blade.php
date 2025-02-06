@@ -13,14 +13,17 @@
 
     <div class="project-list">
         @foreach($projects as $project)
-            <div class="project-card">
+            <div class="project-card"
+                 style="background-image: url('{{ $project->gif ? asset('storage/' . $project->gif) : asset('images/monitor.png') }}');">
                 <h2>{{ $project->name }}</h2>
-                <p>{{ $project->description }}</p>
                 <a href="{{ route('project.show', $project->id) }}" class="btn">View Details</a>
             </div>
         @endforeach
     </div>
+
+
     <div class="pagination-container">
         {{ $projects->links() }}
     </div>
+
 @endsection

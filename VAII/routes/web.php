@@ -92,3 +92,12 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('project.show');
 
 });
+
+
+
+
+Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('project.destroy');
+Route::put('/projects/{project}/update', [ProjectController::class, 'update'])->name('project.update');
+
+Route::get('/projects/{project}/edit-data', [ProjectController::class, 'getProject'])->name('project.getData');
+Route::get('/download/{filename}', [ProjectController::class, 'downloadAttachment'])->name('project.download');

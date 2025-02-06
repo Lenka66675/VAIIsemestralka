@@ -130,8 +130,8 @@ button.viewTaskButton:hover {
 /* Predvolené nastavenia šírok stĺpcov */
 thead th:nth-child(1), tbody td:nth-child(1) { width: 4%; }  /* ID */
 thead th:nth-child(2), tbody td:nth-child(2) { width: 15%; }  /* ID */
-thead th:nth-child(3), tbody td:nth-child(3) { width: 25%; } /* Description */
-thead th:nth-child(4), tbody td:nth-child(4) { width: 8%; } /* Deadline */
+thead th:nth-child(3), tbody td:nth-child(3) { width: 23%; } /* Description */
+thead th:nth-child(4), tbody td:nth-child(4) { width: 10%; } /* Deadline */
 thead th:nth-child(5), tbody td:nth-child(5) { width: 8%; } /* Priority */
 thead th:nth-child(6), tbody td:nth-child(6) { width: 14%; } /* Status */
 thead th:nth-child(7), tbody td:nth-child(7) { width: 9%; } /* Edit */

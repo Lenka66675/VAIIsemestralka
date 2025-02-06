@@ -30,9 +30,15 @@
 
         </div>
         @auth
-        <div class="text-center mt-4">
-        <a href="/tasks" class="btn btn-success custom-button">Tasks</a>
-    </div>
+            @auth
+                <div class="text-center mt-4">
+                    <a href="/tasks" class="btn btn-primary custom-button">Tasks</a>
+                    <a href="/projects" class="btn btn-primary custom-button">Projects</a>
+                </div>
             @endauth
+
+
+
+        @endauth
     </div>
 @endsection

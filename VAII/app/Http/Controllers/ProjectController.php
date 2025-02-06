@@ -22,37 +22,114 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120', // Obrázok max 5MB
-            'attachments.*' => 'file|max:10240' // Maximálna veľkosť prílohy: 10MB
+            'name' => 'required|string|min:3|max:255',
+            'description' => 'nullable|string|max:500',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'attachments.*' => 'nullable|file|max:10240'
+        ], [
+            'name.required' => 'Project name is required.',
+            'name.min' => 'Project name must be at least 3 characters.',
+            'name.max' => 'Project name cannot exceed 255 characters.',
+            'description.max' => 'Description cannot be longer than 500 characters.',
+            'image.mimes' => 'Only JPEG, PNG, JPG, and GIF images are allowed.',
+            'image.max' => 'Image size cannot exceed 5MB.',
+            'attachments.*.max' => 'Each attachment cannot exceed 10MB.'
         ]);
 
         $project = new Project();
         $project->name = $data['name'];
         $project->description = $data['description'] ?? '';
 
-        // ✅ Uloženie obrázka (ak bol pridaný)
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('project_images', 'public');
-            $project->image = $imagePath; // Uloženie do DB
+            $imageFile = $request->file('image');
+            $imageName = time() . '_' . preg_replace('/\s+/', '_', $imageFile->getClientOriginalName());
+            $imagePath = $imageFile->storeAs('project_images', $imageName, 'public');
+            $project->image = $imagePath;
         }
 
+        $attachments = [];
         if ($request->hasFile('attachments')) {
-            $attachments = [];
             foreach ($request->file('attachments') as $file) {
-                $filename = $file->getClientOriginalName(); // ⬅ Použijeme pôvodný názov bez ID
-                $path = $file->storeAs('project_attachments', $filename, 'public');
+                $originalName = preg_replace('/\s+/', '_', $file->getClientOriginalName());
+                $path = $file->storeAs('project_attachments', $originalName, 'public');
                 $attachments[] = $path;
             }
-            $project->attachments = json_encode($attachments);
         }
-
+        $project->attachments = json_encode($attachments);
 
         $project->save();
 
         return redirect()->route('project')->with('success', 'Project created successfully!');
     }
+
+
+    public function update(Request $request, Project $project)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'attachments.*' => 'nullable|file|max:10240'
+        ]);
+
+        // ✅ Aktualizácia názvu a popisu
+        $project->update([
+            'name' => $data['name'],
+            'description' => $data['description'] ?? $project->description,
+        ]);
+
+        // ✅ Ak bol nahraný nový obrázok, odstráni sa starý a uloží nový BEZ ČÍSLA
+        if ($request->hasFile('image')) {
+            if ($project->image) {
+                \Storage::disk('public')->delete($project->image);
+            }
+
+            $imageFile = $request->file('image');
+            $imageName = preg_replace('/\s+/', '_', $imageFile->getClientOriginalName());
+            $path = $imageFile->storeAs('project_images', $imageName, 'public');
+            $project->update(['image' => $path]);
+        }
+
+        // ✅ Zachovanie starých príloh a pridanie nových
+        $attachments = json_decode($project->attachments, true) ?? [];
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $fileName = preg_replace('/\s+/', '_', $file->getClientOriginalName());
+                $path = $file->storeAs('project_attachments', $fileName, 'public');
+                $attachments[] = $path;
+            }
+            $project->update(['attachments' => json_encode($attachments)]);
+        }
+
+        // ✅ Vráti JSON odpoveď, aby sa UI mohlo aktualizovať
+        return response()->json([
+            'success' => true,
+            'message' => 'Project updated successfully!',
+            'image' => $project->image ? asset('storage/' . $project->image) : null,
+            'attachments' => collect(json_decode($project->attachments, true))->map(function ($path) {
+                return asset('storage/' . $path);
+            })->toArray()
+        ], 200);
+
+    }
+
+
+
+
+
+    public function getProject(Project $project)
+    {
+
+        return response()->json([
+            'id' => $project->id,
+            'name' => $project->name,
+            'description' => $project->description,
+            'image' => asset('storage/' . $project->image), // Vracia URL obrázka
+        ]);
+    }
+
+
 
 
 
@@ -70,42 +147,19 @@ class ProjectController extends Controller
         return view('products.projectsEdit', compact('project'));
     }
 
-    public function update(Request $request, Project $project)
-    {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|max:5120',
-            'attachments.*' => 'nullable|file|max:10240'
-        ]);
 
-        $project->update([
-            'name' => $data['name'],
-            'description' => $data['description'] ?? $project->description,
-        ]);
 
-        // Ak sa nahrá nový obrázok, uložíme ho
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('project_images', 'public');
-            $project->update(['image' => $path]);
-        }
 
-        // Ak sa nahrali nové prílohy, aktualizujeme ich
-        if ($request->hasFile('attachments')) {
-            $attachments = json_decode($project->attachments, true) ?? [];
-            foreach ($request->file('attachments') as $file) {
-                $path = $file->store('project_attachments', 'public');
-                $attachments[] = $path;
-            }
-            $project->update(['attachments' => json_encode($attachments)]);
-        }
-
-        return redirect()->route('project')->with('success', 'Project updated successfully!');
-    }
 
     public function destroy(Project $project)
     {
         $project->delete();
-        return redirect()->route('project')->with('success', 'Project deleted successfully!');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Project deleted successfully!',
+            'id' => $project->id
+        ]);
     }
+
 }

@@ -3,57 +3,114 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 85vh;
+    min-height: 90vh;
+    padding: 40px;
 }
 
 /* Karta pre projekt */
 .project-card {
-    background-color: rgba(34, 34, 34, 0.85); /* Mierne priehľadné */
-    color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    background-color: rgba(34, 34, 34, 0.6); /* Mierne tmavší efekt */
+    color: #d8d8d8;
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
     text-align: center;
-    max-width: 80%;  /* Zväčšenie karty */
-    width: 100%;
+    max-width: 1100px; /* Širšia verzia */
+    width: 95%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
 }
 
 /* Obrázok projektu */
 .project-image {
-    width: 100%; /* Obrázok bude mať plnú šírku karty */
-    max-height: 300px; /* Obmedzenie výšky */
-    object-fit: cover; /* Zabezpečí správne orezanie */
-    border-radius: 8px;
+    width: 100%;
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 /* Nadpis projektu */
 .project-title {
-    font-size: 2rem;
-    margin-top: 15px;
+    font-size: 2.5rem;
+    margin-top: 20px;
     text-align: center;
     font-weight: bold;
+    max-width: 95%;
+    overflow-wrap: break-word;
+    color: #979797;
 }
 
-/* Popis projektu */
+/* Popis projektu s elegantným scrollovaním */
 .project-description {
-    font-size: 1.2rem;
-    color: #ddd;
-    margin: 15px 0;
+    font-size: 1rem;
+    color: #d8d8d8;
+    margin: 20px 0;
     text-align: center;
-    max-width: 90%;
+    max-width: 95%;
+    max-height: 500px; /* Obmedzenie výšky */
+    overflow-y: auto;
+    padding: 15px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1); /* Mierne tmavší efekt */
+
+    scrollbar-gutter: stable;
+}
+
+/* 🖌️ Štýl scrollbaru pre popis */
+.project-description::-webkit-scrollbar {
+    width: 8px;
+}
+
+.project-description::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.project-description::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+}
+
+.project-description::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.6);
 }
 
 /* Sekcia príloh */
 .project-attachments {
     width: 100%;
-    margin-top: 20px;
-    text-align: left;
+    margin-top: 25px;
+    max-width: 95%;
+    text-align: center;
 }
 
-/* Tlačidlá */
+/* Zoznam príloh */
+#projectAttachmentsList {
+    padding: 0;
+    list-style-type: none;
+
+}
+
+#projectAttachmentsList li {
+    padding: 7px 0;
+    font-size: 1.2rem;
+}
+
+#projectAttachmentsList a {
+    color: #d8d8d8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#projectAttachmentsList a:hover {
+    text-decoration: underline;
+}
+
+/* Tlačidlá (pôvodné zostali) */
 .project-buttons {
     display: flex;
     justify-content: center;
@@ -61,7 +118,6 @@
     margin-top: 20px;
 }
 
-/* Štýly tlačidiel */
 .btn-warning {
     background-color: #ffc107;
     color: black;
@@ -72,11 +128,272 @@
     color: white;
 }
 
-/* Hover efekty */
 .btn-warning:hover {
     background-color: #e0a800;
 }
 
 .btn-danger:hover {
     background-color: #c82333;
+}
+
+/* Responzívny dizajn */
+@media (max-width: 992px) {
+    .project-card {
+        padding: 40px;
+        max-width: 95%;
+    }
+
+    .project-title {
+        font-size: 2.2rem;
+    }
+
+    .project-description {
+        font-size: 1.2rem;
+        max-height: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .project-card {
+        padding: 30px;
+        max-width: 95%;
+    }
+
+    .project-title {
+        font-size: 2rem;
+    }
+
+    .project-description {
+        font-size: 1.2rem;
+        max-height: 200px;
+    }
+
+    .project-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+/* MODÁLNE OKNO - CELKOVÁ ÚPRAVA */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7); /* ✅ Tmavší prechod */
+    backdrop-filter: blur(5px); /* ✅ Jemné rozmazanie pozadia */
+    transition: opacity 0.3s ease-in-out;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Obsah modálneho okna */
+.modal-content {
+    background-color: rgba(255, 255, 255, 0.95); /* ✅ Jemná biela s priehľadnosťou */
+    color: #333; /* ✅ Tmavší text pre lepšiu čitateľnosť */
+    padding: 25px;
+    width: 60%; /* ✅ Trochu širšie */
+    max-width: 800px; /* ✅ Nech nie je príliš široké */
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid #DA1818;
+
+    position: fixed;
+
+    /* ✅ Centrovanie na stred */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* ✅ Presné centrovanie */
+}
+
+/* Zatváracie tlačidlo */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #333;
+}
+
+.close:hover {
+    color: #da1818;
+}
+
+
+
+.modal-content .btn-success {
+    background-color: #da1818;
+}
+/* Nadpis */
+.modal-content h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+/* ŠTÝL FORMULÁRA */
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Riadky formulára */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Štítky formulára */
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+/* Polia formulára */
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+    max-height: 200px;
+}
+
+/* Obrázok v editácii */
+.image-preview {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ŠTÝLY TLAČIDIEL */
+.btn-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Tlačidlá */
+.btn {
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* RESPONSÍVNE ÚPRAVY */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .modal-content h2 {
+        font-size: 1.6rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        font-size: 0.9rem;
+    }
+
+    .btn-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ✅ Popup kontajner */
+.custom-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(34, 34, 34, 0.95); /* Tmavé pozadie, ale mierne priehľadné */
+    color: #d8d8d8;
+    padding: 25px 35px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    text-align: center;
+    width: auto;
+    max-width: 450px;
+    font-size: 1.3rem;
+    font-weight: bold;
+
+}
+
+
+
+/* ✅ Štýl textu */
+.custom-popup p {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+/* ✅ Štýl tlačidla */
+.custom-popup button {
+    background-color: #DA1818;
+    color: white;
+    padding: 12px 18px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+.custom-popup button:hover {
+    background-color: #b01515;
 }
