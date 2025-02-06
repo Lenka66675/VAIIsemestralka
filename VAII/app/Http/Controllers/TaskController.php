@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Project;
 
 class TaskController extends Controller
 {
@@ -21,8 +22,9 @@ class TaskController extends Controller
             // ✅ Používateľ vidí len úlohy, ktoré nie sú "completed"
             $tasks = auth()->user()->tasks()->wherePivot('status', '!=', 'completed')->get();
         }
-
-        return view('products.tasks', ['tasks' => $tasks]);
+        $tasks = Task::simplePaginate(10);
+        return view('products.tasks', compact('tasks'));
+        //return view('products.tasks', ['tasks' => $tasks]);
     }
 
 
@@ -33,7 +35,9 @@ class TaskController extends Controller
     {
         // Získať všetkých používateľov okrem adminov
         $users = User::where('role', '!=', 'admin')->get();
-        return view('products.create', compact('users'));
+        $projects = Project::all(); // ✅ Pridáme projekty
+
+        return view('products.create', compact('users', 'projects'));
     }
 
     /**
@@ -42,6 +46,7 @@ class TaskController extends Controller
     public function post(Request $request)
     {
         $data = $request->validate([
+            'project_id' => 'nullable|exists:projects,id', // ✅ Pridali sme project_id
             'deadline' => 'required|date|after:today',
             'description' => 'required|string|max:500',
             'priority' => 'required|in:low,medium,high',
@@ -51,9 +56,10 @@ class TaskController extends Controller
 
         // Vytvorenie novej úlohy
         $newTask = Task::create([
+            'project_id' => $data['project_id'] ?? null, // ✅ Nastavíme project_id alebo NULL
             'deadline' => $data['deadline'],
             'description' => $data['description'] ?? '',
-            'priority' => $data['priority']
+            'priority' => $data['priority'],
         ]);
 
         // Priradiť používateľov k úlohe

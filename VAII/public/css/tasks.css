@@ -19,8 +19,9 @@ table {
     border-radius: 10px;
     overflow: hidden;
     color: #ffffff;
+    font-size: 15px;
     table-layout: fixed;
-    margin-bottom: 380px;
+
 }
 
 thead {
@@ -127,14 +128,15 @@ button.viewTaskButton:hover {
 /* ✅ Upravená responzivita tabuľky */
 
 /* Predvolené nastavenia šírok stĺpcov */
-thead th:nth-child(1), tbody td:nth-child(1) { width: 5%; }  /* ID */
-thead th:nth-child(2), tbody td:nth-child(2) { width: 30%; } /* Description */
-thead th:nth-child(3), tbody td:nth-child(3) { width: 15%; } /* Deadline */
-thead th:nth-child(4), tbody td:nth-child(4) { width: 10%; } /* Priority */
-thead th:nth-child(5), tbody td:nth-child(5) { width: 14%; } /* Status */
-thead th:nth-child(6), tbody td:nth-child(6) { width: 11%; } /* Edit */
-thead th:nth-child(7), tbody td:nth-child(7) { width: 8%; } /* Delete */
-thead th:nth-child(8), tbody td:nth-child(8) { width: 8%; } /* Delete */
+thead th:nth-child(1), tbody td:nth-child(1) { width: 4%; }  /* ID */
+thead th:nth-child(2), tbody td:nth-child(2) { width: 15%; }  /* ID */
+thead th:nth-child(3), tbody td:nth-child(3) { width: 25%; } /* Description */
+thead th:nth-child(4), tbody td:nth-child(4) { width: 8%; } /* Deadline */
+thead th:nth-child(5), tbody td:nth-child(5) { width: 8%; } /* Priority */
+thead th:nth-child(6), tbody td:nth-child(6) { width: 14%; } /* Status */
+thead th:nth-child(7), tbody td:nth-child(7) { width: 9%; } /* Edit */
+thead th:nth-child(8), tbody td:nth-child(8) { width: 9%; } /* Delete */
+thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
 
 /* 🔽 Skrytie menej dôležitých stĺpcov postupne pri zmenšovaní obrazovky */
 
@@ -331,4 +333,44 @@ thead th:nth-child(8), tbody td:nth-child(8) { width: 8%; } /* Delete */
     margin-top: 10px;
     display: block;
     width: 100%;
+}
+
+
+
+
+
+/* Odstráni zoznamový štýl */
+/* Kontejner stránkovania - zarovnanie do stredu */
+.pagination-container {
+    display: flex;
+    justify-content: center; /* Zarovnanie na stred */
+    margin-top: 20px;
+    background: none;
+
+}
+
+/* Stránkovacie tlačidlá */
+.pagination-container a {
+    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, 0.2) !important; /* Priehľadné čierne */
+    color: rgba(158, 38, 38, 0.9); /* Biele písmo */
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+    border: none;
+}
+
+/* Hover efekt */
+.pagination-container a:hover {
+    background-color: #b01515;
+}
+
+/* Aktuálna stránka (ak je Tailwind štýl pridaný) */
+.pagination-container span {
+    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, 0.2) !important; /* Priehľadné čierne */
+    color: rgba(158, 38, 38, 0.9);
+    font-weight: normal;
+    border-radius: 5px;
 }

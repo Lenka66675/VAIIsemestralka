@@ -10,6 +10,16 @@
         @csrf
         @method('post')
 
+        <div>
+            <label>Project</label>
+            <select name="project_id">
+                <option value="">No Project</option> <!-- ✅ Možnosť bez projektu -->
+                @foreach($projects as $project)
+                    <option value="{{ $project->id }}">{{ $project->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
         <!-- Deadline -->
         <div>
             <label>Deadline</label>

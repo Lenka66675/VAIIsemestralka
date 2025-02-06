@@ -18,6 +18,7 @@
             <thead>
             <tr>
                 <th>ID</th>
+                <th>Project</th>
                 <th>Description</th>
                 <th>Deadline</th>
                 <th>Priority</th>
@@ -35,7 +36,11 @@
             @foreach($tasks as $task)
                 <tr id="taskRow-{{ $task->id }}">
                     <td>{{ $task->id }}</td>
+                    <td>{{ $task->project ? $task->project->name : 'No Project' }}</td>
+
                     <td class="editable" data-id="{{ $task->id }}" data-name="description">{{ $task->description }}</td>
+
+
 
                     <!-- Deadline -->
                     <td>
@@ -93,7 +98,14 @@
                 </tr>
             @endforeach
             </tbody>
+
         </table>
+        <div class="pagination-container">
+            {{ $tasks->links() }}
+        </div>
+
+
+
     </div>
 
     <!-- 🔹 Task Modal for Adding Solutions -->

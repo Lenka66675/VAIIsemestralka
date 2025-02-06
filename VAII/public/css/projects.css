@@ -1,0 +1,174 @@
+
+
+.project-card {
+    background-color: rgba(34, 34, 34, 0.85); /* Priehľadné čierne */
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100%; /* Kartičky sa prispôsobia najväčšej kartičke v celom gride */
+}
+
+/* Nadpisy sa budú zalamovať */
+.project-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-align: center;
+    max-width: 100%;
+}
+
+/* Popisy budú zalamované a kartička sa im prispôsobí */
+.project-card p {
+    font-size: 1rem;
+    color: #bbb;
+    margin-bottom: 15px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    flex-grow: 1; /* Zabezpečí, že popis vyplní priestor kartičky */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tlačidlo bude vždy na spodku kartičky */
+.project-card .btn {
+    background-color: #da1818;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    transition: background 0.3s ease-in-out;
+    margin-top: auto; /* Udrží tlačidlo na spodku */
+}
+
+.project-card .btn:hover {
+    background-color: #b01515;
+}
+
+.project-card:hover {
+    transform: scale(1.05);
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin-top: 20px;
+}
+
+/* Tlačidlo "Create a new Project" */
+.text-center.mt-4 a.btn {
+    font-size: 1.2rem;
+    padding: 12px 20px;
+    border-radius: 6px;
+
+    border: 1px solid white;
+    background-color: #da1818;
+    color: white;
+    outline: none;
+    box-shadow: none;
+    font-weight: bold;
+
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.text-center.mt-4 a.btn:hover {
+    background-color: #b01515;
+    transform: scale(1.05);
+}
+
+/* Odstráni zoznamový štýl */
+/* Kontejner stránkovania - zarovnanie do stredu */
+.pagination-container {
+    display: flex;
+    justify-content: center; /* Zarovnanie na stred */
+    margin-top: 20px;
+    background: none;
+
+}
+
+/* Stránkovacie tlačidlá */
+.pagination-container a {
+    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, 0.2) !important; /* Priehľadné čierne */
+    color: rgba(158, 38, 38, 0.9); /* Biele písmo */
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+    border: none;
+}
+
+/* Hover efekt */
+.pagination-container a:hover {
+    background-color: #b01515;
+}
+
+/* Aktuálna stránka (ak je Tailwind štýl pridaný) */
+.pagination-container span {
+    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, 0.2) !important; /* Priehľadné čierne */
+    color: rgba(158, 38, 38, 0.9);
+    font-weight: normal;
+    border-radius: 5px;
+}
+
+
+
+/* ✅ Oprava textu, aby sa zalamoval v rámci kartičky */
+.project-card p {
+    font-size: 1rem;
+    color: #bbb;
+    margin-bottom: 15px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal; /* Aby sa text nepreťahoval */
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    justify-content: center; /* Zarovná vertikálne na stred */
+    align-items: center;
+    flex-grow: 1; /
+}
+
+
+
+
+/* ✅ Ak chceš dynamickú výšku pre všetky kartičky */
+
+.project-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Automatické prispôsobenie */
+    gap: 20px; /* Medzera medzi projektmi */
+    justify-content: center; /* Zarovnávanie na stred */
+    max-width: 90%;
+    margin: 20px auto;
+    grid-auto-rows: 1fr; /* Všetky riadky budú mať rovnakú výšku */
+}
+
+/* ✅ Všetky kartičky budú mať rovnakú výšku */
+.project-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* ✅ Prispôsobenie tlačidla */
+.project-card .btn {
+    margin-top: auto; /* Udrží tlačidlo dole */
+    padding: 10px 15px;
+}

@@ -1,0 +1,82 @@
+/* Hlavný kontajner pre detail projektu */
+.project-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 85vh;
+}
+
+/* Karta pre projekt */
+.project-card {
+    background-color: rgba(34, 34, 34, 0.85); /* Mierne priehľadné */
+    color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 80%;  /* Zväčšenie karty */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Obrázok projektu */
+.project-image {
+    width: 100%; /* Obrázok bude mať plnú šírku karty */
+    max-height: 300px; /* Obmedzenie výšky */
+    object-fit: cover; /* Zabezpečí správne orezanie */
+    border-radius: 8px;
+}
+
+/* Nadpis projektu */
+.project-title {
+    font-size: 2rem;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Popis projektu */
+.project-description {
+    font-size: 1.2rem;
+    color: #ddd;
+    margin: 15px 0;
+    text-align: center;
+    max-width: 90%;
+}
+
+/* Sekcia príloh */
+.project-attachments {
+    width: 100%;
+    margin-top: 20px;
+    text-align: left;
+}
+
+/* Tlačidlá */
+.project-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Štýly tlačidiel */
+.btn-warning {
+    background-color: #ffc107;
+    color: black;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Hover efekty */
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}

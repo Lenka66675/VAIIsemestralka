@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -77,3 +78,17 @@ Route::get('/task/{task}/getAllSolutions', [TaskController::class, 'getAllSoluti
 Route::get('/task/{taskId}/download/{fileName}', [TaskController::class, 'downloadFile'])
     ->where('fileName', '.*')
     ->name('task.download');
+
+
+Route::resource('projects', ProjectController::class)->middleware('auth');
+
+
+
+
+Route::middleware([AdminMiddleware::class])->group(function () {
+    Route::get('/projects', [ProjectController::class, 'index'])->name('project'); // Stránka so všetkými projektmi
+    Route::get('/projects/create', [ProjectController::class, 'create'])->name('project.create'); // Formulár na vytvorenie
+    Route::post('/projects/store', [ProjectController::class, 'store'])->name('project.store'); // Uloženie projektu
+    Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('project.show');
+
+});

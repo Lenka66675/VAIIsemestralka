@@ -10,6 +10,7 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
+        'project_id',
         'description', // Popis úlohy
         'deadline',    // Termín dokončenia
         'priority'     // Priorita úlohy (low, medium, high)
@@ -24,4 +25,10 @@ class Task extends Model
             ->withPivot('status', 'solution', 'attachment') // Prístup k pivot atribútom
             ->withTimestamps();
     }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
 }

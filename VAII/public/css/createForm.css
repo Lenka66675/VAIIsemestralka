@@ -178,3 +178,19 @@ textarea {
     color: red;
     margin-right: 5px;
 }
+
+select {
+    width: 100%; /* Uprav podľa potreby */
+    max-width: 600px; /* Obmedzenie maximálnej šírky */
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
