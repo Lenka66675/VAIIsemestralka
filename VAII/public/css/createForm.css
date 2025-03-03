@@ -171,6 +171,7 @@ textarea {
     font-size: 14px;
     margin-top: 5px;
     font-weight: bold;
+
 }
 
 .exclamation {
@@ -193,4 +194,86 @@ select {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+/* Kontajner pre obrázok vo formulári */
+.image-container {
+    display: flex;
+    justify-content: center; /* Horizontálne centrovanie */
+    align-items: center; /* Vertikálne centrovanie */
+    margin-bottom: 15px;
+}
+
+/* Štýl obrázka */
+.upload-icon {
+    width: 200px; /* Prispôsob veľkosť obrázka */
+    height: auto;
+}
+
+/* Cool tlačidlo na Upload */
+.btn-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    color: white;
+    background-color: #da1818;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s;
+    font-weight: bold;
+}
+
+.btn-upload i {
+    margin-right: 8px;
+    font-size: 1.2rem;
+}
+
+.btn-upload:hover {
+    background-color: #b01515;
+    transform: scale(1.005);
+}
+
+.error-message-inline {
+    color: red;
+    font-size: 0.9rem;
+    font-weight: bold;
+    white-space: nowrap; /* Zabráni zalomeniu textu */
+}
+
+
+/* Loading Spinner */
+.loading-spinner {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.loading-spinner img {
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Dynamické error správy */
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    font-weight: bold;
+    text-align: center;
+    display: none; /* Najskôr skryté */
+}
+
+/* Tlačidlo sa pri nahrávaní znefunkční */
+.uploading {
+    opacity: 0.6;
+    pointer-events: none;
 }

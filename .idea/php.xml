@@ -141,6 +141,10 @@
       <path value="$PROJECT_DIR$/VAII/vendor/phpstan/phpdoc-parser" />
       <path value="$PROJECT_DIR$/VAII/vendor/staabm/side-effects-detector" />
       <path value="$PROJECT_DIR$/VAII/vendor/fidry/cpu-core-counter" />
+      <path value="$PROJECT_DIR$/VAII/vendor/markbaker/complex" />
+      <path value="$PROJECT_DIR$/VAII/vendor/markbaker/matrix" />
+      <path value="$PROJECT_DIR$/VAII/vendor/phpoffice/phpspreadsheet" />
+      <path value="$PROJECT_DIR$/VAII/vendor/maennchen/zipstream-php" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

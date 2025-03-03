@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\UploadController;
+
 
 Route::get('/', function () {
     return view('home');
@@ -61,13 +63,10 @@ Route::get('/login', function () {
 })->name('login');
 
 
-//require __DIR__.'/auth.php';
 
 Route::get('/dashboard', function () {
-    return view('dashboard'); // Môžeš zmeniť na iný názov pohľadu, ak ho chceš nazvať inak
+    return view('pages.home');
 })->name('dashboard');
-
-
 
 
 require __DIR__.'/auth.php';
@@ -112,3 +111,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
+
+
+Route::get('/upload', [UploadController::class, 'showForm'])->name('upload.form');
+Route::post('/upload', [UploadController::class, 'upload'])->name('upload.process');
