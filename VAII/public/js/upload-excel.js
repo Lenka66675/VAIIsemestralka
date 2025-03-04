@@ -5,57 +5,72 @@ document.addEventListener("DOMContentLoaded", function () {
     let backendErrors = document.getElementById("backendErrors");
 
     uploadForm.addEventListener("submit", function (e) {
-        e.preventDefault(); // Zastaví predvolený submit
+        e.preventDefault(); // 🚀 ZABRÁNI FORMULÁRU REFRESHOVAŤ STRÁNKU
 
         let formData = new FormData(uploadForm);
 
-        // Vymažeme predchádzajúce chyby
+        // Reset správ
         backendErrors.innerHTML = "";
         backendErrors.style.display = "none";
+        backendErrors.classList.remove("error-message", "success-message");
 
-        // Skontrolujeme typ súboru ešte pred odoslaním
-        let fileInput = document.getElementById("fileInput");
-        let file = fileInput.files[0];
-
-        if (file) {
-            let allowedTypes = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"];
-            if (!allowedTypes.includes(file.type)) {
-                backendErrors.innerHTML = "❌ Povolené sú len Excel súbory (.xls, .xlsx)";
-                backendErrors.style.display = "block";
-                return;
-            }
-        }
-
-        // Skryjeme tlačidlo a zobrazíme loading
-        uploadBtn.classList.add("uploading");
+        uploadBtn.disabled = true;
         uploadBtn.innerHTML = "⏳ Nahráva sa...";
         loadingSpinner.style.display = "block";
 
-        // Odošleme dáta na server cez AJAX
         fetch(uploadForm.action, {
             method: "POST",
             body: formData,
             headers: {
+                "X-Requested-With": "XMLHttpRequest",
                 "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
             }
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.reload(); // Ak je úspech, refresh
+            .then(response => response.json().then(data => ({ status: response.status, body: data })))
+            .then(({ status, body }) => {
+                backendErrors.style.display = "block";
+
+                if (status === 200 && body.success) {
+                    backendErrors.innerHTML = "✅ " + body.message;
+                    backendErrors.classList.add("success-message");
+
+                    // Skrytie úspešnej správy po 3 sekundách
+                    setTimeout(() => {
+                        backendErrors.style.opacity = "0";
+                        setTimeout(() => {
+                            backendErrors.style.display = "none";
+                            backendErrors.style.opacity = "1"; // Reset opacity pre ďalšie správy
+                        }, 500);
+                    }, 3000);
                 } else {
-                    // Ak sú chyby, zobrazíme ich
-                    backendErrors.innerHTML = "❌ " + (data.message || "Chyba pri spracovaní súboru.");
-                    backendErrors.style.display = "block";
-                    uploadBtn.classList.remove("uploading");
-                    uploadBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Upload';
-                    loadingSpinner.style.display = "none";
+                    backendErrors.innerHTML = "❌ " + body.message;
+                    backendErrors.classList.add("error-message");
+
+                    // Skrytie chyby po 5 sekundách
+                    setTimeout(() => {
+                        backendErrors.style.opacity = "0";
+                        setTimeout(() => {
+                            backendErrors.style.display = "none";
+                            backendErrors.style.opacity = "1";
+                        }, 500);
+                    }, 5000);
                 }
             })
-            .catch(error => {
+            .catch(() => {
                 backendErrors.innerHTML = "❌ Nastala chyba pri nahrávaní.";
+                backendErrors.classList.add("error-message");
                 backendErrors.style.display = "block";
-                uploadBtn.classList.remove("uploading");
+
+                setTimeout(() => {
+                    backendErrors.style.opacity = "0";
+                    setTimeout(() => {
+                        backendErrors.style.display = "none";
+                        backendErrors.style.opacity = "1";
+                    }, 500);
+                }, 5000);
+            })
+            .finally(() => {
+                uploadBtn.disabled = false;
                 uploadBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Upload';
                 loadingSpinner.style.display = "none";
             });

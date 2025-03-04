@@ -36,9 +36,6 @@
             <label for="file">Vyber Excel súbor</label>
             <div class="custom-file-upload">
                 <input type="file" id="fileInput" name="file" required>
-                <label for="fileInput" class="file-label">
-                    <i class="fas fa-folder-open"></i> <span id="fileNameDisplay">Vybrať súbor</span>
-                </label>
             </div>
             @if ($errors->has('file'))
                 <span class="error-message-inline">{{ $errors->first('file') }}</span>
