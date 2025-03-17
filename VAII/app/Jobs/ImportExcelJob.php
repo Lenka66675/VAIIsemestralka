@@ -53,7 +53,6 @@ class ImportExcelJob implements ShouldQueue
         $headers = array_map('strtolower', array_map('trim', $data[0]));
         unset($data[0]); // Odstráni hlavičku
 
-        // ✅ Overenie správnosti stĺpcov
         if (!$this->validateHeaders($headers)) {
             $this->log("❌ ERROR: Excel file does not have correct columns for '$this->sourceType'. Job stopped.");
             return;
@@ -65,32 +64,57 @@ class ImportExcelJob implements ShouldQueue
             return;
         }
 
+        // ✅ 1️⃣ Stiahneme existujúce kombinácie request_id + status naraz
+        $existingRecords = UploadedData::where('source_type', $this->sourceType)
+            ->pluck('status', 'request')
+            ->toArray(); // Získame pole request_id => status
+
         $batchSize = 500;
         $rows = [];
-        $totalRecords = count($data);
         $processed = 0;
+        $totalRecords = count($data);
 
-        foreach ($data as $row) {
-            $rows[] = [
-                'source_type' => $this->sourceType,
-                'request' => isset($row[$columnMap['request']]) ? $this->extractImportantValue($row[$columnMap['request']]) : null,
-                'description' => $row[$columnMap['description']] ?? null,
-                'status' => $row[$columnMap['status']] ?? null,
-                'type' => $row[$columnMap['type']] ?? null,
-                'created' => $this->parseDate($row[$columnMap['created']] ?? null),
-                'finalized' => $this->parseDate($row[$columnMap['finalized']] ?? null),
-                'vendor' => $row[$columnMap['vendor']] ?? null,
-                'country' => $row[$columnMap['country']] ?? null,
-                'imported_by' => 'system',
-                'imported_at' => now(),
-            ];
+        foreach ($data as $rowIndex => $row) {
+            try {
+                $requestId = isset($row[$columnMap['request']]) ? $this->extractImportantValue($row[$columnMap['request']]) : null;
+                $status = $row[$columnMap['status']] ?? null;
 
-            $processed++;
+                if (!$requestId || !$status) {
+                    $this->log("⚠️ Skipping row $rowIndex - Missing request or status.");
+                    continue;
+                }
 
-            if (count($rows) >= $batchSize) {
-                UploadedData::insert($rows);
-                $this->log("✅ Inserted $processed / $totalRecords records.");
-                $rows = [];
+                // ✅ 2️⃣ Rýchlejšia kontrola duplicit - porovnanie v PHP namiesto dotazu do databázy
+                if (!isset($existingRecords[$requestId]) || $existingRecords[$requestId] !== $status) {
+                    $rows[] = [
+                        'source_type' => $this->sourceType,
+                        'request' => $requestId,
+                        'description' => $row[$columnMap['description']] ?? null,
+                        'status' => $status,
+                        'type' => $row[$columnMap['type']] ?? null,
+                        'created' => $this->parseDate($row[$columnMap['created']] ?? null),
+                        'finalized' => $this->parseDate($row[$columnMap['finalized']] ?? null),
+                        'vendor' => $row[$columnMap['vendor']] ?? null,
+                        'country' => $row[$columnMap['country']] ?? null,
+                        'imported_by' => 'system',
+                        'imported_at' => now(),
+                    ];
+
+                    // ✅ Pridáme do lokálneho poľa, aby sme ho znova nekontrolovali
+                    $existingRecords[$requestId] = $status;
+                } else {
+                    $this->log("⚠️ Row $rowIndex skipped (duplicate request: $requestId, status: $status)");
+                }
+
+                $processed++;
+
+                if (count($rows) >= $batchSize) {
+                    UploadedData::insert($rows);
+                    $this->log("✅ Inserted $processed / $totalRecords records.");
+                    $rows = [];
+                }
+            } catch (\Exception $e) {
+                $this->log("❌ ERROR processing row $rowIndex: " . $e->getMessage());
             }
         }
 
@@ -101,6 +125,8 @@ class ImportExcelJob implements ShouldQueue
 
         $this->log("🎉 Import completed successfully!");
     }
+
+
 
     // ✅ Overenie správnych stĺpcov pred spracovaním
     private function validateHeaders($headers)
@@ -133,7 +159,7 @@ class ImportExcelJob implements ShouldQueue
             'IVMS' => [
                 'request' => array_search('path', $headers),
                 'description' => array_search('title', $headers),
-                'status' => array_search('approval_status', $headers),
+                'status' => array_search('approval status', $headers),
                 'type' => null,
                 'created' => array_search('created', $headers),
                 'finalized' => array_search('approved', $headers),
@@ -145,8 +171,8 @@ class ImportExcelJob implements ShouldQueue
                 'description' => array_search('description', $headers),
                 'status' => array_search('status', $headers),
                 'type' => array_search('type', $headers),
-                'created' => array_search('created_on', $headers),
-                'finalized' => array_search('finalized_on', $headers),
+                'created' => array_search('created on', $headers),
+                'finalized' => array_search('finalized on', $headers),
                 'vendor' => array_search('bp_number', $headers),
                 'country' => array_search('country', $headers),
             ],

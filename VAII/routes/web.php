@@ -115,3 +115,23 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/upload', [UploadController::class, 'showForm'])->name('upload.form');
 Route::post('/upload', [UploadController::class, 'upload'])->name('upload.process');
+
+
+use App\Http\Controllers\DashboardController;
+
+// Hlavná stránka dashboardu
+Route::get('/dashboard1', function () {
+    return view('dashboards.dashboard1'); // Toto bude náš frontend
+});
+
+// API endpointy pre grafy
+Route::get('/api/dashboard/summary', [DashboardController::class, 'summary']);
+Route::get('/api/dashboard/created-vs-finalized', [DashboardController::class, 'createdVsFinalized']);
+Route::get('/api/dashboard/filters', [DashboardController::class, 'filters']);
+
+
+Route::get('/dashboard2', function () {
+    return view('dashboards.dashboard2');
+});
+Route::get('/api/dashboard/monthly-summary', [DashboardController::class, 'monthlySummary']);
+Route::get('/api/dashboard/backlog-table', [DashboardController::class, 'backlogTable']);
