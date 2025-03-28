@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ScreenshotController;
 use App\Http\Controllers\TaskController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Http\Request;
@@ -135,3 +136,25 @@ Route::get('/dashboard2', function () {
 });
 Route::get('/api/dashboard/monthly-summary', [DashboardController::class, 'monthlySummary']);
 Route::get('/api/dashboard/backlog-table', [DashboardController::class, 'backlogTable']);
+
+
+Route::post('/screenshots', [ScreenshotController::class, 'store'])->name('screenshots.store');
+Route::get('/screenshots', [ScreenshotController::class, 'index'])->name('screenshots.index');
+
+Route::delete('/screenshots/{id}', [ScreenshotController::class, 'destroy'])->name('screenshots.destroy');
+
+
+
+Route::get('/api/map-data', [DashboardController::class, 'mapData']);
+Route::get('/dashboard3', function () {
+    return view('dashboards.dashboard3');
+});
+
+
+Route::get('/api/dashboard/filters', [DashboardController::class, 'filtersCountry']);
+
+Route::get('/api/countries', [DashboardController::class, 'getCountries']);
+Route::get('/api/dashboard-stats', [DashboardController::class, 'getStats']);
+
+
+Route::get('/api/dashboard/snapshot', [DashboardController::class, 'snapshotForMonth']);

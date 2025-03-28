@@ -14,9 +14,9 @@
         }
     </style>
 
-    <div class="container-fluid px-4 py-5">
+    <div class="container-fluid px-4 py-4">
         <div class="text-center mb-4">
-            <img src="/img/chart-icon.svg" alt="Dashboard icon" class="me-2" width="32" height="32">
+            <img src="{{ asset('images/dashboard icon.png') }}" alt="Dashboard icon" class="me-2" width="64" height="64">
             <h1 class="text-2xl font-bold text-white m-0">Dashboard 1</h1>
         </div>
 
@@ -25,7 +25,7 @@
             <div class="col-md-3">
                 <div class="card bg-dark bg-opacity-50 border-0 shadow">
                     <div class="card-body">
-                        <label for="systemFilter" class="form-label text-gray-300 fw-semibold mb-2">Vyber systém:</label>
+                        <label for="systemFilter" class="form-label text-white fw-semibold mb-2">Vyber systém:</label>
                         <select id="systemFilter" class="form-select bg-dark text-white border-secondary">
                             <option value="">Všetky</option>
                         </select>
@@ -35,7 +35,7 @@
             <div class="col-md-3">
                 <div class="card bg-dark bg-opacity-50 border-0 shadow">
                     <div class="card-body">
-                        <label for="countryFilter" class="form-label text-gray-300 fw-semibold mb-2">Vyber krajinu:</label>
+                        <label for="countryFilter" class="form-label text-white fw-semibold mb-2">Vyber krajinu:</label>
                         <select id="countryFilter" class="form-select bg-dark text-white border-secondary">
                             <option value="">Všetky</option>
                         </select>
@@ -62,7 +62,7 @@
             <div class="col-md-6 mb-4">
                 <div class="card bg-dark bg-opacity-50 border-0 shadow h-100">
                     <div class="card-body">
-                        <h2 class="card-title text-lg font-semibold text-gray-300 mb-4">Vytvorené vs. Finalizované</h2>
+                        <h2 class="card-title text-lg font-semibold text-white mb-4">Vytvorené vs. Finalizované</h2>
                         <div class="chart-container" style="position: relative; height:350px;">
                             <canvas id="createdFinalizedChart"></canvas>
                         </div>
@@ -76,6 +76,9 @@
         <button id="saveDashboardBtn" class="btn btn-primary">
             📸 Uložiť ako obrázok
         </button>
+        <button id="saveToDatabaseBtn" class="btn btn-success">
+            💾 Uložiť do databázy
+        </button>
     </div>
 
 
@@ -83,7 +86,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         let statusChart, createdFinalizedChart;
-        const chartColors = ['#f87171', '#60a5fa', '#34d399', '#fbbf24', '#a855f7', '#fb923c'];
+        const chartColors =[
+            '#ffcccc', '#ff9999', '#ff6666', '#ff3333', '#ff0000',
+            '#cc0000', '#990000', '#660000', '#330000', '#e60000',
+            '#ff4d4d', '#b30000', '#ff1a1a', '#ff7373', '#ff9999'
+        ];
 
         async function loadFilters() {
             let filterResponse = await fetch('/api/dashboard/filters');
@@ -101,8 +108,9 @@
 
             filterData.countries.forEach(country => {
                 let option = document.createElement('option');
-                option.value = country;
-                option.textContent = country;
+                option.value = country.name;
+                option.textContent = country.name;
+
                 countryFilter.appendChild(option);
             });
 
@@ -126,23 +134,11 @@
 
             // Create a more diverse color palette with better contrast
             const enhancedColors = [
-                '#4C78DB', // blue
-                '#F87171', // red
-                '#34D399', // green
-                '#FBBF24', // yellow
-                '#A855F7', // purple
-                '#FB923C', // orange
-                '#E879F9', // pink
-                '#38BDF8', // light blue
-                '#6EE7B7', // light green
-                '#FCD34D', // light yellow
-                '#D8B4FE', // light purple
-                '#FDBA74', // light orange
-                '#2563EB', // dark blue
-                '#DC2626', // dark red
-                '#059669', // dark green
-                '#CA8A04'  // dark yellow
+                '#ffcccc', '#ff9999', '#ff6666', '#ff3333', '#ff0000',
+                '#cc0000', '#990000', '#660000', '#330000', '#e60000',
+                '#ff4d4d', '#b30000', '#ff1a1a', '#ff7373', '#ff9999'
             ];
+
 
             // Prepare data with hidden states saved
             const statusVisibility = {};
@@ -193,6 +189,11 @@
                                     return `${label}: ${value} (${percentage}%)`;
                                 }
                             }
+                        }
+                    }, elements: {
+                        arc: {
+                            borderWidth: 0.5,
+                            borderColor: '#000'
                         }
                     }
                 }
@@ -278,8 +279,8 @@
                 data: {
                     labels: createdData.map(d => d.created_date),
                     datasets: [
-                        { label: 'Vytvorené', data: createdData.map(d => d.created_count), backgroundColor: '#60a5fa' },
-                        { label: 'Finalizované', data: createdData.map(d => d.finalized_count), backgroundColor: '#34d399' }
+                        { label: 'Vytvorené', data: createdData.map(d => d.created_count), backgroundColor: '#FF9999FF' },
+                        { label: 'Finalizované', data: createdData.map(d => d.finalized_count), backgroundColor: '#990000FF' }
                     ]
                 },
                 options: {
@@ -368,6 +369,113 @@
         });
     </script>
 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        document.getElementById('saveToDatabaseBtn').addEventListener('click', function () {
+            const dashboard = document.querySelector('main');
+
+            // Získame štýl pozadia z body
+            const bodyBgImage = window.getComputedStyle(document.body).backgroundImage;
+            const bodyBgSize = window.getComputedStyle(document.body).backgroundSize;
+            const bodyBgPosition = window.getComputedStyle(document.body).backgroundPosition;
+
+            // Počkáme, aby sa grafy vykreslili správne
+            setTimeout(() => {
+                html2canvas(dashboard, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: null
+                }).then(dashCanvas => {
+                    // Vytvoríme nový canvas s pozadím
+                    const finalCanvas = document.createElement('canvas');
+                    finalCanvas.width = dashCanvas.width;
+                    finalCanvas.height = dashCanvas.height;
+                    const ctx = finalCanvas.getContext('2d');
+
+                    // Funkcia na vykreslenie pozadia
+                    const drawBackground = () => {
+                        const bgImg = new Image();
+                        bgImg.crossOrigin = "Anonymous";
+
+                        bgImg.onload = function () {
+                            // Vykreslíme pozadie
+                            ctx.drawImage(bgImg, 0, 0, finalCanvas.width, finalCanvas.height);
+
+                            // Vykreslíme obsah dashboardu
+                            ctx.drawImage(dashCanvas, 0, 0);
+
+                            // Prevedieme canvas na Base64
+                            let imageData = finalCanvas.toDataURL("image/png");
+
+                            // Pošleme na server
+                            fetch('/screenshots', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                                body: JSON.stringify({ image: imageData })
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.message) {
+                                        alert('✅ Screenshot uložený do databázy!');
+                                    } else {
+                                        alert('❌ Chyba pri ukladaní screenshotu.');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('❌ Chyba pri odosielaní:', error);
+                                    alert('❌ Chyba pri ukladaní screenshotu.');
+                                });
+                        };
+
+                        // Extrahujeme URL obrázka z CSS
+                        const bgUrl = bodyBgImage.replace(/^url\(['"]?/, '').replace(/['"]?\)$/, '');
+                        if (bgUrl && bgUrl !== 'none') {
+                            bgImg.src = bgUrl;
+                        } else {
+                            // Ak neexistuje pozadie, rovno uložíme obrázok
+                            ctx.drawImage(dashCanvas, 0, 0);
+                            let imageData = finalCanvas.toDataURL("image/png");
+                            saveToDatabase(imageData);
+                        }
+                    };
+
+                    // Spustíme vykresľovanie pozadia
+                    drawBackground();
+                }).catch(error => {
+                    console.error("❌ Chyba pri ukladaní obrázka:", error);
+                    alert('❌ Chyba pri ukladaní screenshotu.');
+                });
+            }, 500);
+        });
+
+        function saveToDatabase(imageData) {
+            fetch('/screenshots', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ image: imageData })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert('✅ Screenshot uložený do databázy!');
+                    } else {
+                        alert('❌ Chyba pri ukladaní screenshotu.');
+                    }
+                })
+                .catch(error => {
+                    console.error('❌ Chyba pri odosielaní:', error);
+                    alert('❌ Chyba pri ukladaní screenshotu.');
+                });
+        }
+    </script>
 
 
 

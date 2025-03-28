@@ -24,4 +24,9 @@ class UploadedData extends Model
         'imported_at',
         'imported_by'
     ];
+
+    public function countryInfo()
+    {
+        return $this->belongsTo(Country::class, 'country', 'name');
+    }
 }
