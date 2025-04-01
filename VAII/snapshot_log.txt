@@ -1,0 +1,8 @@
+📆 Vypočítavam štatistiky od 2025-03-24 do 2025-03-30
+➡️  Backlog: 12
+✅ Finalizované požiadavky tento týždeň: 581
+🕒 Počítam backlog_in_days...
+📅 Rozsah finalizácií: 2025-02-26 - 2025-03-28
+✅ Finalizované za 30 dní: 2744
+📈 Priemerný počet vyriešených denne: 130.66666666667
+📦 Úspešne uložené do backlog_snapshots!

@@ -236,6 +236,163 @@ class DashboardController extends Controller
         ]);
     }
 
+    public function regionSnapshotLatest()
+    {
+        $lastDate = UploadedData::max('created');
+
+        if (!$lastDate) {
+            return response()->json([]);
+        }
+
+        $weekStart = \Carbon\Carbon::parse($lastDate)->startOfWeek();
+        $weekEnd = $weekStart->copy()->endOfWeek();
+
+        // cutoff na backlog (požiadavky vytvorené v rozsahu 30 dní pred týždňom)
+        $cutoffStart = $weekStart->copy()->subDays(30);
+        $cutoffEnd = $weekStart->copy()->subDay();
+
+        $regions = ['EMEA', 'AMER', 'APAC'];
+        $openStatuses = ['Pending with CVMT team', 'Pending with AP Manager Approver'];
+        $results = [];
+
+        foreach ($regions as $region) {
+            $countries = Country::where('region', $region)->pluck('name');
+
+            // Dáta pre backlog
+            $data = UploadedData::whereIn('country', $countries)
+                ->whereBetween('created', [$cutoffStart, $cutoffEnd])
+                ->get();
+
+            // 1️⃣ Backlog: otvorené, nefinalizované, vytvorené pred začiatkom týždňa
+            $backlog = $data->filter(fn($d) =>
+                is_null($d->finalized) &&
+                in_array($d->status, $openStatuses) &&
+                \Carbon\Carbon::parse($d->created)->lt($weekStart)
+            )->count();
+
+            // 2️⃣ Finalizované v týždni
+            $finalized = UploadedData::whereIn('country', $countries)
+                ->whereBetween('finalized', [$weekStart, $weekEnd])
+                ->whereNotNull('created')
+                ->whereNotNull('finalized')
+                ->get();
+
+            $finished = $finalized->count();
+            $avgDays = round($finalized->avg(fn($d) =>
+            \Carbon\Carbon::parse($d->created)->diffInDays($d->finalized)
+            ) ?? 0, 2);
+
+            $onTime = $finalized->filter(fn($d) =>
+                \Carbon\Carbon::parse($d->created)->diffInDays($d->finalized) <= 4
+            )->count();
+
+            $onTimePercent = $finished > 0 ? round(($onTime / $finished) * 100, 2) : 0;
+
+            // 3️⃣ Backlog in days na základe 30-dňového priemeru (21 pracovných dní)
+            $lastMonthFinalized = UploadedData::whereIn('country', $countries)
+                ->whereBetween('finalized', [now()->subDays(30), now()])
+                ->whereNotNull('created')
+                ->get();
+
+            $dailyAvg = $lastMonthFinalized->count() > 0
+                ? $lastMonthFinalized->count() / 21
+                : 0;
+
+            $backlogInDays = $dailyAvg > 0 ? ceil($backlog / $dailyAvg) : 0;
+
+            $results[] = [
+                'region' => $region,
+                'backlog' => $backlog,
+                'backlog_in_days' => $backlogInDays,
+                'avg_processing_days' => $avgDays,
+                'on_time_percentage' => $onTimePercent
+            ];
+        }
+
+        return response()->json($results);
+    }
+
+
+
+    public function bestCountriesLatest()
+    {
+        $lastDate = UploadedData::max('created');
+
+        if (!$lastDate) {
+            return response()->json([]);
+        }
+
+        // 1️⃣ Vymedzenie dátumového rozsahu
+        $weekStart = \Carbon\Carbon::parse($lastDate)->startOfWeek();
+        $weekEnd = $weekStart->copy()->endOfWeek();
+        $cutoffStart = $weekStart->copy()->subDays(30);
+        $cutoffEnd = $weekStart->copy()->subDay();
+
+        // 2️⃣ Unikátne krajiny v tomto rozsahu
+        $countries = UploadedData::whereBetween('created', [$cutoffStart, $cutoffEnd])
+            ->pluck('country')
+            ->unique()
+            ->filter();
+
+        $openStatuses = ['Pending with CVMT team', 'Pending with AP Manager Approver'];
+        $results = [];
+
+        foreach ($countries as $country) {
+            // Dáta pre danú krajinu
+            $data = UploadedData::where('country', $country)
+                ->whereBetween('created', [$cutoffStart, $cutoffEnd])
+                ->get();
+
+            // 1️⃣ Backlog
+            $backlog = $data->filter(fn($d) =>
+                is_null($d->finalized) &&
+                in_array($d->status, $openStatuses) &&
+                \Carbon\Carbon::parse($d->created)->lt($weekStart)
+            )->count();
+
+            // 2️⃣ Finalizované v danom týždni
+            $finalized = UploadedData::where('country', $country)
+                ->whereBetween('finalized', [$weekStart, $weekEnd])
+                ->whereNotNull('created')
+                ->whereNotNull('finalized')
+                ->get();
+
+            $avgDays = round($finalized->avg(fn($d) =>
+            \Carbon\Carbon::parse($d->created)->diffInDays($d->finalized)
+            ) ?? 0, 2);
+
+            $onTime = $finalized->filter(fn($d) =>
+                \Carbon\Carbon::parse($d->created)->diffInDays($d->finalized) <= 4
+            )->count();
+
+            $onTimePercent = $finalized->count() > 0 ? round(($onTime / $finalized->count()) * 100, 2) : 0;
+
+            // 3️⃣ Backlog v dňoch (na základe 30-dňového priemeru)
+            $lastMonthFinalized = UploadedData::where('country', $country)
+                ->whereBetween('finalized', [now()->subDays(30), now()])
+                ->whereNotNull('created')
+                ->get();
+
+            $dailyAvg = $lastMonthFinalized->count() > 0
+                ? $lastMonthFinalized->count() / 21
+                : 0;
+
+            $backlogInDays = $dailyAvg > 0 ? ceil($backlog / $dailyAvg) : 0;
+
+            // Výsledky pre krajinu
+            $results[] = [
+                'country' => $country,
+                'backlog' => $backlog,
+                'backlog_in_days' => $backlogInDays,
+                'avg_processing_days' => $avgDays,
+                'on_time_percentage' => $onTimePercent,
+            ];
+        }
+
+        return response()->json($results);
+    }
+
+
 
 
 

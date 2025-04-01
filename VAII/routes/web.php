@@ -158,3 +158,11 @@ Route::get('/api/dashboard-stats', [DashboardController::class, 'getStats']);
 
 
 Route::get('/api/dashboard/snapshot', [DashboardController::class, 'snapshotForMonth']);
+
+Route::get('/dashboard4', function () {
+    return view('dashboards.dashboard4');
+});
+
+Route::get('/api/dashboard/region-snapshot-latest', [\App\Http\Controllers\DashboardController::class, 'regionSnapshotLatest']);
+Route::get('/api/dashboard/best-countries-latest', [DashboardController::class, 'bestCountriesLatest']);
+

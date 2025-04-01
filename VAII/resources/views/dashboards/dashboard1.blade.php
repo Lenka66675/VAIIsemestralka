@@ -14,7 +14,7 @@
         }
     </style>
 
-    <div class="container-fluid px-4 py-4">
+    <div class="container-fluid px-4 py-5">
         <div class="text-center mb-4">
             <img src="{{ asset('images/dashboard icon.png') }}" alt="Dashboard icon" class="me-2" width="64" height="64">
             <h1 class="text-2xl font-bold text-white m-0">Dashboard 1</h1>
