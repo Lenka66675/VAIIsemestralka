@@ -24,29 +24,34 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" href="#">External Vendors</a>
-                <a class="nav-link" href="#">International Comparison</a>
-                <a class="nav-link" href="#">Monthly Status</a>
-                <a class="nav-link" href="#">Approval Timelines</a>
+                <a class="nav-link" href="{{ url('/dashboard1') }}">External Vendors</a>
+                <a class="nav-link" href="{{ url('/dashboard2') }}">International Comparison</a>
+                <a class="nav-link" href="{{ url('/dashboard3') }}">Monthly Status</a>
+                <a class="nav-link" href="{{ url('/dashboard4') }}">Approval Timelines</a>
                 <a class="nav-link" href="#">Process Improvement</a>
-                <a class="nav-link" href="#">Employee Performance</a>
+                <a class="nav-link" href="{{ url('/screenshots') }}">Library</a>
+                <a class="nav-link" href="{{ url('/upload') }}">Upload</a>
+                <a class="nav-link" href="{{ url('/imports') }}">Imports</a>
             </div>
         </div>
-
+        <a class="navbar-brand" href="{{ url('/users') }}">
+            <img src="{{ asset('images/people.png') }}" alt="Users" class="users-img">
+        </a>
         <!-- Authentication Links -->
-        <div class="login-container">
+        <div class="login-container d-flex flex-wrap align-items-center gap-2 ms-2">
             @auth
                 <!-- Ak je používateľ prihlásený -->
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="{{ route('logout') }}" class="m-0">
                     @csrf
                     <button type="submit" class="btn btn-primary">Log Out</button>
                 </form>
             @else
                 <!-- Ak používateľ nie je prihlásený -->
                 <a href="{{ route('login') }}" class="btn btn-primary">Log In</a>
-                <a href="{{ route('register') }}" class="btn btn-primary ms-2">Register</a>
+                <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
             @endauth
         </div>
+
 
     </div>
 </nav>

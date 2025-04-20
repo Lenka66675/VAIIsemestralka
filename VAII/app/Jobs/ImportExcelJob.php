@@ -18,12 +18,15 @@ class ImportExcelJob implements ShouldQueue
 
     protected $filePath;
     protected $sourceType;
+    protected $importId;
 
-    public function __construct($filePath, $sourceType)
+    public function __construct($filePath, $sourceType, $importId)
     {
         $this->filePath = $filePath;
         $this->sourceType = $sourceType;
+        $this->importId = $importId;
     }
+
 
     public function handle()
     {
@@ -96,6 +99,7 @@ class ImportExcelJob implements ShouldQueue
                         'finalized' => $this->parseDate($row[$columnMap['finalized']] ?? null),
                         'vendor' => $row[$columnMap['vendor']] ?? null,
                         'country' => $row[$columnMap['country']] ?? null,
+                        'import_id' => $this->importId,
                         'imported_by' => 'system',
                         'imported_at' => now(),
                     ];

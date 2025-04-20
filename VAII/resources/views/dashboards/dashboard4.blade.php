@@ -58,11 +58,14 @@
         </div>
 
         <!-- BUTTONY -->
-        <div class="text-end mb-5">
-            <button id="saveDashboardBtn" class="btn btn-primary me-2">📸 Uložiť ako obrázok</button>
-            <button id="saveToDatabaseBtn" class="btn btn-success">💾 Uložiť do databázy</button>
+        <div class="text-end mb-4">
+            <button id="saveDashboardBtn" class="btn btn-danger">
+                📸 Uložiť ako obrázok
+            </button>
+            <button id="saveToDatabaseBtn" class="btn btn-danger">
+                💾 Uložiť do databázy
+            </button>
         </div>
-    </div>
 
     <!-- 📦 Skripty -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

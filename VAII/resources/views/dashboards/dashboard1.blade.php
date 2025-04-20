@@ -73,10 +73,10 @@
     </div>
 
     <div class="text-end mb-4">
-        <button id="saveDashboardBtn" class="btn btn-primary">
+        <button id="saveDashboardBtn" class="btn btn-danger">
             📸 Uložiť ako obrázok
         </button>
-        <button id="saveToDatabaseBtn" class="btn btn-success">
+        <button id="saveToDatabaseBtn" class="btn btn-danger">
             💾 Uložiť do databázy
         </button>
     </div>
@@ -161,6 +161,7 @@
                 statusChart.data.datasets[0].backgroundColor = visibleData.map((_, i) => enhancedColors[i % enhancedColors.length]);
                 statusChart.update();
             };
+            let startTime = performance.now();
 
             // Create initial chart with all data
             statusChart = new Chart(document.getElementById('statusChart'), {
@@ -198,7 +199,8 @@
                     }
                 }
             });
-
+            let endTime = performance.now();
+            console.log(`⏱️ Vykreslenie statusChart trvalo ${Math.round(endTime - startTime)} ms`);
             // Create interactive legend with toggle functionality
             const legendContainer = document.getElementById('statusLegend');
             legendContainer.innerHTML = '';

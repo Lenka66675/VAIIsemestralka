@@ -29,4 +29,10 @@ class UploadedData extends Model
     {
         return $this->belongsTo(Country::class, 'country', 'name');
     }
+
+    public function import()
+    {
+        return $this->belongsTo(ImportedFile::class, 'import_id');
+    }
+
 }

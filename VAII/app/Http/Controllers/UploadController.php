@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\UploadedData;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Carbon\Carbon;
+use App\Models\ImportedFile;
+
 
 class UploadController extends Controller
 {
@@ -53,7 +55,21 @@ class UploadController extends Controller
                 ], 400);
             }
 
-            ImportExcelJob::dispatch(storage_path('app/public/uploads/' . $fileName), $request->source_type);
+            // ✅ Tu vytvoríme import a uložíme ho do premennej
+            $import = ImportedFile::create([
+                'file_name' => $fileName,
+                'path' => $filePath,
+                'source_type' => $request->source_type,
+                'uploaded_by' => auth()->id(),
+                'uploaded_at' => now(),
+            ]);
+
+            // Spustenie jobu s import ID
+            ImportExcelJob::dispatch(
+                storage_path('app/public/uploads/' . $fileName),
+                $request->source_type,
+                $import->id // ✅ použitie premennej
+            );
 
             return response()->json([
                 'success' => true,
@@ -66,6 +82,7 @@ class UploadController extends Controller
             ], 500);
         }
     }
+
 
     private function validateHeaders($headers, $sourceType)
     {

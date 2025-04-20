@@ -127,11 +127,14 @@
 
             <div id="map"></div>
             </div>
-            <div class="text-end my-4">
-                <button id="saveDashboardBtn" class="btn btn-primary me-2">📸 Uložiť ako obrázok</button>
-                <button id="saveToDatabaseBtn" class="btn btn-success">💾 Uložiť do databázy</button>
+            <div class="text-end mb-4">
+                <button id="saveDashboardBtn" class="btn btn-danger">
+                    📸 Uložiť ako obrázok
+                </button>
+                <button id="saveToDatabaseBtn" class="btn btn-danger">
+                    💾 Uložiť do databázy
+                </button>
             </div>
-        </div>
     </div>
 
     <!-- Leaflet -->
@@ -201,7 +204,7 @@
                     const lat = parseFloat(item.latitude);
                     const lon = parseFloat(item.longitude);
                     if (!isNaN(lat) && !isNaN(lon)) {
-                        const markerSize = Math.min(20, 4 + item.count * 0.5);
+                        const markerSize = Math.min(10, 4 + item.count * 0.5);
 
                         L.circleMarker([lat, lon], {
                             radius: markerSize,

@@ -6,3 +6,27 @@
 ✅ Finalizované za 30 dní: 2744
 📈 Priemerný počet vyriešených denne: 130.66666666667
 📦 Úspešne uložené do backlog_snapshots!
+📆 Vypočítavam štatistiky od 2025-03-31 do 2025-04-06
+➡️  Backlog: 89
+✅ Finalizované požiadavky tento týždeň: 0
+🕒 Počítam backlog_in_days...
+📅 Rozsah finalizácií: 2025-03-05 - 2025-04-04
+✅ Finalizované za 30 dní: 2159
+📈 Priemerný počet vyriešených denne: 102.80952380952
+📦 Úspešne uložené do backlog_snapshots!
+📆 Vypočítavam štatistiky od 2025-04-07 do 2025-04-13
+➡️  Backlog: 87
+✅ Finalizované požiadavky tento týždeň: 0
+🕒 Počítam backlog_in_days...
+📅 Rozsah finalizácií: 2025-03-12 - 2025-04-11
+✅ Finalizované za 30 dní: 1533
+📈 Priemerný počet vyriešených denne: 73
+📦 Úspešne uložené do backlog_snapshots!
+📆 Vypočítavam štatistiky od 2025-04-14 do 2025-04-20
+➡️  Backlog: 84
+✅ Finalizované požiadavky tento týždeň: 0
+🕒 Počítam backlog_in_days...
+📅 Rozsah finalizácií: 2025-03-19 - 2025-04-18
+✅ Finalizované za 30 dní: 883
+📈 Priemerný počet vyriešených denne: 42.047619047619
+📦 Úspešne uložené do backlog_snapshots!

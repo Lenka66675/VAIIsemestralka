@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\ImportsController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
+
+
 
 
 Route::get('/', function () {
@@ -87,20 +92,19 @@ Route::resource('projects', ProjectController::class)->middleware('auth');
 Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('project.show');
 
 Route::middleware([AdminMiddleware::class])->group(function () {
-    Route::get('/projects/create', [ProjectController::class, 'create'])->name('project.create'); // Formulár na vytvorenie
-    Route::post('/projects/store', [ProjectController::class, 'store'])->name('project.store'); // Uloženie projektu
+    Route::get('/projects/create', [ProjectController::class, 'create'])->name('project.create');
+    Route::post('/projects/store', [ProjectController::class, 'store'])->name('project.store');
     Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('project.destroy');
     Route::put('/projects/{project}/update', [ProjectController::class, 'update'])->name('project.update');
     Route::get('/projects/{project}/edit-data', [ProjectController::class, 'getProject'])->name('project.getData');
 
 
 });
-Route::get('/projects', [ProjectController::class, 'index'])->name('project'); // Stránka so všetkými projektmi
+Route::get('/projects', [ProjectController::class, 'index'])->name('project');
 
 
 
 
-//Route::post('/messages/{id}/reply', [MessageController::class, 'reply'])->name('messages.reply');
 
 Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('project.show');
 
@@ -114,37 +118,22 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-Route::get('/upload', [UploadController::class, 'showForm'])->name('upload.form');
-Route::post('/upload', [UploadController::class, 'upload'])->name('upload.process');
 
 
-use App\Http\Controllers\DashboardController;
 
 // Hlavná stránka dashboardu
 Route::get('/dashboard1', function () {
     return view('dashboards.dashboard1'); // Toto bude náš frontend
 });
-
-// API endpointy pre grafy
 Route::get('/api/dashboard/summary', [DashboardController::class, 'summary']);
 Route::get('/api/dashboard/created-vs-finalized', [DashboardController::class, 'createdVsFinalized']);
 Route::get('/api/dashboard/filters', [DashboardController::class, 'filters']);
-
 
 Route::get('/dashboard2', function () {
     return view('dashboards.dashboard2');
 });
 Route::get('/api/dashboard/monthly-summary', [DashboardController::class, 'monthlySummary']);
 Route::get('/api/dashboard/backlog-table', [DashboardController::class, 'backlogTable']);
-
-
-Route::post('/screenshots', [ScreenshotController::class, 'store'])->name('screenshots.store');
-Route::get('/screenshots', [ScreenshotController::class, 'index'])->name('screenshots.index');
-
-Route::delete('/screenshots/{id}', [ScreenshotController::class, 'destroy'])->name('screenshots.destroy');
-
-
-
 Route::get('/api/map-data', [DashboardController::class, 'mapData']);
 Route::get('/dashboard3', function () {
     return view('dashboards.dashboard3');
@@ -166,3 +155,31 @@ Route::get('/dashboard4', function () {
 Route::get('/api/dashboard/region-snapshot-latest', [\App\Http\Controllers\DashboardController::class, 'regionSnapshotLatest']);
 Route::get('/api/dashboard/best-countries-latest', [DashboardController::class, 'bestCountriesLatest']);
 
+
+
+
+
+Route::middleware(['auth'])->group(function () {
+    //USERI
+    Route::post('/screenshots', [ScreenshotController::class, 'store'])->name('screenshots.store');
+    Route::get('/screenshots', [ScreenshotController::class, 'index'])->name('screenshots.index');
+    Route::delete('/screenshots/{id}', [ScreenshotController::class, 'destroy'])->name('screenshots.destroy');
+});
+
+
+
+
+
+
+
+Route::middleware([AdminMiddleware::class])->group(function () {
+    //ADMINI
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::patch('/users/{user}/toggle-role', [UserController::class, 'toggleRole'])->name('users.toggleRole');
+    Route::get('/upload', [UploadController::class, 'showForm'])->name('upload.form');
+    Route::post('/upload', [UploadController::class, 'upload'])->name('upload.process');
+    Route::get('/imports', [ImportsController::class, 'index'])->name('imports.index');
+    Route::delete('/imports/{id}', [ImportsController::class, 'destroy'])->name('imports.destroy');
+    Route::get('/imports/{id}', [ImportsController::class, 'show'])->name('imports.show');
+    Route::get('/imports/{id}/download', [ImportsController::class, 'download'])->name('imports.download');
+});
