@@ -83,7 +83,7 @@
     <div class="container-fluid px-4 py-5" id="dashboardWrapper">
         <div class="d-flex flex-column align-items-center mb-4">
             <img src="{{ asset('images/dashboard icon.png') }}" alt="Dashboard icon" width="64" height="64">
-            <h1 class="text-2xl font-bold text-white mt-2">Dashboard 2 - Mesačný Prehľad</h1>
+            <h1 class="text-2xl font-bold text-white mt-2">Request Timeline</h1>
         </div>
 
         <!-- Filter -->
@@ -91,7 +91,7 @@
             <div class="col-md-4">
                 <div class="card bg-dark border-0 shadow text-center">
                     <div class="card-body">
-                        <label for="monthFilter" class="form-label text-white fw-semibold">Vyber mesiac a rok:</label>
+                        <label for="monthFilter" class="form-label text-white fw-semibold">Select date:</label>
                         <input type="text" id="monthFilter" class="form-control bg-dark text-white border-secondary">
                     </div>
                 </div>
@@ -111,7 +111,7 @@
             <div class="col-md-3">
                 <div class="card custom-card shadow">
                     <div class="card-body">
-                        <h5 class="card-title">Backlog v dňoch</h5>
+                        <h5 class="card-title">Backlog in days</h5>
                         <p id="statBacklogDays" class="display-6">0</p>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
             <div class="col-md-3">
                 <div class="card custom-card shadow">
                     <div class="card-body">
-                        <h5 class="card-title">Priemerný čas spracovania</h5>
+                        <h5 class="card-title">Avg. completion in days</h5>
                         <p id="statAvgDays" class="display-6">0</p>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
             <div class="col-md-3">
                 <div class="card custom-card shadow">
                     <div class="card-body">
-                        <h5 class="card-title">% dokončených do 4 dní</h5>
+                        <h5 class="card-title">% CRs completed in SLA</h5>
                         <p id="statOnTime" class="display-6">0%</p>
                     </div>
                 </div>
@@ -139,16 +139,16 @@
             <div class="col-md-12 mb-4">
                 <div class="card custom-card shadow">
                     <div class="card-body">
-                        <h2 class="card-title text-lg font-semibold text-white mb-4">Backlog Požiadavky</h2>
+                        <h2 class="card-title text-lg font-semibold text-white mb-4">Requests overview</h2>
                         <div class="table-responsive">
                             <table id="backlogTable" class="table table-dark table-striped table-bordered text-white">
                                 <thead>
                                 <tr>
                                     <th>Request</th>
-                                    <th>Vytvorené</th>
+                                    <th>Created</th>
                                     <th>Status</th>
-                                    <th>Krajina</th>
-                                    <th>Backlog (dni)</th>
+                                    <th>Country</th>
+                                    <th>Backlog</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -161,10 +161,10 @@
 
         <div class="text-end mb-4">
             <button id="saveDashboardBtn" class="btn btn-danger">
-                📸 Uložiť ako obrázok
+                Save
             </button>
             <button id="saveToDatabaseBtn" class="btn btn-danger">
-                💾 Uložiť do databázy
+                Save to library
             </button>
         </div>
 

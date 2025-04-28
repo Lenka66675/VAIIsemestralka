@@ -17,26 +17,37 @@
     <div class="container-fluid">
         <!-- Logo -->
         <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="{{ asset('images/danfoss-logo.png') }}" alt="Logo" class="logo-img">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo-img">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" href="{{ url('/dashboard1') }}">External Vendors</a>
-                <a class="nav-link" href="{{ url('/dashboard2') }}">International Comparison</a>
-                <a class="nav-link" href="{{ url('/dashboard3') }}">Monthly Status</a>
-                <a class="nav-link" href="{{ url('/dashboard4') }}">Approval Timelines</a>
-                <a class="nav-link" href="#">Process Improvement</a>
-                <a class="nav-link" href="{{ url('/screenshots') }}">Library</a>
-                <a class="nav-link" href="{{ url('/upload') }}">Upload</a>
-                <a class="nav-link" href="{{ url('/imports') }}">Imports</a>
+                <a class="nav-link" href="{{ url('/dashboard1') }}">Status Overview</a>
+                <a class="nav-link" href="{{ url('/dashboard2') }}">Request Timeline</a>
+                <a class="nav-link" href="{{ url('/dashboard3') }}">Country Comparison</a>
+                <a class="nav-link" href="{{ url('/dashboard4') }}">SLA Compliance</a>
+                @auth
+                    <a class="nav-link" href="{{ url('/screenshots') }}">Library</a>
+
+                @if(auth()->user()?->isAdmin())
+                        <a class="nav-link" href="{{ url('/upload') }}">Upload</a>
+                        <a class="nav-link" href="{{ url('/imports') }}">Imports</a>
+                    @endif
+                @endauth
+
+
             </div>
         </div>
-        <a class="navbar-brand" href="{{ url('/users') }}">
-            <img src="{{ asset('images/people.png') }}" alt="Users" class="users-img">
-        </a>
+        @auth
+            @if(auth()->user()?->isAdmin())
+                <a class="navbar-brand" href="{{ url('/users') }}">
+                    <img src="{{ asset('images/people.png') }}" alt="Users" class="users-img">
+                </a>
+            @endif
+        @endauth
+
         <!-- Authentication Links -->
         <div class="login-container d-flex flex-wrap align-items-center gap-2 ms-2">
             @auth

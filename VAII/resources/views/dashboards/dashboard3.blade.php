@@ -79,14 +79,14 @@
         <div class="container">
             <div class="text-center my-4">
                 <img src="{{ asset('images/dashboard icon.png') }}" alt="Dashboard icon" class="me-2" width="64" height="64">
-                <h1 class="text-2xl font-bold text-white m-0">Mapa aktivít podľa krajín</h1>
+                <h1 class="text-2xl font-bold text-white m-0">Country Comparison</h1>
             </div>
 
             <div class="row text-white text-center mb-4" id="statCards">
                 <div class="col-md-6">
                     <div class="card custom-card shadow">
                         <div class="card-body">
-                            <h5 class="card-title">Vytvorených</h5>
+                            <h5 class="card-title">Created</h5>
                             <p id="statCreated" class="display-6">0</p>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                 <div class="col-md-6">
                     <div class="card custom-card shadow">
                         <div class="card-body">
-                            <h5 class="card-title">Finalizovaných</h5>
+                            <h5 class="card-title">Finalized</h5>
                             <p id="statFinalized" class="display-6">0</p>
                         </div>
                     </div>
@@ -103,9 +103,9 @@
 
             <div class="row justify-content-center filter-box">
                 <div class="col-md-3">
-                    <label for="regionFilter" class="form-label">Región:</label>
+                    <label for="regionFilter" class="form-label">Region:</label>
                     <select id="regionFilter" class="form-select">
-                        <option value="">Všetky regióny</option>
+                        <option value="">All regions</option>
                         <option value="EMEA">EMEA</option>
                         <option value="APAC">APAC</option>
                         <option value="AMER">AMER</option>
@@ -113,10 +113,10 @@
                 </div>
 
                 <div class="col-md-3">
-                    <label class="form-label">Krajiny :</label>
+                    <label class="form-label">Countries :</label>
                     <div class="dropdown">
                         <button class="btn btn-dark dropdown-toggle w-100" type="button" id="countryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            Vyber krajiny
+                            Select country
                         </button>
                         <ul class="dropdown-menu w-100" id="countryDropdownMenu" aria-labelledby="countryDropdown">
                             <!-- krajiny sa načítajú dynamicky -->
@@ -129,10 +129,10 @@
             </div>
             <div class="text-end mb-4">
                 <button id="saveDashboardBtn" class="btn btn-danger">
-                    📸 Uložiť ako obrázok
+                    Save
                 </button>
                 <button id="saveToDatabaseBtn" class="btn btn-danger">
-                    💾 Uložiť do databázy
+                    save to library
                 </button>
             </div>
     </div>

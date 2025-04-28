@@ -21,69 +21,91 @@ class SnapshotWeeklyStats extends Command
         $weekEnd = $weekStart->copy()->endOfWeek();
         $this->info("📆 Vypočítavam štatistiky od {$weekStart->toDateString()} do {$weekEnd->toDateString()}");
 
-        // Dáta vytvorené 1 až 30 dní pred pondelkom
+        $source = 'MDG';
+
+        // ⏪ Dáta pre backlog
         $cutoffStart = $weekStart->copy()->subDays(30);
         $cutoffEnd = $weekStart->copy()->subDay();
 
-        $data = UploadedData::whereBetween('created', [$cutoffStart, $cutoffEnd])->get();
+        $data = UploadedData::where('source_type', $source)
+            ->whereBetween('created', [$cutoffStart, $cutoffEnd])
+            ->get();
 
         $openStatuses = [
             'Pending with CVMT team',
             'Pending with AP Manager Approver',
         ];
 
-        // 🔴 1) Backlog = otvorené, nefinalizované, vytvorené pred pondelkom
-        $backlog = $data->filter(fn($d) =>
+        $backlogData = $data->filter(fn($d) =>
             is_null($d->finalized) &&
+            $d->source_type === 'MDG' &&
             in_array($d->status, $openStatuses) &&
             Carbon::parse($d->created)->lt($weekStart)
-        )->count();
+        );
 
-        $this->line("➡️  Backlog: $backlog");
+        $this->line("📋 Požiadavky zahrnuté do backlogu:");
+        foreach ($backlogData as $req) {
+            $this->line("➡️ Request: {$req->request}, Status: {$req->status}, Created: {$req->created}");
+        }
 
-        // 🔁 2) Finalizované tento týždeň
-        $finalized = UploadedData::whereBetween('finalized', [$weekStart, $weekEnd])
+        $backlog = $backlogData->count();
+        $this->line("🧮 Celkový backlog: $backlog");
+
+        // ✅ Finalizované požiadavky tento týždeň
+        $finalized = UploadedData::where('source_type', $source)
+            ->whereBetween('finalized', [$weekStart, $weekEnd])
             ->whereNotNull('created')
             ->whereNotNull('finalized')
             ->get();
 
         $finished = $finalized->count();
-        $this->line("✅ Finalizované požiadavky tento týždeň: $finished");
+        $this->line("✅ Finalizované požiadavky tento týždeň (iba MDG): $finished");
 
-        // 📊 3) Priemerný počet dní spracovania
-        $avgDays = $finalized->avg(fn($d) =>
-        Carbon::parse($d->created)->diffInDays($d->finalized)
-        );
-        $avgDays = round($avgDays ?? 0, 2);
+        // 📊 Priemerný počet dní spracovania
+        $this->line("🧮 Výpočet priemerného počtu dní spracovania:");
+        $daysList = [];
 
-        // ⏱️ 4) Percento spracovaných do 4 dní
-        $onTime = $finalized->filter(fn($d) =>
-            Carbon::parse($d->created)->diffInDays($d->finalized) <= 4
-        )->count();
+        foreach ($finalized as $item) {
+            $created = Carbon::parse($item->created);
+            $finalizedAt = Carbon::parse($item->finalized);
+            $diff = $created->diffInDays($finalizedAt, false); // false = môže byť aj záporné
 
-        $onTimePercentage = $finished > 0 ? round(($onTime / $finished) * 100, 2) : 0;
+            if ($diff < 0) {
+                $this->line("⚠️ Záporný rozdiel – preskakujem. Request: {$item->request}, Created: {$created}, Finalized: {$finalizedAt}");
+                continue;
+            }
 
-        // 🧮 (nové) Backlog in days – používame 30-dňový priemer finalizácií
-        $this->line("🕒 Počítam backlog_in_days...");
-        $this->line("📅 Rozsah finalizácií: " . now()->subDays(30)->toDateString() . " - " . now()->toDateString());
+            $this->line("📄 Request: {$item->request} | Created: {$created->toDateString()} | Finalized: {$finalizedAt->toDateString()} | Days: $diff");
+            $daysList[] = $diff;
+        }
 
-        $lastMonthFinalized = UploadedData::whereBetween('finalized', [now()->subDays(30), now()])
+        $avgDays = count($daysList) > 0 ? round(array_sum($daysList) / count($daysList), 2) : 0;
+        $this->line("📊 Priemerný čas spracovania: {$avgDays} dní");
+
+        // ⏱️ Percento vybavených do 4 dní
+        $onTime = collect($daysList)->filter(fn($d) => $d <= 4)->count();
+        $onTimePercentage = count($daysList) > 0 ? round(($onTime / count($daysList)) * 100, 2) : 0;
+        $this->line("📌 % dokončených do 4 dní: {$onTimePercentage}%");
+
+        // 📈 Backlog v dňoch (len MDG)
+        $this->line("🕒 Počítam backlog_in_days pre MDG...");
+
+        $lastMonthFinalized = UploadedData::where('source_type', $source)
+            ->whereBetween('finalized', [$weekStart->copy()->subDays(30), $weekEnd])
             ->whereNotNull('created')
+            ->whereNotNull('finalized')
             ->get();
 
         $finalizedCount = $lastMonthFinalized->count();
-        $this->line("✅ Finalizované za 30 dní: $finalizedCount");
+        $daysCount = 21; // odhad pracovných dní
 
-        $finalizedCount = $lastMonthFinalized->count();
-        $daysCount = 21; // pracovných dní za 30 dní
         $dailyAvg = $finalizedCount > 0 ? $finalizedCount / $daysCount : 0;
-
         $this->line("📈 Priemerný počet vyriešených denne: $dailyAvg");
 
         $backlogInDays = $dailyAvg > 0 ? ceil($backlog / $dailyAvg) : 0;
+        $this->line("📌 Odhadovaný backlog v dňoch: {$backlogInDays}");
 
-
-        // 💾 Uloženie
+        // 💾 Uloženie do snapshots
         WeeklySnapshot::updateOrCreate(
             ['snapshot_date' => $weekStart->toDateString()],
             [
@@ -94,6 +116,6 @@ class SnapshotWeeklyStats extends Command
             ]
         );
 
-        $this->info("📦 Úspešne uložené do backlog_snapshots!");
+        $this->info("✅ Snapshot úspešne uložený!");
     }
 }

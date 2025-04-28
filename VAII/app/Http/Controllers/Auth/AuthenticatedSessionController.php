@@ -28,8 +28,26 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $user = auth()->user();
+
+        if (!$user->is_approved) {
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'Váš účet ešte nebol schválený administrátorom.',
+            ]);
+        }
+
+        if (!$user->is_active) {
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'Váš účet bol deaktivovaný. Kontaktujte administrátora.',
+            ]);
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
+
+
 
     /**
      * Destroy an authenticated session.

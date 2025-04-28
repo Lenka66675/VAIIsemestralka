@@ -30,3 +30,26 @@
 ✅ Finalizované za 30 dní: 883
 📈 Priemerný počet vyriešených denne: 42.047619047619
 📦 Úspešne uložené do backlog_snapshots!
+📆 Vypočítavam štatistiky od 2025-04-21 do 2025-04-27
+
+   Illuminate\Database\QueryException 
+
+  SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select * from `uploaded_data` where `source_type` = MDG and `created` between 2025-03-22 00:00:00 and 2025-04-20 00:00:00)
+
+  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:825
+    821▕                     $this->getName(), $query, $this->prepareBindings($bindings), $e
+    822▕                 );
+    823▕             }
+    824▕ 
+  ➜ 825▕             throw new QueryException(
+    826▕                 $this->getName(), $query, $this->prepareBindings($bindings), $e
+    827▕             );
+    828▕         }
+    829▕     }
+
+  1   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:66
+      PDOException::("SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it")
+
+  2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:66
+      PDO::__construct()
+

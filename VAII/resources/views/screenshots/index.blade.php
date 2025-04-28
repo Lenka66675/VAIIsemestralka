@@ -85,10 +85,10 @@
     </style>
 
     <div class="container">
-        <h1 class="text-center text-white mt-4">📸 Moja knižnica screenshotov</h1>
+        <h1 class="text-center text-white mt-4">My Library</h1>
 
         @if($screenshots->isEmpty())
-            <p class="text-center text-white mt-4">❌ Žiadne screenshoty zatiaľ nie sú uložené.</p>
+            <p class="text-center text-white mt-4">❌ Any saved screenshots.</p>
         @else
             <div class="screenshot-container">
                 @foreach($screenshots as $screenshot)

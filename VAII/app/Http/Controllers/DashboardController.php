@@ -88,14 +88,17 @@ class DashboardController extends Controller
     public function backlogTable(Request $request)
     {
         $month = $request->input('month', now()->format('Y-m'));
+        $lastCreated = UploadedData::max('created');
 
         $backlog = UploadedData::select(
             'request',
             'created',
             'status',
             'country',
-            DB::raw('IFNULL(DATEDIFF(NOW(), created), 0) as backlog_days')
+            DB::raw("DATEDIFF('$lastCreated', created) as backlog_days")
         )
+            ->whereIn('status', ['Pending with CVMT team', 'Pending with AP Manager Approver'])
+            ->whereNull('finalized')
             ->whereYear('created', substr($month, 0, 4))
             ->whereMonth('created', substr($month, 5, 2))
             ->whereNotIn('status', ['Closed', 'Completed'])
@@ -107,7 +110,6 @@ class DashboardController extends Controller
     }
 
 
-     // Pridaj na začiatok súboru!
 
     public function mapData()
     {
@@ -238,7 +240,7 @@ class DashboardController extends Controller
 
     public function regionSnapshotLatest()
     {
-        $lastDate = UploadedData::max('created');
+        $lastDate = UploadedData::where('source_type', 'MDG')->max('created');
 
         if (!$lastDate) {
             return response()->json([]);
@@ -247,7 +249,6 @@ class DashboardController extends Controller
         $weekStart = \Carbon\Carbon::parse($lastDate)->startOfWeek();
         $weekEnd = $weekStart->copy()->endOfWeek();
 
-        // cutoff na backlog (požiadavky vytvorené v rozsahu 30 dní pred týždňom)
         $cutoffStart = $weekStart->copy()->subDays(30);
         $cutoffEnd = $weekStart->copy()->subDay();
 
@@ -258,20 +259,21 @@ class DashboardController extends Controller
         foreach ($regions as $region) {
             $countries = Country::where('region', $region)->pluck('name');
 
-            // Dáta pre backlog
-            $data = UploadedData::whereIn('country', $countries)
+            // Dáta pre backlog (len MDG)
+            $data = UploadedData::where('source_type', 'MDG')
+                ->whereIn('country', $countries)
                 ->whereBetween('created', [$cutoffStart, $cutoffEnd])
                 ->get();
 
-            // 1️⃣ Backlog: otvorené, nefinalizované, vytvorené pred začiatkom týždňa
             $backlog = $data->filter(fn($d) =>
                 is_null($d->finalized) &&
                 in_array($d->status, $openStatuses) &&
                 \Carbon\Carbon::parse($d->created)->lt($weekStart)
             )->count();
 
-            // 2️⃣ Finalizované v týždni
-            $finalized = UploadedData::whereIn('country', $countries)
+            // Finalizované požiadavky tento týždeň (len MDG)
+            $finalized = UploadedData::where('source_type', 'MDG')
+                ->whereIn('country', $countries)
                 ->whereBetween('finalized', [$weekStart, $weekEnd])
                 ->whereNotNull('created')
                 ->whereNotNull('finalized')
@@ -288,8 +290,9 @@ class DashboardController extends Controller
 
             $onTimePercent = $finished > 0 ? round(($onTime / $finished) * 100, 2) : 0;
 
-            // 3️⃣ Backlog in days na základe 30-dňového priemeru (21 pracovných dní)
-            $lastMonthFinalized = UploadedData::whereIn('country', $countries)
+            // Backlog in days – len MDG
+            $lastMonthFinalized = UploadedData::where('source_type', 'MDG')
+                ->whereIn('country', $countries)
                 ->whereBetween('finalized', [now()->subDays(30), now()])
                 ->whereNotNull('created')
                 ->get();
@@ -311,6 +314,7 @@ class DashboardController extends Controller
 
         return response()->json($results);
     }
+
 
 
 

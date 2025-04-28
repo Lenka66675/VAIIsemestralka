@@ -17,7 +17,7 @@
     <div class="container-fluid px-4 py-5">
         <div class="text-center mb-4">
             <img src="{{ asset('images/dashboard icon.png') }}" alt="Dashboard icon" class="me-2" width="64" height="64">
-            <h1 class="text-2xl font-bold text-white m-0">Dashboard 1</h1>
+            <h1 class="text-2xl font-bold text-white m-0">Status Overview</h1>
         </div>
 
         <!-- Filters -->
@@ -25,9 +25,9 @@
             <div class="col-md-3">
                 <div class="card bg-dark bg-opacity-50 border-0 shadow">
                     <div class="card-body">
-                        <label for="systemFilter" class="form-label text-white fw-semibold mb-2">Vyber systém:</label>
+                        <label for="systemFilter" class="form-label text-white fw-semibold mb-2">Select system:</label>
                         <select id="systemFilter" class="form-select bg-dark text-white border-secondary">
-                            <option value="">Všetky</option>
+                            <option value="">All</option>
                         </select>
                     </div>
                 </div>
@@ -35,9 +35,9 @@
             <div class="col-md-3">
                 <div class="card bg-dark bg-opacity-50 border-0 shadow">
                     <div class="card-body">
-                        <label for="countryFilter" class="form-label text-white fw-semibold mb-2">Vyber krajinu:</label>
+                        <label for="countryFilter" class="form-label text-white fw-semibold mb-2">Select country:</label>
                         <select id="countryFilter" class="form-select bg-dark text-white border-secondary">
-                            <option value="">Všetky</option>
+                            <option value="">All</option>
                         </select>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
             <div class="col-md-6 mb-4">
                 <div class="card bg-dark bg-opacity-50 border-0 shadow h-100">
                     <div class="card-body">
-                        <h2 class="card-title text-lg font-semibold text-white mb-4">Vytvorené vs. Finalizované</h2>
+                        <h2 class="card-title text-lg font-semibold text-white mb-4">Created vs. Finalized</h2>
                         <div class="chart-container" style="position: relative; height:350px;">
                             <canvas id="createdFinalizedChart"></canvas>
                         </div>
@@ -74,10 +74,10 @@
 
     <div class="text-end mb-4">
         <button id="saveDashboardBtn" class="btn btn-danger">
-            📸 Uložiť ako obrázok
+            Save
         </button>
         <button id="saveToDatabaseBtn" class="btn btn-danger">
-            💾 Uložiť do databázy
+            Save to library
         </button>
     </div>
 
@@ -281,8 +281,8 @@
                 data: {
                     labels: createdData.map(d => d.created_date),
                     datasets: [
-                        { label: 'Vytvorené', data: createdData.map(d => d.created_count), backgroundColor: '#FF9999FF' },
-                        { label: 'Finalizované', data: createdData.map(d => d.finalized_count), backgroundColor: '#990000FF' }
+                        { label: 'Created', data: createdData.map(d => d.created_count), backgroundColor: '#FF9999FF' },
+                        { label: 'Finalized', data: createdData.map(d => d.finalized_count), backgroundColor: '#990000FF' }
                     ]
                 },
                 options: {
@@ -300,7 +300,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadFilters();
             loadCharts();
-            setInterval(loadCharts, 30000); // Refresh every 30 seconds
+            setInterval(loadCharts, 300000); // Refresh every 30 seconds
         });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>

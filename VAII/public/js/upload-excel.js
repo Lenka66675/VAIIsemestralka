@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         backendErrors.classList.remove("error-message", "success-message");
 
         uploadBtn.disabled = true;
-        uploadBtn.innerHTML = "⏳ Nahráva sa...";
+        uploadBtn.innerHTML = "⏳ Loading...";
         loadingSpinner.style.display = "block";
 
         fetch(uploadForm.action, {

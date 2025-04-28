@@ -38,21 +38,21 @@
     <div class="container-fluid px-4 py-5" id="dashboardWrapper">
         <div class="d-flex flex-column align-items-center mb-4">
             <img src="{{ asset('images/dashboard icon.png') }}" alt="Dashboard icon" width="64" height="64" class="mb-2">
-            <h1 class="text-2xl font-bold text-white mt-2 dashboard-title">Dashboard 4 - Aktuálny stav podľa regiónov</h1>
+            <h1 class="text-2xl font-bold text-white mt-2 dashboard-title">SLA Compliance</h1>
         </div>
 
         <!-- KACHLIČKY -->
         <div class="row text-white text-center mb-5" id="topCountryCards">
-            <div class="col-md-3"><div class="card custom-card shadow"><div class="card-body"><h5 class="card-title">Najnižší backlog</h5><p id="bestBacklog" class="display-6">-</p></div></div></div>
-            <div class="col-md-3"><div class="card custom-card shadow"><div class="card-body"><h5 class="card-title">Najrýchlejšie spracovanie</h5><p id="bestAvgDays" class="display-6">-</p></div></div></div>
-            <div class="col-md-3"><div class="card custom-card shadow"><div class="card-body"><h5 class="card-title">Najnižší backlog v dňoch</h5><p id="bestBacklogDays" class="display-6">-</p></div></div></div>
-            <div class="col-md-3"><div class="card custom-card shadow"><div class="card-body"><h5 class="card-title">Najvyššie SLA (%)</h5><p id="bestOnTime" class="display-6">-</p></div></div></div>
+            <div class="col-md-3"><div class="card custom-card shadow"><div class="card-body"><h5 class="card-title">Lowest Backlog</h5><p id="bestBacklog" class="display-6">-</p></div></div></div>
+            <div class="col-md-3"><div class="card custom-card shadow"><div class="card-body"><h5 class="card-title">Fastest Processing</h5><p id="bestAvgDays" class="display-6">-</p></div></div></div>
+            <div class="col-md-3"><div class="card custom-card shadow"><div class="card-body"><h5 class="card-title">Lowest Backlog in Days</h5><p id="bestBacklogDays" class="display-6">-</p></div></div></div>
+            <div class="col-md-3"><div class="card custom-card shadow"><div class="card-body"><h5 class="card-title">Highest SLA (%)</h5><p id="bestOnTime" class="display-6">-</p></div></div></div>
         </div>
 
         <!-- GRAF -->
         <div class="chart-container text-white">
-            <h4 class="text-white mb-4 ps-2">Porovnanie metriky podľa regiónu (posledný export)</h4>
-            <div style="height: 500px;">
+            <h4 class="text-white mb-4 ps-2">Comparison of Metrics by Region (Latest Export)</h4>
+            <div style="height: 300px;">
                 <canvas id="regionChart"></canvas>
             </div>
         </div>
@@ -60,10 +60,10 @@
         <!-- BUTTONY -->
         <div class="text-end mb-4">
             <button id="saveDashboardBtn" class="btn btn-danger">
-                📸 Uložiť ako obrázok
+                Save
             </button>
             <button id="saveToDatabaseBtn" class="btn btn-danger">
-                💾 Uložiť do databázy
+                Save to library
             </button>
         </div>
 
@@ -93,9 +93,9 @@
                             labels,
                             datasets: [
                                 { label: 'Backlog', data: data.map(i => i.backlog), backgroundColor: colors.backlog },
-                                { label: 'Backlog v dňoch', data: data.map(i => i.backlog_in_days), backgroundColor: colors.backlogDays },
-                                { label: 'Priemerný čas spracovania', data: data.map(i => i.avg_processing_days), backgroundColor: colors.avgDays },
-                                { label: '% dokončených do 4 dní', data: data.map(i => i.on_time_percentage), backgroundColor: colors.onTime }
+                                { label: 'Backlog in days', data: data.map(i => i.backlog_in_days), backgroundColor: colors.backlogDays },
+                                { label: 'Avg. completion in days', data: data.map(i => i.avg_processing_days), backgroundColor: colors.avgDays },
+                                { label: '% CRs completed in SLA', data: data.map(i => i.on_time_percentage), backgroundColor: colors.onTime }
                             ]
                         };
 

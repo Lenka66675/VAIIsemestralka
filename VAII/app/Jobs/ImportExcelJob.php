@@ -213,10 +213,14 @@ class ImportExcelJob implements ShouldQueue
         if (!$value) {
             return null;
         }
-        return is_numeric($value)
+
+        $date = is_numeric($value)
             ? Carbon::createFromTimestamp(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($value))
             : Carbon::parse($value);
+
+        return $date->startOfDay()->toDateString();
     }
+
 
     private function log($message)
     {

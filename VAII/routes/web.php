@@ -183,3 +183,9 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     Route::get('/imports/{id}', [ImportsController::class, 'show'])->name('imports.show');
     Route::get('/imports/{id}/download', [ImportsController::class, 'download'])->name('imports.download');
 });
+
+Route::middleware([AdminMiddleware::class])->group(function () {
+    Route::patch('/users/{user}/toggle-role', [UserController::class, 'toggleRole'])->name('users.toggleRole');
+    Route::patch('/users/{user}/approve', [UserController::class, 'approve'])->name('users.approve');
+    Route::patch('/users/{user}/toggle-active', [UserController::class, 'toggleActive'])->name('users.toggleActive');
+});
