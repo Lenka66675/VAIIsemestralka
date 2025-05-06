@@ -22,10 +22,8 @@ class ImportsController extends Controller
     {
         $import = ImportedFile::findOrFail($id);
 
-        // Odstráni všetky údaje prepojené s týmto importom
         $import->uploadedData()->delete();
 
-        // Odstráni súbor zo storage
         $filePath = storage_path('app/public/uploads/' . $import->file_name);
         if (file_exists($filePath)) {
             unlink($filePath);
@@ -40,7 +38,6 @@ class ImportsController extends Controller
     {
         $import = ImportedFile::findOrFail($id);
 
-        // načítaj napojené dáta so stránkovaním
         $uploadedData = $import->uploadedData()->paginate(10);
 
         return view('imports.show', compact('import', 'uploadedData'));

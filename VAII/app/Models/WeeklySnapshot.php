@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class WeeklySnapshot extends Model
 {
-    // 👇 Explicitne určíme názov tabuľky
+
     protected $table = 'backlog_snapshots';
 
     protected $fillable = [
@@ -25,6 +25,5 @@ class WeeklySnapshot extends Model
         'on_time_percentage' => 'float',
     ];
 
-    // 👇 Ak nemáš timestamps stĺpce (created_at, updated_at)
     public $timestamps = false;
 }

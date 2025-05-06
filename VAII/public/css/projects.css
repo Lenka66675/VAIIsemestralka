@@ -1,7 +1,7 @@
 
 
 .project-card {
-    background-color: rgba(255, 255, 255, 0.1); /* Priehľadné čierne */
+    background-color: rgba(255, 255, 255, 0.1);
     color: white;
     padding: 20px;
     border-radius: 8px;
@@ -9,21 +9,20 @@
     text-align: center;
     transition: transform 0.2s ease-in-out;
     display: flex;
-    height: 350px; /* Pevná výška pre všetky kartičky */
+    height: 350px;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    min-height: 320px; /* Kartičky sa prispôsobia najväčšej kartičke v celom gride */
-    background-size: cover; /* Prispôsobí obrázok na celú kartičku */
-    background-position: center; /* Zarovná na stred */
-    background-repeat: no-repeat; /* Zabráni opakovaniu */
+    min-height: 320px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
 
 }
 
 
 
-/* Nadpisy sa budú zalamovať */
 .project-card h2 {
     margin-top: 20px;
     font-size: 1.5rem;
@@ -42,10 +41,7 @@
 
 
 
-/* Popisy budú zalamované a kartička sa im prispôsobí */
 
-
-/* Tlačidlo bude vždy na spodku kartičky */
 .project-card .btn {
     background-color: #da1818;
     color: white;
@@ -55,7 +51,7 @@
     font-weight: bold;
     display: inline-block;
     transition: background 0.3s ease-in-out;
-    margin-bottom: 10px; /* Udrží tlačidlo na spodku */
+    margin-bottom: 10px;
 }
 
 .project-card .btn:hover {
@@ -75,7 +71,6 @@ h1 {
 
 }
 
-/* Tlačidlo "Create a new Project" */
 .text-center.mt-4 a.btn {
     font-size: 1.2rem;
     padding: 12px 20px;
@@ -98,17 +93,16 @@ h1 {
 
 .pagination-container {
     display: flex;
-    justify-content: center; /* Zarovnanie na stred */
+    justify-content: center;
     margin-top: 20px;
     background: none;
 
 }
 
-/* Stránkovacie tlačidlá */
 .pagination-container a {
     padding: 10px 15px;
-    background-color: rgba(255, 255, 255, 0.2) !important; /* Priehľadné čierne */
-    color: #DA1818FF; /* Biele písmo */
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: #DA1818FF;
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
@@ -116,15 +110,13 @@ h1 {
     border: none;
 }
 
-/* Hover efekt */
 .pagination-container a:hover {
     background-color: #DA1818FF;
 }
 
-/* Aktuálna stránka (ak je Tailwind štýl pridaný) */
 .pagination-container span {
     padding: 10px 15px;
-    background-color: rgba(255, 255, 255, 0.2) !important; /* Priehľadné čierne */
+    background-color: rgba(255, 255, 255, 0.2) !important;
     color: #DA1818FF;
     font-weight: normal;
     border-radius: 5px;
@@ -132,20 +124,19 @@ h1 {
 
 
 
-/* ✅ Oprava textu, aby sa zalamoval v rámci kartičky */
 .project-card p {
     font-size: 1rem;
     color: #bbb;
     margin-bottom: 15px;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    white-space: normal; /* Aby sa text nepreťahoval */
+    white-space: normal;
     text-align: center;
     max-width: 100%;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    justify-content: center; /* Zarovná vertikálne na stred */
+    justify-content: center;
     align-items: center;
     flex-grow: 1; /
 }
@@ -153,28 +144,26 @@ h1 {
 
 
 
-/* ✅ Ak chceš dynamickú výšku pre všetky kartičky */
 
 .project-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Automatické prispôsobenie */
-    gap: 20px; /* Medzera medzi projektmi */
-    justify-content: center; /* Zarovnávanie na stred */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    justify-content: center;
     max-width: 90%;
     margin: 20px auto;
-    grid-auto-rows: 1fr; /* Všetky riadky budú mať rovnakú výšku */
+    grid-auto-rows: 1fr;
 }
 
-/* ✅ Všetky kartičky budú mať rovnakú výšku */
+
 .project-card {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
-/* ✅ Prispôsobenie tlačidla */
 .project-card .btn {
-    margin-top: auto; /* Udrží tlačidlo dole */
+    margin-top: auto;
     padding: 10px 15px;
 }
 

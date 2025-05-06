@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const description = descriptionInput.value.trim();
         const users = Array.from(usersInputs).map(input => input.value);
 
-        // ✅ Remove previous error messages
         document.querySelectorAll('.error-message').forEach(error => error.remove());
         [deadlineInput, priorityInput, descriptionInput, usersContainer].forEach(input => {
             input.classList.remove('input-error');
@@ -33,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let errors = [];
 
-        // ✅ Deadline validation (must be in the future)
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const selectedDate = new Date(deadline);
@@ -44,22 +42,18 @@ document.addEventListener('DOMContentLoaded', () => {
             errors.push({ input: deadlineInput, message: '<span class="exclamation">❗</span> Deadline must be in the future.' });
         }
 
-        // ✅ Priority validation
         if (!priority) {
             errors.push({ input: priorityInput, message: '<span class="exclamation">❗</span> Priority must be selected.' });
         }
 
-        // ✅ Description validation
         if (!description) {
             errors.push({ input: descriptionInput, message: '<span class="exclamation">❗</span> Description is required.' });
         }
 
-        // ✅ User selection validation
         if (users.length === 0) {
             errors.push({ input: usersContainer, message: '<span class="exclamation">❗</span> You must select at least one user.' });
         }
 
-        // ✅ Display errors if any
         if (errors.length > 0) {
             errors.forEach(error => {
                 error.input.classList.add('input-error');
@@ -73,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // ✅ Submit the form if no errors
         this.submit();
     });
 });

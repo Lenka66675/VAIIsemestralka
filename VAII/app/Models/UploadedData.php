@@ -9,7 +9,7 @@ class UploadedData extends Model
 {
     use HasFactory;
 
-    protected $table = 'uploaded_data'; // Názov tabuľky
+    protected $table = 'uploaded_data';
 
     protected $fillable = [
         'source_type',

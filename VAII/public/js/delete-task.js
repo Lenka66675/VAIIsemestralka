@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             console.log("Task deleted successfully!");
 
-            // 🆕 Nahradenie tlačidla Delete správou "✔ Deleted"
             deleteButton.textContent = "✔ Deleted";
             deleteButton.style.backgroundColor = "transparent";
             deleteButton.style.color = "black";
@@ -42,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
             deleteButton.style.cursor = "default";
             deleteButton.style.border = "none";
 
-            // Po 2 sekundách odstránime celý riadok
             setTimeout(() => {
                 const row = document.getElementById(`taskRow-${taskId}`);
                 if (row) row.remove();

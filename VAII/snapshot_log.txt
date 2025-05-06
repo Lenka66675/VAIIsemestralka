@@ -53,3 +53,74 @@
   2   vendor\laravel\framework\src\Illuminate\Database\Connectors\Connector.php:66
       PDO::__construct()
 
+📆 Vypočítavam štatistiky od 2025-04-28 do 2025-05-04
+📋 Požiadavky zahrnuté do backlogu:
+➡️ Request: 205130, Status: Pending with AP Manager Approver, Created: 2025-04-01 00:00:00
+➡️ Request: 205422, Status: Pending with AP Manager Approver, Created: 2025-04-03 00:00:00
+➡️ Request: 205487, Status: Pending with CVMT team, Created: 2025-04-03 00:00:00
+➡️ Request: 205547, Status: Pending with AP Manager Approver, Created: 2025-04-04 00:00:00
+➡️ Request: 205732, Status: Pending with CVMT team, Created: 2025-04-07 00:00:00
+➡️ Request: 205868, Status: Pending with CVMT team, Created: 2025-04-08 00:00:00
+➡️ Request: 206150, Status: Pending with AP Manager Approver, Created: 2025-04-10 00:00:00
+➡️ Request: 206153, Status: Pending with AP Manager Approver, Created: 2025-04-10 00:00:00
+➡️ Request: 206606, Status: Pending with CVMT team, Created: 2025-04-11 00:00:00
+➡️ Request: 206695, Status: Pending with CVMT team, Created: 2025-04-11 00:00:00
+➡️ Request: 207802, Status: Pending with CVMT team, Created: 2025-04-13 00:00:00
+➡️ Request: 210353, Status: Pending with AP Manager Approver, Created: 2025-04-14 00:00:00
+➡️ Request: 210448, Status: Pending with AP Manager Approver, Created: 2025-04-15 00:00:00
+➡️ Request: 210534, Status: Pending with AP Manager Approver, Created: 2025-04-15 00:00:00
+➡️ Request: 210700, Status: Pending with CVMT team, Created: 2025-04-15 00:00:00
+➡️ Request: 210706, Status: Pending with CVMT team, Created: 2025-04-15 00:00:00
+➡️ Request: 210719, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210720, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210723, Status: Pending with AP Manager Approver, Created: 2025-04-15 00:00:00
+➡️ Request: 210730, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210748, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210754, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210760, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210770, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210786, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210789, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210792, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210794, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210795, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210798, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210801, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210803, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210805, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210808, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210809, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210810, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210811, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210816, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210818, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210819, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210820, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210824, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210825, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210828, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210831, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210836, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210837, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210839, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210843, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210847, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210855, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210856, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210857, Status: Pending with CVMT team, Created: 2025-04-17 00:00:00
+➡️ Request: 210862, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210863, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210864, Status: Pending with AP Manager Approver, Created: 2025-04-16 00:00:00
+➡️ Request: 210866, Status: Pending with CVMT team, Created: 2025-04-16 00:00:00
+➡️ Request: 210867, Status: Pending with AP Manager Approver, Created: 2025-04-17 00:00:00
+➡️ Request: 210873, Status: Pending with CVMT team, Created: 2025-04-17 00:00:00
+➡️ Request: 210887, Status: Pending with CVMT team, Created: 2025-04-17 00:00:00
+🧮 Celkový backlog: 60
+✅ Finalizované požiadavky tento týždeň (iba MDG): 0
+🧮 Výpočet priemerného počtu dní spracovania:
+📊 Priemerný čas spracovania: 0 dní
+📌 % dokončených do 4 dní: 0%
+🕒 Počítam backlog_in_days pre MDG...
+📈 Priemerný počet vyriešených denne: 257.47619047619
+📌 Odhadovaný backlog v dňoch: 1
+✅ Snapshot úspešne uložený!

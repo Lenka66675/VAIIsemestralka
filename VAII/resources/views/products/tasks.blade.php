@@ -34,7 +34,7 @@
                 <th>Deadline</th>
                 <th>Priority</th>
                 <th>Status</th>
-                <th>Details</th> <!-- 🔹 New Column for Viewing Details -->
+                <th>Details</th>
                 @if(auth()->user()->isAdmin())
                     <th>Edit</th>
                     <th>Delete</th>
@@ -53,13 +53,11 @@
 
 
 
-                    <!-- Deadline -->
                     <td>
                         <span class="taskDeadlineText" data-id="{{ $task->id }}">{{ $task->deadline }}</span>
                         <input type="date" class="taskDeadlineInput d-none" data-id="{{ $task->id }}" value="{{ $task->deadline }}">
                     </td>
 
-                    <!-- Priority -->
                     <td>
                         <span class="taskPriorityText" data-id="{{ $task->id }}">{{ ucfirst($task->priority) }}</span>
                         <select class="taskPriorityInput d-none" data-id="{{ $task->id }}">
@@ -88,7 +86,6 @@
                     </td>
 
 
-                    <!-- 🔹 New View Details Button -->
                     <td>
                         <button class="btn btn-classic viewTaskButton" data-id="{{ $task->id }}">View Details</button>
                     </td>
@@ -121,18 +118,15 @@
 
     </div>
 
-    <!-- 🔹 Task Modal for Adding Solutions -->
     <div id="taskModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Task Details</h2>
             <p><strong>Description:</strong> <span id="taskDescription"></span></p>
 
-            <!-- 🔹 Display Existing Solutions -->
             <div id="existingSolution"></div>
             <div id="existingAttachment"></div>
 
-            <!-- 🔹 Employee Solution Input -->
             @if(!auth()->user()->isAdmin())
                 <p><strong>Add a Solution:</strong></p>
                 <textarea id="solutionText" placeholder="Enter your solution..."></textarea>
@@ -143,7 +137,6 @@
         </div>
     </div>
 
-    <!-- 🔹 Include JavaScript Files -->
     <script src="{{ asset('js/status-update.js') }}"></script>
     <script src="{{ asset('js/edit-task.js') }}"></script>
     <script src="{{ asset('js/delete-task.js') }}"></script>

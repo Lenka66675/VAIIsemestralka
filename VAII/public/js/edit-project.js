@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById("editProjectName").value = project.name;
                     document.getElementById("editProjectDescription").value = project.description;
 
-                    // ✅ Ak existuje obrázok, zobrazíme ho
                     const imagePreview = document.getElementById("editProjectImagePreview");
                     if (project.image) {
                         imagePreview.src = project.image;
@@ -26,9 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         imagePreview.style.display = "none";
                     }
 
-                    // ✅ Aktualizácia zoznamu príloh
                     const attachmentsContainer = document.getElementById("editProjectAttachments");
-                    attachmentsContainer.innerHTML = ""; // Vyčistenie starých súborov
+                    attachmentsContainer.innerHTML = "";
 
                     if (project.attachments && project.attachments.length > 0) {
                         project.attachments.forEach(attachment => {
@@ -60,19 +58,16 @@ document.addEventListener("DOMContentLoaded", function () {
         const formData = new FormData(editProjectForm);
         formData.append("_method", "PUT");
 
-        // ✅ Odstránenie starých chýb
         document.querySelectorAll('.error-message').forEach(el => el.remove());
         document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
 
         let errors = [];
 
-        // ✅ VALIDÁCIA NÁZVU
         const name = nameInput.value.trim();
         if (name.length < 3 || name.length > 255) {
             errors.push({ input: nameInput, message: "❗ Project name must be between 3 and 255 characters." });
         }
 
-        // ✅ VALIDÁCIA OBRÁZKA (ak je nahraný)
         if (imageInput.files.length > 0) {
             const file = imageInput.files[0];
             const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif"];
@@ -84,7 +79,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // ✅ VALIDÁCIA PRÍLOH (ak sú nahraté)
         if (attachmentsInput.files.length > 0) {
             for (let file of attachmentsInput.files) {
                 if (file.size > 10 * 1024 * 1024) { // 10MB
@@ -93,7 +87,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // ✅ Ak sú chyby, zobraz ich a zastav odosielanie formulára
         if (errors.length > 0) {
             errors.forEach(error => {
                 showError(error.input, error.message);
@@ -155,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// ✅ Funkcia na zobrazenie chýb pod inputmi
+
 function showError(input, message) {
     input.classList.add('input-error');
     const errorMsg = document.createElement('p');
@@ -164,7 +157,7 @@ function showError(input, message) {
     input.parentElement.appendChild(errorMsg);
 }
 
-// ✅ Funkcia na zobrazenie popup-u
+
 function showPopup(message) {
     console.log("🔔 showPopup called with message:", message);
 

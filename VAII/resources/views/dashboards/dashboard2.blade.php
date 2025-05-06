@@ -3,82 +3,7 @@
 @section('title', 'Dashboard 2 - Mesačný Prehľad')
 
 @section('content')
-    <style>
-        /* Celkové pozadie stránky */
-        body {
-            background-image: url("{{ asset('images/backG.jpg') }}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-
-        /* Karta s červeným orámovaním a priehľadným pozadím */
-        .custom-card {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 2px solid red;
-            color: white;
-        }
-
-        .form-label {
-            font-weight: bold;
-            color: #ffffff;
-        }
-
-        /* Stránkovanie v DataTables - elegantný červený štýl */
-        .dataTables_wrapper .dataTables_paginate {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            display: inline-block;
-            padding: 6px 12px;
-            margin: 0 4px;
-            border: 2px solid red;
-            border-radius: 5px;
-            color: white !important;
-            background-color: transparent;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background-color: red !important;
-            color: white !important;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            background-color: red !important;
-            color: white !important;
-            font-weight: bold;
-        }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
-            opacity: 0.4;
-            pointer-events: none;
-        }
-
-
-
-
-        .flatpickr-day.selected,
-        .flatpickr-day.startRange,
-        .flatpickr-day.endRange,
-        .flatpickr-day.selected:hover {
-            background: red !important;
-            color: white !important;
-            border-radius: 50% !important;
-        }
-
-
-
-        /* Kaskádovanie tabuliek a kontajnerov */
-        .table-responsive {
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/dashboard2.css') }}">
 
     <div class="container-fluid px-4 py-5" id="dashboardWrapper">
         <div class="d-flex flex-column align-items-center mb-4">
@@ -86,7 +11,6 @@
             <h1 class="text-2xl font-bold text-white mt-2">Request Timeline</h1>
         </div>
 
-        <!-- Filter -->
         <div class="row justify-content-center mb-4">
             <div class="col-md-4">
                 <div class="card bg-dark border-0 shadow text-center">
@@ -98,7 +22,6 @@
             </div>
         </div>
 
-        <!-- Kachličky -->
         <div class="row text-white text-center mb-4" id="statCards">
             <div class="col-md-3">
                 <div class="card custom-card shadow">
@@ -134,7 +57,6 @@
             </div>
         </div>
 
-        <!-- Tabuľka -->
         <div class="row">
             <div class="col-md-12 mb-4">
                 <div class="card custom-card shadow">
@@ -158,7 +80,8 @@
                 </div>
             </div>
         </div>
-
+    </div>
+@auth
         <div class="text-end mb-4">
             <button id="saveDashboardBtn" class="btn btn-danger">
                 Save
@@ -167,10 +90,8 @@
                 Save to library
             </button>
         </div>
-
-    <!-- Skripty a knižnice -->
+@endauth
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Používame základný DataTables skript bez Bootstrap integrácie -->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -230,14 +151,12 @@
                 }
             });
 
-            // Prvé načítanie
             const currentMonth = new Date().toISOString().slice(0, 7);
             loadStats(currentMonth);
             loadBacklogTable(currentMonth);
         });
     </script>
 
-    <!-- SAVE TO IMAGE -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         document.getElementById('saveDashboardBtn').addEventListener('click', function () {
@@ -247,7 +166,6 @@
             finalCanvas.width = dashboard.offsetWidth * 2;
             finalCanvas.height = dashboard.offsetHeight * 2;
             const ctx = finalCanvas.getContext('2d');
-            // Zastavenie mapových animácií (ak sú)
             if (window.map && window.map.stop) window.map.stop();
 
             setTimeout(() => {
@@ -270,7 +188,6 @@
         });
     </script>
 
-    <!-- SAVE TO DB -->
     <script>
         document.getElementById('saveToDatabaseBtn').addEventListener('click', function () {
             const dashboard = document.getElementById('dashboardWrapper') || document.getElementById('mapDashboardCapture');
@@ -302,7 +219,7 @@
                             })
                             .catch(err => {
                                 console.error(err);
-                                alert('❌ Chyba pri ukladaní screenshotu.');
+                                alert('Chyba pri ukladaní screenshotu.');
                             });
                     };
                     const bgUrl = bodyBgImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');

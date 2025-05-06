@@ -64,6 +64,6 @@ class MessageController extends Controller
     public function index()
     {
         $messages = Message::latest()->get();
-        return view('products.messages', compact('messages')); // Uistíme sa, že názov pohľadu je správny
+        return view('products.messages', compact('messages'));
     }
 }

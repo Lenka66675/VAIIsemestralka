@@ -20,13 +20,11 @@
             </select>
         </div>
 
-        <!-- Deadline -->
         <div>
             <label>Deadline</label>
             <input type="date" name="deadline" required />
         </div>
 
-        <!-- Priority Selection -->
         <div>
             <label>Priority</label>
             <select name="priority" required>
@@ -36,13 +34,11 @@
             </select>
         </div>
 
-        <!-- Expanded Textarea for Description -->
         <div>
             <label>Description</label>
             <textarea name="description" placeholder="Task description" rows="5"></textarea>
         </div>
 
-        <!-- Assign Users as a Styled List -->
         <div>
             <label>Assign to Users</label>
             <ul class="checkbox-list">

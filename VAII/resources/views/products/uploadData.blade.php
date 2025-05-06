@@ -16,12 +16,10 @@
     <form id="uploadForm" class="create-task-form upload-form" action="{{ route('upload.process') }}" method="post" enctype="multipart/form-data">
         @csrf
 
-        <!-- Upload Icon -->
         <div class="image-container">
             <img src="{{ asset('images/upload.png') }}" alt="Upload icon" class="upload-icon">
         </div>
 
-        <!-- Data Source -->
         <div class="form-group">
             <label for="source_type">Data Source</label>
             <select name="source_type" required>
@@ -31,7 +29,6 @@
             </select>
         </div>
 
-        <!-- Custom File Upload -->
         <div class="form-group file-upload-container">
             <label for="file">Select Excel file</label>
             <div class="custom-file-upload">
@@ -46,16 +43,13 @@
             @endif
         </div>
 
-        <!-- Error from backend -->
         <div id="backendErrors" class="error-message"></div>
 
-        <!-- Spinner -->
         <div id="loadingSpinner" class="loading-spinner" style="display: none;">
             <img src="{{ asset('images/loading.png') }}" alt="Loading...">
             <p>Please wait...</p>
         </div>
 
-        <!-- Submit -->
         <div class="form-submit-container">
             <button type="submit" class="btn-upload" id="uploadBtn">
                 <i class="fas fa-cloud-upload-alt"></i> Upload

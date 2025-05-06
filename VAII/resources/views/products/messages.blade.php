@@ -46,12 +46,11 @@
         </table>
     </div>
 
-    <!-- ✅ AJAX na odoslanie odpovede bez reloadu -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".reply-form").forEach(form => {
                 form.addEventListener("submit", function (e) {
-                    e.preventDefault(); // Zastaví predvolený submit formulára
+                    e.preventDefault();
 
                     let formData = new FormData(this);
                     let url = this.getAttribute("action");
@@ -67,11 +66,11 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                messageRow.querySelector(".reply-form").remove(); // Odstráni formulár
+                                messageRow.querySelector(".reply-form").remove();
                                 let badge = document.createElement("span");
                                 badge.className = "badge badge-success";
                                 badge.textContent = "✅ Zodpovedané";
-                                messageRow.querySelector("td:last-child").appendChild(badge); // Pridá "Zodpovedané"
+                                messageRow.querySelector("td:last-child").appendChild(badge);
                             }
                         })
                         .catch(error => console.error("Error:", error));

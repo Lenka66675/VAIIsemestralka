@@ -111,19 +111,18 @@ Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('pro
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/messages/{id}/reply', [MessageController::class, 'reply'])->name('messages.reply');
-    Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
 });
 
+Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
 
 
 
 
 
 
-// Hlavná stránka dashboardu
 Route::get('/dashboard1', function () {
-    return view('dashboards.dashboard1'); // Toto bude náš frontend
+    return view('dashboards.dashboard1');
 });
 Route::get('/api/dashboard/summary', [DashboardController::class, 'summary']);
 Route::get('/api/dashboard/created-vs-finalized', [DashboardController::class, 'createdVsFinalized']);

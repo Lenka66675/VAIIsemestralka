@@ -15,7 +15,7 @@
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <!-- Logo -->
+
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo-img">
         </a>
@@ -48,16 +48,13 @@
             @endif
         @endauth
 
-        <!-- Authentication Links -->
         <div class="login-container d-flex flex-wrap align-items-center gap-2 ms-2">
             @auth
-                <!-- Ak je používateľ prihlásený -->
                 <form method="POST" action="{{ route('logout') }}" class="m-0">
                     @csrf
                     <button type="submit" class="btn btn-primary">Log Out</button>
                 </form>
             @else
-                <!-- Ak používateľ nie je prihlásený -->
                 <a href="{{ route('login') }}" class="btn btn-primary">Log In</a>
                 <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
             @endauth
@@ -68,7 +65,7 @@
 </nav>
 
 <main class="flex-grow-1">
-    @yield('content') <!-- Dynamický obsah -->
+    @yield('content')
 </main>
 
 <footer class="bg-light text-center text-lg-start">

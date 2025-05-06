@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const image = imageInput.files.length > 0 ? imageInput.files[0] : null;
         const attachments = attachmentsInput.files;
 
-        // ✅ Odstránenie starých chýb
         document.querySelectorAll('.error-message').forEach(error => error.remove());
         [nameInput, imageInput, attachmentsInput].forEach(input => {
             input.classList.remove('input-error');
@@ -30,14 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let errors = [];
 
-        // ✅ Validácia názvu projektu
         if (!name) {
             errors.push({ input: nameInput, message: '<span class="exclamation">❗</span> Project name is required.' });
         } else if (name.length < 3 || name.length > 255) {
             errors.push({ input: nameInput, message: '<span class="exclamation">❗</span> Name must be between 3 and 255 characters.' });
         }
 
-        // ✅ Validácia obrázka
         if (image) {
             const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
             if (!validImageTypes.includes(image.type)) {
@@ -48,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // ✅ Validácia príloh
         if (attachments.length > 0) {
             for (const file of attachments) {
                 if (file.size > 10 * 1024 * 1024) {
@@ -58,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // ✅ Zobrazenie chýb
         if (errors.length > 0) {
             errors.forEach(error => {
                 error.input.classList.add('input-error');
@@ -72,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // ✅ Ak nie sú žiadne chyby, formulár sa odošle
         this.submit();
     });
 });

@@ -34,7 +34,7 @@ class MessageReplyMail extends Mailable
 
         return $this->from($this->senderEmail, $this->senderName)
             ->subject('Reply to your message')
-            ->view('products.reply'); // ZMENA: Over správnosť názvu
+            ->view('products.reply');
     }
 
 

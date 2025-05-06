@@ -3,77 +3,8 @@
 @section('title', 'Mapa podľa krajín')
 
 @section('content')
-    <style>
-        body {
-            background-image: url("{{ asset('images/backG.jpg') }}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
 
-        #map {
-            height: 400px;
-            width: 100%;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        .filter-box {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(255,255,255,0.2);
-        }
-
-        .form-label {
-            font-weight: bold;
-            color: #ffffff;
-        }
-
-
-        .custom-card {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 2px solid red;
-            color: white;
-        }
-
-        .dropdown-menu {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .dropdown-item input[type="checkbox"] {
-            margin-right: 8px;
-        }
-        /* Červený checkbox – funguje v moderných prehliadačoch */
-        .country-checkbox {
-            accent-color: red;
-            width: 16px;
-            height: 16px;
-            margin-right: 8px;
-        }
-
-        /* Dropdown položky: zobrazenie na riadok */
-        #countryDropdownMenu .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background-color: transparent;
-            padding: 6px 12px;
-            font-size: 14px;
-        }
-
-        /* Hover efekt pre krajšie vyznačenie */
-        #countryDropdownMenu .dropdown-item:hover {
-            background-color: #787878;
-            color: white;
-        }
-
-
-
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/dashboard3.css') }}">
 
     <div id="mapDashboardCapture">
         <div class="container">
@@ -119,7 +50,6 @@
                             Select country
                         </button>
                         <ul class="dropdown-menu w-100" id="countryDropdownMenu" aria-labelledby="countryDropdown">
-                            <!-- krajiny sa načítajú dynamicky -->
                         </ul>
                     </div>
                 </div>
@@ -127,17 +57,18 @@
 
             <div id="map"></div>
             </div>
-            <div class="text-end mb-4">
+        </div>
+    </div>
+@auth
+        <div class="text-end mb-4">
                 <button id="saveDashboardBtn" class="btn btn-danger">
                     Save
                 </button>
                 <button id="saveToDatabaseBtn" class="btn btn-danger">
-                    save to library
+                    Save to library
                 </button>
             </div>
-    </div>
-
-    <!-- Leaflet -->
+@endauth
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -241,7 +172,6 @@
                 });
         }
 
-        // SAVE TO IMAGE
         document.getElementById('saveDashboardBtn').addEventListener('click', function () {
             const dashboard = document.getElementById('mapDashboardCapture');
             const bodyBgImage = window.getComputedStyle(document.body).backgroundImage;
@@ -249,7 +179,7 @@
             finalCanvas.width = dashboard.offsetWidth * 2;
             finalCanvas.height = dashboard.offsetHeight * 2;
             const ctx = finalCanvas.getContext('2d');
-            map.stop(); // zastaví všetky animácie pred snímaním
+            map.stop();
 
             setTimeout(() => {
                 html2canvas(dashboard, { scale: 2, useCORS: true, backgroundColor: null }).then(dashCanvas => {
@@ -301,7 +231,7 @@
                             })
                             .catch(err => {
                                 console.error(err);
-                                alert('❌ Chyba pri ukladaní screenshotu.');
+                                alert('Chyba pri ukladaní screenshotu.');
                             });
                     };
                     const bgUrl = bodyBgImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');

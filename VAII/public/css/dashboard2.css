@@ -1,0 +1,70 @@
+body {
+    background-image: url('../images/backG.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.custom-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 2px solid red;
+    color: white;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0 4px;
+    border: 2px solid red;
+    border-radius: 5px;
+    color: white !important;
+    background-color: transparent;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: red !important;
+    color: white !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: red !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+
+
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected:hover {
+    background: red !important;
+    color: white !important;
+    border-radius: 50% !important;
+}
+
+
+
+.table-responsive {
+    margin-top: 20px;
+}

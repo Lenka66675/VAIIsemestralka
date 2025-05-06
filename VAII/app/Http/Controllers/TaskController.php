@@ -10,13 +10,11 @@ use App\Models\Project;
 
 class TaskController extends Controller
 {
-    /**
-     * Zobrazenie zoznamu úloh.
-     */
+
     public function tasks()
     {
         if (auth()->user()->isAdmin()) {
-            $tasks = Task::simplePaginate(10); // Admin vidí všetko
+            $tasks = Task::simplePaginate(10);
         } else {
             $tasks = auth()->user()->tasks()->wherePivot('status', '!=', 'completed')->paginate(10);
         }
@@ -26,57 +24,48 @@ class TaskController extends Controller
 
 
 
-    /**
-     * Formulár na vytvorenie úlohy.
-     */
+
     public function create()
     {
-        // Získať všetkých používateľov okrem adminov
-        $users = User::where('role', '!=', 'admin')->get();
-        $projects = Project::all(); // ✅ Pridáme projekty
 
+        $users = User::where('role', '!=', 'admin')->get();
+        $projects = Project::all();
         return view('products.create', compact('users', 'projects'));
     }
 
-    /**
-     * Uloženie novej úlohy.
-     */
+
     public function post(Request $request)
     {
         $data = $request->validate([
-            'project_id' => 'nullable|exists:projects,id', // ✅ Pridali sme project_id
+            'project_id' => 'nullable|exists:projects,id',
             'deadline' => 'required|date|after:today',
             'description' => 'required|string|max:500',
             'priority' => 'required|in:low,medium,high',
-            'users' => 'required|array|min:1', // Používateľ musí byť vybraný
-            'users.*' => 'exists:users,id', // Každý užívateľ musí existovať
+            'users' => 'required|array|min:1',
+            'users.*' => 'exists:users,id',
         ]);
 
-        // Vytvorenie novej úlohy
+
         $newTask = Task::create([
-            'project_id' => $data['project_id'] ?? null, // ✅ Nastavíme project_id alebo NULL
+            'project_id' => $data['project_id'] ?? null,
             'deadline' => $data['deadline'],
             'description' => $data['description'] ?? '',
             'priority' => $data['priority'],
         ]);
 
-        // Priradiť používateľov k úlohe
+
         $newTask->users()->attach($data['users']);
 
         return redirect(route('task.tasks'));
     }
 
-    /**
-     * Formulár na editovanie úlohy.
-     */
+
     public function edit(Task $task)
     {
         return view('products.edit', compact('task'));
     }
 
-    /**
-     * Aktualizácia úlohy.
-     */
+
     public function update(Request $request, Task $task)
     {
         $data = $request->validate([
@@ -96,9 +85,7 @@ class TaskController extends Controller
 
 
 
-    /**
-     * Odstránenie úlohy.
-     */
+
     public function delete(Task $task)
     {
         $task->delete();
@@ -124,7 +111,6 @@ class TaskController extends Controller
             'status' => 'required|in:pending,in_progress,completed',
         ]);
 
-        // Skontroluj, či používateľ naozaj patrí tasku
         if (!$task->users()->where('user_id', $user->id)->exists()) {
             return response()->json([
                 'success' => false,
@@ -132,7 +118,6 @@ class TaskController extends Controller
             ], 403);
         }
 
-        // Aktualizácia statusu v pivot tabuľke
         $task->users()->updateExistingPivot($user->id, ['status' => $request->status]);
 
         return response()->json([
@@ -177,7 +162,6 @@ class TaskController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $path = $file->storeAs('attachments', $filename, 'public');
 
-                // Pridať nový súbor k existujúcim
                 $existingAttachments = json_decode($user->tasks()->where('task_id', $task->id)->first()->pivot->attachment, true) ?? [];
                 $existingAttachments[] = $path;
                 $data['attachment'] = json_encode($existingAttachments);
@@ -203,14 +187,13 @@ class TaskController extends Controller
         $solution = $user->tasks()->where('task_id', $taskId)->first();
 
         if ($solution) {
-            // Dekóduj JSON zo stĺpca "attachment"
             $attachments = json_decode($solution->pivot->attachment, true) ?? [];
 
             return response()->json([
                 'solution' => $solution->pivot->solution,
                 'attachments' => array_map(function ($attachment) {
                     return asset('storage/' . $attachment);
-                }, $attachments), // Správne vygenerované URL pre frontend
+                }, $attachments),
             ]);
         }
 
@@ -231,15 +214,12 @@ class TaskController extends Controller
 
         $attachments = json_decode($solution->pivot->attachment, true) ?? [];
 
-        // Nájdeme a odstránime daný súbor zo zoznamu
         $newAttachments = array_filter($attachments, function ($attachment) use ($fileName) {
             return basename($attachment) !== $fileName;
         });
 
-        // Aktualizujeme databázu
         $task->users()->updateExistingPivot($user->id, ['attachment' => json_encode(array_values($newAttachments))]);
 
-        // Odstránime súbor zo servera
         $filePath = storage_path("app/public/attachments/{$fileName}");
         if (file_exists($filePath)) {
             unlink($filePath);

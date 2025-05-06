@@ -111,8 +111,8 @@ input.error {
     list-style: none;
     padding: 0;
     margin: 10px 0;
-    max-height: 150px; /* Maximálna výška zoznamu */
-    overflow-y: auto; /* Posuvník, ak je zoznam príliš dlhý */
+    max-height: 150px;
+    overflow-y: auto;
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 10px;
@@ -139,24 +139,22 @@ input.error {
     text-decoration: underline;
 }
 
-/* Expanded description textarea */
 textarea {
     width: 100%;
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    resize: vertical; /* Povolenie zmeny veľkosti len vertikálne */
+    resize: vertical;
 }
 
-/* Checkbox list styling */
 
 
 .btn-primary {
     border: 1px solid white;
     background-color: #da1818;
     outline: none;
-        box-shadow: none; /* Odstráni vonkajší tieň */
+        box-shadow: none;
 
 
 }
@@ -181,8 +179,8 @@ textarea {
 }
 
 select {
-    width: 100%; /* Uprav podľa potreby */
-    max-width: 600px; /* Obmedzenie maximálnej šírky */
+    width: 100%;
+    max-width: 600px;
     padding: 8px;
     border-radius: 5px;
     background-color: #fff;
@@ -196,21 +194,19 @@ select {
     align-items: flex-start;
 }
 
-/* Kontajner pre obrázok vo formulári */
 .image-container {
     display: flex;
-    justify-content: center; /* Horizontálne centrovanie */
-    align-items: center; /* Vertikálne centrovanie */
+    justify-content: center;
+    align-items: center;
     margin-bottom: 15px;
 }
 
-/* Štýl obrázka */
+
 .upload-icon {
-    width: 200px; /* Prispôsob veľkosť obrázka */
+    width: 200px;
     height: auto;
 }
 
-/* Cool tlačidlo na Upload */
 .btn-upload {
     display: flex;
     align-items: center;
@@ -241,11 +237,10 @@ select {
     color: red;
     font-size: 0.9rem;
     font-weight: bold;
-    white-space: nowrap; /* Zabráni zalomeniu textu */
+    white-space: nowrap;
 }
 
 
-/* Loading Spinner */
 .loading-spinner {
     text-align: center;
     margin-top: 20px;
@@ -262,17 +257,15 @@ select {
     to { transform: rotate(360deg); }
 }
 
-/* Dynamické error správy */
 .error-message {
     color: red;
     font-size: 0.9rem;
     margin-top: 5px;
     font-weight: bold;
     text-align: center;
-    display: none; /* Najskôr skryté */
+    display: none;
 }
 
-/* Tlačidlo sa pri nahrávaní znefunkční */
 .uploading {
     opacity: 0.6;
     pointer-events: none;

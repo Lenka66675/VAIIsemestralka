@@ -11,10 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const priorityInput = row.querySelector(`.taskPriorityInput[data-id="${taskId}"]`);
             const saveButton = row.querySelector(".saveTaskButton");
 
-            // ✅ Vyčistenie predchádzajúcich chýb
             clearErrors();
 
-            // Zobrazenie vstupov na editáciu
             descriptionCell.setAttribute("contenteditable", "true");
             descriptionCell.focus();
             deadlineText.classList.add("d-none");
@@ -22,15 +20,12 @@ document.addEventListener("DOMContentLoaded", function () {
             priorityText.classList.add("d-none");
             priorityInput.classList.remove("d-none");
 
-            // Skryť tlačidlo Edit a zobraziť Save
             editButton.classList.add("d-none");
             saveButton.classList.remove("d-none");
 
-            // ✅ Odstránime staré event listenery, aby sa nepridávali viackrát
             saveButton.replaceWith(saveButton.cloneNode(true));
             const newSaveButton = row.querySelector(".saveTaskButton");
 
-            // Po kliknutí na SAVE
             newSaveButton.addEventListener("click", async function () {
                 await saveTask(taskId, descriptionCell, deadlineInput, priorityInput, editButton, newSaveButton, deadlineText, priorityText);
             });
@@ -43,27 +38,23 @@ document.addEventListener("DOMContentLoaded", function () {
         const deadline = deadlineInput.value;
         const priority = priorityInput.value;
 
-        // ✅ Vymazanie predchádzajúcich chýb
         clearErrors();
         descriptionCell.classList.remove("error");
         deadlineInput.classList.remove("error");
 
         let errors = [];
 
-        // ✅ Validácia description
         if (!description) {
             errors.push("Description is required.");
             descriptionCell.classList.add("error");
         }
 
-        // ✅ Validácia deadline (musí byť v budúcnosti)
-        const today = new Date().toISOString().split("T")[0]; // Aktuálny dátum vo formáte YYYY-MM-DD
+        const today = new Date().toISOString().split("T")[0];
         if (!deadline || deadline <= today) {
             errors.push("Deadline must be in the future.");
             deadlineInput.classList.add("error");
         }
 
-        // ✅ Ak sú chyby, zobraz ich vo vyskakovacom okne a zastav ukladanie
         if (errors.length > 0) {
             showPopup(errors.join("<br>"));
             return;
@@ -88,28 +79,23 @@ document.addEventListener("DOMContentLoaded", function () {
             if (result.success) {
                 console.log("Task updated successfully!");
 
-                // ✅ Aktualizácia textu
                 descriptionCell.textContent = description;
                 deadlineText.textContent = deadline;
                 priorityText.textContent = priority.charAt(0).toUpperCase() + priority.slice(1);
 
-                // ✅ Skryť inputy a zobraziť text
                 deadlineInput.classList.add("d-none");
                 deadlineText.classList.remove("d-none");
                 priorityInput.classList.add("d-none");
                 priorityText.classList.remove("d-none");
 
-                // ✅ Zobrazenie "✔ Updated"
                 editButton.innerHTML = "<span class='updated-message'>✔ Updated</span>";
                 editButton.classList.remove("d-none");
                 saveButton.classList.add("d-none");
 
-                // ✅ Po 2 sekundách resetovať tlačidlo Edit do pôvodného stavu
                 setTimeout(() => {
                     editButton.innerHTML = "Edit";
                 }, 2000);
 
-                // ✅ Deaktivovať editáciu
                 descriptionCell.removeAttribute("contenteditable");
             } else {
                 showPopup("Failed to update the task: " + (result.message || "Unknown error."));
@@ -120,14 +106,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // ✅ Funkcia na vymazanie chýb
+
     function clearErrors() {
         document.querySelectorAll(".error").forEach(el => el.classList.remove("error"));
     }
 
-    // ✅ Funkcia na zobrazenie popupu
     function showPopup(message) {
-        // Ak už popup existuje, odstránime ho pred zobrazením nového
         const existingPopup = document.querySelector(".custom-popup");
         if (existingPopup) existingPopup.remove();
 

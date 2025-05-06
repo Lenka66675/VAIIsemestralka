@@ -72,13 +72,11 @@ class ProjectController extends Controller
             'attachments.*' => 'nullable|file|max:10240'
         ]);
 
-        // ✅ Aktualizácia názvu a popisu
         $project->update([
             'name' => $data['name'],
             'description' => $data['description'] ?? $project->description,
         ]);
 
-        // ✅ Ak bol nahraný nový obrázok, odstráni sa starý a uloží nový BEZ ČÍSLA
         if ($request->hasFile('image')) {
             if ($project->image) {
                 \Storage::disk('public')->delete($project->image);
@@ -90,7 +88,6 @@ class ProjectController extends Controller
             $project->update(['image' => $path]);
         }
 
-        // ✅ Zachovanie starých príloh a pridanie nových
         $attachments = json_decode($project->attachments, true) ?? [];
 
         if ($request->hasFile('attachments')) {
@@ -102,7 +99,6 @@ class ProjectController extends Controller
             $project->update(['attachments' => json_encode($attachments)]);
         }
 
-        // ✅ Vráti JSON odpoveď, aby sa UI mohlo aktualizovať
         return response()->json([
             'success' => true,
             'message' => 'Project updated successfully!',
@@ -122,7 +118,7 @@ class ProjectController extends Controller
             'id' => $project->id,
             'name' => $project->name,
             'description' => $project->description,
-            'image' => asset('storage/' . $project->image), // Vracia URL obrázka
+            'image' => asset('storage/' . $project->image),
         ]);
     }
 

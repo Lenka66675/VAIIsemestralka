@@ -9,7 +9,6 @@ class UserController extends Controller
 {
     public function index()
     {
-        // Iba admin vidí všetkých používateľov
         $users = User::all();
         return view('users.index', compact('users'));
     }
@@ -44,12 +43,10 @@ class UserController extends Controller
 
     public function toggleActive(User $user)
     {
-        // Nechrániš sama seba
         if (auth()->id() === $user->id) {
             return back()->with('error', 'Nemôžeš deaktivovať svoj vlastný účet.');
         }
 
-        // Nechrániš systémového admina
         if ($user->email === 'admin@example.com') {
             return back()->with('error', 'Tento systémový admin nemôže byť deaktivovaný.');
         }

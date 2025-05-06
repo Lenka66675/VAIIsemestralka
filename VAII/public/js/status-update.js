@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
     console.log("JavaScript Loaded ✅");
 
-    const isAdmin = document.body.dataset.role === 'admin'; // Overíme, či je admin
+    const isAdmin = document.body.dataset.role === 'admin';
 
     document.querySelectorAll('.status-dropdown').forEach(select => {
         select.addEventListener('change', function () {
             const taskId = this.getAttribute('data-task-id');
             const status = this.value;
             const statusMessage = this.nextElementSibling; // ✔ Updated message
-            const taskRow = document.getElementById(`taskRow-${taskId}`); // Nájdi riadok úlohy
+            const taskRow = document.getElementById(`taskRow-${taskId}`);
 
             console.log(`Updating status for Task ID: ${taskId} to ${status}`);
 
@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         statusMessage.style.display = 'inline'; // ✔ Updated
                         setTimeout(() => statusMessage.style.display = 'none', 2000);
 
-                        // Ak je používateľ **NIE ADMIN** a status je "completed", odstránime úlohu
                         if (!isAdmin && status === "completed") {
                             console.log(`Task ID ${taskId} marked as completed. Removing from list.`);
                             taskRow.remove();

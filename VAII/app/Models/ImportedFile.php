@@ -23,20 +23,15 @@ class ImportedFile extends Model
 
     public $timestamps = false;
 
-    // 🔁 Vzťah na uploaded_data
     public function uploadedData()
     {
         return $this->hasMany(UploadedData::class, 'import_id');
     }
 
-    // 👤 Kto nahrával
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
-
-
 
 }
 

@@ -3,32 +3,8 @@
 @section('title', 'Detail importu')
 
 @section('content')
-    <style>
+    <link rel="stylesheet" href="{{ asset('css/imports-show.css') }}">
 
-        .custom-card {
-            background-color: rgba(255, 255, 255, 0.05); /* Jemná priehľadnosť */
-            border: 2px solid red;
-            color: white;
-        }
-        .pagination .page-link {
-            color: red;
-            border: 1px solid red;
-            background-color: transparent;
-            margin: 0 2px;
-        }
-
-        .pagination .page-item.active .page-link {
-            background-color: red;
-            color: white;
-            border-color: red;
-        }
-
-        .pagination .page-link:hover {
-            background-color: red;
-            color: white;
-            border-color: red;
-        }
-    </style>
 
     <div class="container py-4 text-white">
         <h2 class="mb-4">Detail of import – {{ $import->original_filename }}</h2>
@@ -49,7 +25,7 @@
             <div class="col-md-12 mb-4">
                 <div class="card custom-card shadow">
                     <div class="card-body">
-                        <h2 class="card-title text-lg font-semibold text-white mb-4">Importované riadky</h2>
+                        <h2 class="card-title text-lg font-semibold text-white mb-4">Imported rows</h2>
                         <div class="table-responsive">
                             <table class="table table-dark table-striped table-bordered text-white">
                                 <thead>
@@ -85,7 +61,6 @@
                             </table>
                         </div>
 
-                        <!-- Stránkovanie -->
                         <div class="d-flex justify-content-center mt-3">
                             {{ $uploadedData->links('pagination::bootstrap-5') }}
                         </div>

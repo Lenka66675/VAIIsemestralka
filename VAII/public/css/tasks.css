@@ -1,4 +1,3 @@
-/* ✅ Zachované tvoje hlavné CSS - nezmenené */
 
 h1 {
     text-align: center;
@@ -52,7 +51,7 @@ tbody td {
     padding: 10px;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    white-space: normal; /* ✅ Umožní správne zalamovanie */
+    white-space: normal;
 
 }
 
@@ -60,7 +59,6 @@ tbody tr:hover {
     background-color: rgba(290, 290, 290, 0.05);
 }
 
-/* ✅ Zachovanie pôvodného vzhľadu tlačidiel */
 .custom-button {
     background-color: #DA1818;
     color: #ffffff;
@@ -93,7 +91,6 @@ button:hover {
     background-color: rgba(255, 255, 255, 0.17);
 }
 
-/* ✅ Úprava tlačidiel Edit a Delete */
 button.deleteTaskButton {
     background-color: #DA1818;
 }
@@ -103,7 +100,6 @@ button.editTaskButton {
     border-color: #4B4B4B;
 }
 
-/* 🔹 Štýl počas kliknutia na tlačidlo */
 button.editTaskButton:hover,
 button.editTaskButton:focus,
 button.editTaskButton:active {
@@ -125,37 +121,30 @@ button.viewTaskButton:hover {
     border-color: #9f9f9f;
 }
 
-/* ✅ Upravená responzivita tabuľky */
 
-/* Predvolené nastavenia šírok stĺpcov */
-thead th:nth-child(1), tbody td:nth-child(1) { width: 4%; }  /* ID */
-thead th:nth-child(2), tbody td:nth-child(2) { width: 15%; }  /* ID */
-thead th:nth-child(3), tbody td:nth-child(3) { width: 23%; } /* Description */
-thead th:nth-child(4), tbody td:nth-child(4) { width: 10%; } /* Deadline */
-thead th:nth-child(5), tbody td:nth-child(5) { width: 8%; } /* Priority */
-thead th:nth-child(6), tbody td:nth-child(6) { width: 14%; } /* Status */
-thead th:nth-child(7), tbody td:nth-child(7) { width: 9%; } /* Edit */
-thead th:nth-child(8), tbody td:nth-child(8) { width: 9%; } /* Delete */
-thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
+thead th:nth-child(1), tbody td:nth-child(1) { width: 4%; }
+thead th:nth-child(2), tbody td:nth-child(2) { width: 15%; }
+thead th:nth-child(3), tbody td:nth-child(3) { width: 23%; }
+thead th:nth-child(4), tbody td:nth-child(4) { width: 10%; }
+thead th:nth-child(5), tbody td:nth-child(5) { width: 8%; }
+thead th:nth-child(6), tbody td:nth-child(6) { width: 14%; }
+thead th:nth-child(7), tbody td:nth-child(7) { width: 9%; }
+thead th:nth-child(8), tbody td:nth-child(8) { width: 9%; }
+thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; }
 
-/* 🔽 Skrytie menej dôležitých stĺpcov postupne pri zmenšovaní obrazovky */
 
-/* TABLETY (992px) - Skryjeme Priority */
 @media (max-width: 992px) {
     thead th:nth-child(4), tbody td:nth-child(4) { display: none; } /* Priority */
 }
 
-/* MENŠIE TABLETY (768px) - Skryjeme Deadline */
 @media (max-width: 768px) {
     thead th:nth-child(3), tbody td:nth-child(3) { display: none; } /* Deadline */
 }
 
-/* MOBILNÉ ZARIADENIA (576px) - Skryjeme Status */
 @media (max-width: 576px) {
     thead th:nth-child(5), tbody td:nth-child(5) { display: none; } /* Status */
 }
 
-/* NAJMENŠIE ZARIADENIA (400px) - Nechať iba ID, Description, Edit a Delete */
 @media (max-width: 400px) {
     thead th:nth-child(3), tbody td:nth-child(3) { display: none; } /* Deadline */
     thead th:nth-child(4), tbody td:nth-child(4) { display: none; } /* Priority */
@@ -164,13 +153,11 @@ thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
     thead th:nth-child(7), tbody td:nth-child(7) { display: none; } /* Delete */
 }
 
-/* ✅ Zachované štýly pre editovanie */
 .editing {
     border: 1px dashed black;
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-/* ✅ Skryté inputy pri editácii */
 .taskDescriptionInput,
 .taskDeadlineInput,
 .taskPriorityInput {
@@ -183,12 +170,10 @@ thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
     color: #000;
 }
 
-/* ✅ Pridanie triedy na skrytie */
 .d-none {
     display: none !important;
 }
 
-/* ✅ MODÁLNE OKNO */
 .modal {
     display: none;
     position: fixed;
@@ -198,8 +183,8 @@ thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.7); /* ✅ Tmavší prechod */
-    backdrop-filter: blur(5px); /* ✅ Jemné rozmazanie pozadia */
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
     transition: opacity 0.3s ease-in-out;
     align-items: center;
     justify-content: center;
@@ -208,21 +193,20 @@ thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
 }
 
 .modal-content {
-    background-color: rgba(255, 255, 255, 0.95); /* ✅ Jemná biela s priehľadnosťou */
-    color: #333; /* ✅ Tmavší text pre lepšiu čitateľnosť */
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
     padding: 25px;
-    width: 60%; /* ✅ Trochu širšie */
-    max-width: 800px; /* ✅ Nech nie je príliš široké */
+    width: 60%;
+    max-width: 800px;
     border-radius: 12px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
     border: 1px solid #DA1818;
 
     position: fixed;
 
-    /* ✅ Centrovanie na stred */
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* ✅ Presné centrovanie */
+    transform: translate(-50%, -50%);
 }
 
 .close {
@@ -244,7 +228,7 @@ thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
     font-weight: bold;
 }
 
-/* ✅ Obsah modálu */
+
 .modal-content p {
     font-size: 1.1rem;
     line-height: 1.5;
@@ -263,7 +247,6 @@ thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
     margin-bottom: 15px;
 }
 
-/* ✅ Upravené tlačidlo pre uloženie riešenia */
 .modal-content .saveSolutionButton {
     background-color: #DA1818;
     color: #fff;
@@ -290,14 +273,14 @@ thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
 
 .input-error {
     border: 2px solid red !important;
-    background-color: #ffe6e6; /* Jemné červené pozadie */
+    background-color: #ffe6e6;
 }
 
 .error-message {
-    color: red !important;/* 🔹 Nastaví farbu textu na červenú */
+    color: red !important;
     font-size: 14px;
     margin-top: 5px;
-    font-weight: bold; /* Ak chceš, aby bol text hrubší */
+    font-weight: bold;
 }
 
 .custom-popup {
@@ -342,17 +325,16 @@ thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
 
 .pagination-container {
     display: flex;
-    justify-content: center; /* Zarovnanie na stred */
+    justify-content: center;
     margin-top: 20px;
     background: none;
 
 }
 
-/* Stránkovacie tlačidlá */
 .pagination-container a {
     padding: 10px 15px;
-    background-color: rgba(255, 255, 255, 0.2) !important; /* Priehľadné čierne */
-    color: #DA1818FF; /* Biele písmo */
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: #DA1818FF;
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
@@ -360,15 +342,13 @@ thead th:nth-child(9), tbody td:nth-child(9) { width: 9%; } /* Delete */
     border: none;
 }
 
-/* Hover efekt */
 .pagination-container a:hover {
     background-color: #DA1818FF;
 }
 
-/* Aktuálna stránka (ak je Tailwind štýl pridaný) */
 .pagination-container span {
     padding: 10px 15px;
-    background-color: rgba(255, 255, 255, 0.2) !important; /* Priehľadné čierne */
+    background-color: rgba(255, 255, 255, 0.2) !important;
     color: #DA1818FF;
     font-weight: normal;
     border-radius: 5px;

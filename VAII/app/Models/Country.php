@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Http;
 
 class Country extends Model
 {
-    protected $table = 'countries'; // Názov tabuľky
+    protected $table = 'countries';
 
-    protected $fillable = ['name', 'region', 'latitude', 'longitude']; // ✅ Pridané súradnice
+    protected $fillable = ['name', 'region', 'latitude', 'longitude'];
 
     public function uploadedData()
     {
@@ -23,9 +23,8 @@ class Country extends Model
 
     public static function fetchCoordinates($country)
     {
-        // Pridáme User-Agent, aby nás API neblokovalo
         $response = Http::withHeaders([
-            'User-Agent' => 'MyLaravelApp/1.0 (myemail@example.com)' // 👈 Použi svoj email!
+            'User-Agent' => 'MyLaravelApp/1.0 (myemail@example.com)'
         ])->get('https://nominatim.openstreetmap.org/search', [
             'q' => $country,
             'format' => 'json',
@@ -41,7 +40,7 @@ class Country extends Model
             ];
         }
 
-        return null; // Ak API nič nevráti, vráti null
+        return null;
     }
 
 }

@@ -12,18 +12,16 @@ use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
-    // 1️⃣ Počet požiadaviek podľa statusu (pre koláčový graf)
+
     public function summary(Request $request)
     {
         $query = UploadedData::select('status', DB::raw('count(*) as total'))
             ->groupBy('status');
 
-        // Ak je vybraný systém, pridáme podmienku
         if ($request->has('system')) {
             $query->where('source_type', $request->input('system'));
         }
 
-        // Ak je vybraná krajina, pridáme podmienku
         if ($request->has('country')) {
             $query->where('country', $request->input('country'));
         }
@@ -32,7 +30,7 @@ class DashboardController extends Controller
     }
 
 
-    // 2️⃣ Počet vytvorených vs. uzavretých žiadostí (pre stĺpcový graf)
+
     public function createdVsFinalized(Request $request)
     {
         $query = UploadedData::select(
@@ -43,12 +41,10 @@ class DashboardController extends Controller
             ->groupBy('created_date')
             ->orderBy('created_date');
 
-        // Ak je vybraný systém, pridáme podmienku
         if ($request->has('system')) {
             $query->where('source_type', $request->input('system'));
         }
 
-        // Ak je vybraná krajina, pridáme podmienku
         if ($request->has('country')) {
             $query->where('country', $request->input('country'));
         }
@@ -56,7 +52,7 @@ class DashboardController extends Controller
         return response()->json($query->get());
     }
 
-    // 3️⃣ Možnosti filtrovania (systémy, krajiny, statusy)
+
     public function filters()
     {
         return response()->json([
@@ -75,8 +71,8 @@ class DashboardController extends Controller
             DB::raw('COUNT(*) as created_count'),
             DB::raw('SUM(CASE WHEN DATEDIFF(NOW(), created) > 4 AND status NOT IN ("Closed", "Completed") THEN 1 ELSE 0 END) as backlog_count')
         )
-            ->whereYear('created', substr($month, 0, 4)) // Vyberie rok z YYYY-MM
-            ->whereMonth('created', substr($month, 5, 2)) // Vyberie mesiac z YYYY-MM
+            ->whereYear('created', substr($month, 0, 4))
+            ->whereMonth('created', substr($month, 5, 2))
             ->groupBy('created_date')
             ->orderBy('created_date', 'asc')
             ->get();
@@ -84,30 +80,47 @@ class DashboardController extends Controller
         return response()->json($data);
     }
 
-// 📋 2️⃣ Tabuľka backlog požiadaviek
+
     public function backlogTable(Request $request)
     {
         $month = $request->input('month', now()->format('Y-m'));
-        $lastCreated = UploadedData::max('created');
+
+        $year = substr($month, 0, 4);
+        $monthNum = substr($month, 5, 2);
+        $startOfMonth = Carbon::createFromDate($year, $monthNum)->startOfMonth();
+        $endOfMonth = Carbon::createFromDate($year, $monthNum)->endOfMonth();
+
+        $lastRelevantCreated = UploadedData::whereNull('finalized')
+            ->whereIn('status', ['Pending with CVMT team', 'Pending with AP Manager Approver'])
+            ->whereBetween('created', [$startOfMonth->copy()->subMonths(12), $endOfMonth])
+            ->orderByDesc('created')
+            ->value('created');
+
+        if (!$lastRelevantCreated) {
+            return response()->json([]);
+        }
+
+        $referenceDate = Carbon::parse($lastRelevantCreated);
+        $cutoffStart = $referenceDate->copy()->subDays(30);
 
         $backlog = UploadedData::select(
             'request',
             'created',
             'status',
             'country',
-            DB::raw("DATEDIFF('$lastCreated', created) as backlog_days")
+            DB::raw("DATEDIFF('" . $referenceDate->toDateString() . "', created) as backlog_days")
         )
-            ->whereIn('status', ['Pending with CVMT team', 'Pending with AP Manager Approver'])
             ->whereNull('finalized')
-            ->whereYear('created', substr($month, 0, 4))
-            ->whereMonth('created', substr($month, 5, 2))
+            ->whereIn('status', ['Pending with CVMT team', 'Pending with AP Manager Approver'])
+            ->whereBetween('created', [$cutoffStart, $referenceDate])
             ->whereNotIn('status', ['Closed', 'Completed'])
-            ->having('backlog_days', '>', 4)
+            ->having('backlog_days', '>=', 4) // Zahrni len tie, ktoré sú staršie ako 4 dni
             ->orderBy('backlog_days', 'desc')
             ->get();
 
         return response()->json($backlog);
     }
+
 
 
 
@@ -122,11 +135,11 @@ class DashboardController extends Controller
             $countryInfo = Country::where('name', $item->country)->first();
 
             if ($countryInfo && !is_null($countryInfo->latitude) && !is_null($countryInfo->longitude)) {
-                $item->latitude = (float) $countryInfo->latitude; // 💡 Uistíme sa, že je to číslo
+                $item->latitude = (float) $countryInfo->latitude;
                 $item->longitude = (float) $countryInfo->longitude;
                 $item->region = $countryInfo->region;
             } else {
-                $item->latitude = null; // 💡 Explicitne nastavíme na null, ak nie sú dostupné
+                $item->latitude = null;
                 $item->longitude = null;
                 $item->region = 'Unknown';
             }
@@ -134,11 +147,6 @@ class DashboardController extends Controller
 
         return response()->json($data);
     }
-
-
-
-// Funkcia na dynamické získavanie súradníc
-
 
     public function fetchCoordinates($country)
     {
@@ -170,7 +178,6 @@ class DashboardController extends Controller
             ->distinct()
             ->pluck('country');
 
-        // Prepojenie s tabuľkou `countries`
         $countriesWithRegions = Country::whereIn('name', $countries)->get(['name', 'region']);
 
         return response()->json([
@@ -218,7 +225,6 @@ class DashboardController extends Controller
         $firstDayOfMonth = Carbon::createFromFormat('Y-m', $month)->startOfMonth();
         $lastDayOfMonth = Carbon::createFromFormat('Y-m', $month)->endOfMonth();
 
-        // Získaj všetky snapshoty za mesiac
         $snapshots = WeeklySnapshot::whereBetween('snapshot_date', [$firstDayOfMonth, $lastDayOfMonth])->get();
 
         if ($snapshots->isEmpty()) {
@@ -258,8 +264,6 @@ class DashboardController extends Controller
 
         foreach ($regions as $region) {
             $countries = Country::where('region', $region)->pluck('name');
-
-            // Dáta pre backlog (len MDG)
             $data = UploadedData::where('source_type', 'MDG')
                 ->whereIn('country', $countries)
                 ->whereBetween('created', [$cutoffStart, $cutoffEnd])
@@ -271,7 +275,6 @@ class DashboardController extends Controller
                 \Carbon\Carbon::parse($d->created)->lt($weekStart)
             )->count();
 
-            // Finalizované požiadavky tento týždeň (len MDG)
             $finalized = UploadedData::where('source_type', 'MDG')
                 ->whereIn('country', $countries)
                 ->whereBetween('finalized', [$weekStart, $weekEnd])
@@ -290,7 +293,6 @@ class DashboardController extends Controller
 
             $onTimePercent = $finished > 0 ? round(($onTime / $finished) * 100, 2) : 0;
 
-            // Backlog in days – len MDG
             $lastMonthFinalized = UploadedData::where('source_type', 'MDG')
                 ->whereIn('country', $countries)
                 ->whereBetween('finalized', [now()->subDays(30), now()])
@@ -326,13 +328,11 @@ class DashboardController extends Controller
             return response()->json([]);
         }
 
-        // 1️⃣ Vymedzenie dátumového rozsahu
         $weekStart = \Carbon\Carbon::parse($lastDate)->startOfWeek();
         $weekEnd = $weekStart->copy()->endOfWeek();
         $cutoffStart = $weekStart->copy()->subDays(30);
         $cutoffEnd = $weekStart->copy()->subDay();
 
-        // 2️⃣ Unikátne krajiny v tomto rozsahu
         $countries = UploadedData::whereBetween('created', [$cutoffStart, $cutoffEnd])
             ->pluck('country')
             ->unique()
@@ -342,19 +342,17 @@ class DashboardController extends Controller
         $results = [];
 
         foreach ($countries as $country) {
-            // Dáta pre danú krajinu
             $data = UploadedData::where('country', $country)
                 ->whereBetween('created', [$cutoffStart, $cutoffEnd])
                 ->get();
 
-            // 1️⃣ Backlog
+
             $backlog = $data->filter(fn($d) =>
                 is_null($d->finalized) &&
                 in_array($d->status, $openStatuses) &&
                 \Carbon\Carbon::parse($d->created)->lt($weekStart)
             )->count();
 
-            // 2️⃣ Finalizované v danom týždni
             $finalized = UploadedData::where('country', $country)
                 ->whereBetween('finalized', [$weekStart, $weekEnd])
                 ->whereNotNull('created')
@@ -371,7 +369,6 @@ class DashboardController extends Controller
 
             $onTimePercent = $finalized->count() > 0 ? round(($onTime / $finalized->count()) * 100, 2) : 0;
 
-            // 3️⃣ Backlog v dňoch (na základe 30-dňového priemeru)
             $lastMonthFinalized = UploadedData::where('country', $country)
                 ->whereBetween('finalized', [now()->subDays(30), now()])
                 ->whereNotNull('created')
@@ -383,7 +380,6 @@ class DashboardController extends Controller
 
             $backlogInDays = $dailyAvg > 0 ? ceil($backlog / $dailyAvg) : 0;
 
-            // Výsledky pre krajinu
             $results[] = [
                 'country' => $country,
                 'backlog' => $backlog,
@@ -392,12 +388,6 @@ class DashboardController extends Controller
                 'on_time_percentage' => $onTimePercent,
             ];
         }
-
         return response()->json($results);
     }
-
-
-
-
-
 }

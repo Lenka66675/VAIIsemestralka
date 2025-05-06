@@ -42,29 +42,27 @@ main {
 
 .text-underline {
     text-decoration: underline;
-    color: inherit; /* Používa aktuálnu farbu textu */
+    color: inherit;
 }
 
 .text-underline:hover {
     text-decoration: underline;
-    color: #000; /* Pri hoveri môžeš upraviť farbu na čiernu alebo inú */
+    color: #000;
 }
 
 .fw-bold {
     font-weight: bold;
 }
 
-/* Chybové hlásenie - jemný štýl */
 .error-tooltip {
     display: block;
-    color: #76121a; /* Jemne červený text */
-    font-size: 0.85rem; /* Menšie písmo */
-    font-weight: normal; /* Tenké písmo */
-    margin-top: 5px; /* Odstup od poľa */
-    text-align: left; /* Zarovnanie doľava */
+    color: #76121a;
+    font-size: 0.85rem;
+    font-weight: normal;
+    margin-top: 5px;
+    text-align: left;
 }
 
-/* Input group - zabezpečuje rovnakú šírku a zarovnanie */
 .input-group {
     margin-bottom: 10px;
     display: flex;
@@ -75,7 +73,7 @@ main {
     margin-bottom: 5px;
     font-weight: bold;
     font-size: 0.9rem;
-    color: black; /* Farba textu */
+    color: black;
 }
 
 .input-group input {
@@ -86,10 +84,9 @@ main {
     border-radius: 5px;
 }
 
-/* Zabezpečenie zarovnania chýb pod každým poľom */
 .error-tooltip {
     display: block;
-    color: #76121a; /* Jemne červený text */
+    color: #76121a;
 
     font-size: 0.85rem;
     margin-top: 5px;

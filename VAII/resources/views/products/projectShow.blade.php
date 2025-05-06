@@ -8,18 +8,14 @@
     <div class="project-container">
         <div class="project-card" id="projectCard-{{ $project->id }}">
 
-            <!-- 🖼 Obrázok projektu -->
             @if($project->image)
                 <img src="{{ asset('storage/' . $project->image) }}" alt="Project Image" class="project-image">
             @endif
 
-            <!-- 📝 Názov projektu -->
             <h1 class="project-title">{{ $project->name }}</h1>
 
-            <!-- 📄 Popis projektu -->
             <p class="project-description">{{ $project->description }}</p>
 
-            <!-- 📎 Sekcia príloh -->
             @if($project->attachments)
                 <div class="project-attachments">
                     <h3>Attachments</h3>
@@ -35,7 +31,6 @@
                 </div>
             @endif
 
-            <!-- 🎛 Tlačidlá podľa role -->
             <div class="project-buttons">
                 <a href="{{ route('project') }}" class="btn btn-danger">🔙 Back to Projects</a>
 
@@ -51,7 +46,6 @@
         </div>
     </div>
 
-    <!-- 🆕 MODÁLNE OKNO PRE EDITÁCIU -->
     @if(auth()->user() && auth()->user()->isAdmin())
         <div id="editProjectModal" class="modal">
             <div class="modal-content">

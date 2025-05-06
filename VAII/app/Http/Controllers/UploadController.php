@@ -12,13 +12,12 @@ use App\Models\ImportedFile;
 
 class UploadController extends Controller
 {
-    // Zobrazenie formulára na nahrávanie súboru
+
     public function showForm()
     {
         return view('products.uploadData');
     }
 
-    // Spracovanie nahraného súboru
     public function upload(Request $request)
     {
         ini_set('memory_limit', '1024M');
@@ -34,7 +33,6 @@ class UploadController extends Controller
             $fileName = time() . '-' . $file->getClientOriginalName();
             $filePath = $file->storeAs('uploads', $fileName, 'public');
 
-            // Načítanie súboru a validácia hlavičiek ešte pred jobom
             $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(storage_path('app/public/uploads/' . $fileName));
             $sheet = $spreadsheet->getActiveSheet();
             $data = $sheet->toArray();
@@ -55,7 +53,6 @@ class UploadController extends Controller
                 ], 400);
             }
 
-            // ✅ Tu vytvoríme import a uložíme ho do premennej
             $import = ImportedFile::create([
                 'file_name' => $fileName,
                 'path' => $filePath,
@@ -64,11 +61,10 @@ class UploadController extends Controller
                 'uploaded_at' => now(),
             ]);
 
-            // Spustenie jobu s import ID
             ImportExcelJob::dispatch(
                 storage_path('app/public/uploads/' . $fileName),
                 $request->source_type,
-                $import->id // ✅ použitie premennej
+                $import->id
             );
 
             return response()->json([
@@ -104,7 +100,7 @@ class UploadController extends Controller
 
 
 
-    // Funkcia na mapovanie stĺpcov podľa `source_type`
+
     private function getColumnMapping($sourceType, $headers)
     {
         $mapping = [
@@ -145,13 +141,13 @@ class UploadController extends Controller
 
     private function extractImportantValue($value)
     {
-        $value = trim($value); // Odstráni medzery na začiatku a konci
+        $value = trim($value);
 
         if (preg_match('/REQ(\d+)/', $value, $matches)) {
-            return $matches[1]; // Vracia iba číslo bez REQ
+            return $matches[1];
         }
         if (preg_match('/(\d+)$/', $value, $matches)) {
-            return $matches[1]; // Vracia iba číslo na konci URL
+            return $matches[1];
         }
         return $value;
     }

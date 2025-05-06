@@ -5,11 +5,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let backendErrors = document.getElementById("backendErrors");
 
     uploadForm.addEventListener("submit", function (e) {
-        e.preventDefault(); // 🚀 ZABRÁNI FORMULÁRU REFRESHOVAŤ STRÁNKU
+        e.preventDefault();
 
         let formData = new FormData(uploadForm);
 
-        // Reset správ
         backendErrors.innerHTML = "";
         backendErrors.style.display = "none";
         backendErrors.classList.remove("error-message", "success-message");
@@ -34,19 +33,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     backendErrors.innerHTML = "✅ " + body.message;
                     backendErrors.classList.add("success-message");
 
-                    // Skrytie úspešnej správy po 3 sekundách
                     setTimeout(() => {
                         backendErrors.style.opacity = "0";
                         setTimeout(() => {
                             backendErrors.style.display = "none";
-                            backendErrors.style.opacity = "1"; // Reset opacity pre ďalšie správy
+                            backendErrors.style.opacity = "1";
                         }, 500);
                     }, 3000);
                 } else {
                     backendErrors.innerHTML = "❌ " + body.message;
                     backendErrors.classList.add("error-message");
 
-                    // Skrytie chyby po 5 sekundách
                     setTimeout(() => {
                         backendErrors.style.opacity = "0";
                         setTimeout(() => {

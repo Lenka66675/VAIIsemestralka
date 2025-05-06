@@ -1,4 +1,3 @@
-/* Hlavný kontajner pre detail projektu */
 .project-container {
     display: flex;
     justify-content: center;
@@ -7,15 +6,15 @@
     padding: 40px;
 }
 
-/* Karta pre projekt */
+
 .project-card {
-    background-color: rgba(34, 34, 34, 0.6); /* Mierne tmavší efekt */
+    background-color: rgba(34, 34, 34, 0.6);
     color: #d8d8d8;
     padding: 50px;
     border-radius: 15px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
     text-align: center;
-    max-width: 1100px; /* Širšia verzia */
+    max-width: 1100px;
     width: 95%;
     display: flex;
     flex-direction: column;
@@ -23,7 +22,6 @@
     overflow: hidden;
 }
 
-/* Obrázok projektu */
 .project-image {
     width: 100%;
     max-height: 350px;
@@ -31,7 +29,7 @@
     border-radius: 10px;
 }
 
-/* Nadpis projektu */
+
 .project-title {
     font-size: 2.5rem;
     margin-top: 20px;
@@ -42,26 +40,26 @@
     color: #979797;
 }
 
-/* Popis projektu s elegantným scrollovaním */
+
 .project-description {
     font-size: 1rem;
     color: #d8d8d8;
     margin: 20px 0;
     text-align: center;
     max-width: 95%;
-    max-height: 500px; /* Obmedzenie výšky */
+    max-height: 500px;
     overflow-y: auto;
     padding: 15px;
     word-wrap: break-word;
     overflow-wrap: break-word;
     line-height: 1.6;
     border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.1); /* Mierne tmavší efekt */
+    background-color: rgba(255, 255, 255, 0.1);
 
     scrollbar-gutter: stable;
 }
 
-/* 🖌️ Štýl scrollbaru pre popis */
+
 .project-description::-webkit-scrollbar {
     width: 8px;
 }
@@ -80,7 +78,6 @@
     background: rgba(255, 255, 255, 0.6);
 }
 
-/* Sekcia príloh */
 .project-attachments {
     width: 100%;
     margin-top: 25px;
@@ -88,7 +85,6 @@
     text-align: center;
 }
 
-/* Zoznam príloh */
 #projectAttachmentsList {
     padding: 0;
     list-style-type: none;
@@ -110,7 +106,6 @@
     text-decoration: underline;
 }
 
-/* Tlačidlá (pôvodné zostali) */
 .project-buttons {
     display: flex;
     justify-content: center;
@@ -137,7 +132,6 @@
     background-color: #c82333;
 }
 
-/* Responzívny dizajn */
 @media (max-width: 992px) {
     .project-card {
         padding: 40px;
@@ -179,7 +173,7 @@
     }
 }
 
-/* MODÁLNE OKNO - CELKOVÁ ÚPRAVA */
+
 .modal {
     display: none;
     position: fixed;
@@ -189,33 +183,31 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.7); /* ✅ Tmavší prechod */
-    backdrop-filter: blur(5px); /* ✅ Jemné rozmazanie pozadia */
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
     transition: opacity 0.3s ease-in-out;
     align-items: center;
     justify-content: center;
 }
 
-/* Obsah modálneho okna */
+
 .modal-content {
-    background-color: rgba(255, 255, 255, 0.95); /* ✅ Jemná biela s priehľadnosťou */
-    color: #333; /* ✅ Tmavší text pre lepšiu čitateľnosť */
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
     padding: 25px;
-    width: 60%; /* ✅ Trochu širšie */
-    max-width: 800px; /* ✅ Nech nie je príliš široké */
+    width: 60%;
+    max-width: 800px;
     border-radius: 12px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
     border: 1px solid #DA1818;
 
     position: fixed;
 
-    /* ✅ Centrovanie na stred */
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* ✅ Presné centrovanie */
+    transform: translate(-50%, -50%);
 }
 
-/* Zatváracie tlačidlo */
 .close {
     position: absolute;
     top: 15px;
@@ -234,34 +226,29 @@
 .modal-content .btn-success {
     background-color: #da1818;
 }
-/* Nadpis */
 .modal-content h2 {
     text-align: center;
     font-size: 1.8rem;
     margin-bottom: 20px;
 }
 
-/* ŠTÝL FORMULÁRA */
 .modal-content form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-/* Riadky formulára */
 .form-group {
     display: flex;
     flex-direction: column;
 }
 
-/* Štítky formulára */
 .form-group label {
     font-weight: bold;
     margin-bottom: 5px;
     font-size: 1.1rem;
 }
 
-/* Polia formulára */
 .form-group input,
 .form-group textarea {
     width: 100%;
@@ -278,7 +265,6 @@
     max-height: 200px;
 }
 
-/* Obrázok v editácii */
 .image-preview {
     width: 100%;
     max-height: 250px;
@@ -288,7 +274,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* ŠTÝLY TLAČIDIEL */
+
 .btn-container {
     display: flex;
     justify-content: flex-end;
@@ -296,7 +282,7 @@
     margin-top: 20px;
 }
 
-/* Tlačidlá */
+
 .btn {
     padding: 12px 20px;
     font-size: 1rem;
@@ -326,7 +312,7 @@
     background-color: #c82333;
 }
 
-/* RESPONSÍVNE ÚPRAVY */
+
 @media (max-width: 768px) {
     .modal-content {
         width: 90%;
@@ -353,13 +339,12 @@
     }
 }
 
-/* ✅ Popup kontajner */
 .custom-popup {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(34, 34, 34, 0.95); /* Tmavé pozadie, ale mierne priehľadné */
+    background: rgba(34, 34, 34, 0.95);
     color: #d8d8d8;
     padding: 25px 35px;
     border-radius: 12px;
@@ -375,14 +360,14 @@
 
 
 
-/* ✅ Štýl textu */
+
 .custom-popup p {
     margin-bottom: 15px;
     font-size: 1.2rem;
     line-height: 1.5;
 }
 
-/* ✅ Štýl tlačidla */
+
 .custom-popup button {
     background-color: #DA1818;
     color: white;
@@ -400,34 +385,30 @@
 }
 
 
-/* ✅ Štýly pre sekciu taskov */
 .tasks-section {
     margin-top: 30px;
     padding: 20px;
-    background: rgba(34, 34, 34, 0.85); /* Mierne priehľadné pozadie */
+    background: rgba(34, 34, 34, 0.85);
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     color: white;
 }
 
-/* ✅ Nadpis sekcie */
 .tasks-section h3 {
     font-size: 24px;
     margin-bottom: 15px;
-    color: #da1818; /* Červená farba ako ostatné prvky */
+    color: #da1818;
 }
 
-/* ✅ Štýlový zoznam pre tasky */
 .task-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-/* ✅ Každý task bude vo forme karty */
 .task-item {
-    background: rgba(255, 255, 255, 0.1); /* Jemné priehľadné biele pozadie */
+    background: rgba(255, 255, 255, 0.1);
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 10px;
@@ -438,19 +419,17 @@
     align-items: center;
 }
 
-/* ✅ Animácia pri hoveri */
 .task-item:hover {
     transform: scale(1.01);
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ Text úlohy */
+
 .task-item strong {
     font-size: 18px;
     color: #ffffff;
 }
 
-/* ✅ Štýl pre status */
 .task-item span {
     background: #da1818;
     padding: 6px 12px;

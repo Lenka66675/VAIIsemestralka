@@ -11,12 +11,12 @@ class Project extends Model
     protected $fillable = [
         'name',
         'description',
-        'image',         // Pridáme obrázok
-        'attachments'    // Pridáme prílohy (uložené ako JSON)
+        'image',
+        'attachments'
     ];
 
     protected $casts = [
-        'attachments' => 'array' // Umožní Laravelu automaticky konvertovať JSON na pole
+        'attachments' => 'array'
     ];
 
 

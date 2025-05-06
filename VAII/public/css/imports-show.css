@@ -1,0 +1,23 @@
+.custom-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 2px solid red;
+    color: white;
+}
+.pagination .page-link {
+    color: red;
+    border: 1px solid red;
+    background-color: transparent;
+    margin: 0 2px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: red;
+    color: white;
+    border-color: red;
+}
+
+.pagination .page-link:hover {
+    background-color: red;
+    color: white;
+    border-color: red;
+}

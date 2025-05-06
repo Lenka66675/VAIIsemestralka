@@ -15,21 +15,17 @@ class ScreenshotController extends Controller {
         }
 
         $user = Auth::user();
-        $imageData = $request->input('image'); // Base64 dáta obrázka
+        $imageData = $request->input('image');
 
-        // Dekódovanie Base64 dát
         $image = str_replace('data:image/png;base64,', '', $imageData);
         $image = str_replace(' ', '+', $image);
         $imageData = base64_decode($image);
 
-        // Názov súboru
         $fileName = 'screenshot_' . time() . '.png';
         $filePath = 'screenshots/' . $fileName;
 
-        // Uloženie obrázka do storage
         Storage::disk('public')->put($filePath, $imageData);
 
-        // Uloženie cesty do DB
         $screenshot = Screenshot::create([
             'user_id' => $user->id,
             'image_path' => $filePath,
@@ -42,7 +38,7 @@ class ScreenshotController extends Controller {
     }
 
     public function index() {
-        $screenshots = Screenshot::where('user_id', Auth::id())->latest()->get(); // Načítame obrázky aktuálneho užívateľa
+        $screenshots = Screenshot::where('user_id', Auth::id())->latest()->get();
         return view('screenshots.index', compact('screenshots'));
     }
 
@@ -53,10 +49,8 @@ class ScreenshotController extends Controller {
             return response()->json(['error' => 'Screenshot neexistuje alebo nemáte povolenie ho zmazať.'], 403);
         }
 
-        // Vymazať obrázok zo storage
         Storage::disk('public')->delete($screenshot->image_path);
 
-        // Vymazať z databázy
         $screenshot->delete();
 
         return response()->json(['message' => 'Screenshot bol úspešne vymazaný!']);

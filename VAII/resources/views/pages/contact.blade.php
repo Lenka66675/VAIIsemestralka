@@ -74,17 +74,14 @@
             contactForm.addEventListener("submit", function (event) {
                 let isValid = true;
 
-                // Reset error messages
                 document.querySelectorAll(".error-message").forEach(el => el.textContent = "");
 
-                // Validate name
                 const nameInput = contactForm.querySelector("input[name='name']");
                 if (nameInput.value.trim().length < 3) {
                     nameInput.nextElementSibling.textContent = "Name must be at least 3 characters long.";
                     isValid = false;
                 }
 
-                // Validate email
                 const emailInput = contactForm.querySelector("input[name='email']");
                 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailPattern.test(emailInput.value.trim())) {
@@ -92,7 +89,6 @@
                     isValid = false;
                 }
 
-                // Validate message
                 const messageInput = contactForm.querySelector("textarea[name='message']");
                 if (messageInput.value.trim().length < 10) {
                     messageInput.nextElementSibling.textContent = "Message must be at least 10 characters long.";
@@ -100,7 +96,7 @@
                 }
 
                 if (!isValid) {
-                    event.preventDefault(); // Stop form submission
+                    event.preventDefault();
                 }
             });
         });

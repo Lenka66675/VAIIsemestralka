@@ -11,18 +11,16 @@ class Task extends Model
 
     protected $fillable = [
         'project_id',
-        'description', // Popis úlohy
-        'deadline',    // Termín dokončenia
-        'priority'     // Priorita úlohy (low, medium, high)
+        'description',
+        'deadline',
+        'priority'
     ];
 
-    /**
-     * Vzťah medzi Task a User (mnoho k mnoho)
-     */
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'task_user')
-            ->withPivot('status', 'solution', 'attachment') // Prístup k pivot atribútom
+            ->withPivot('status', 'solution', 'attachment')
             ->withTimestamps();
     }
 
